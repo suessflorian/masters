@@ -4,8 +4,7 @@ Lecture reviews lecture 20 content for the first 10min, precisely the difference
 Thinking about:
 ```csharp
 mutex m = new mutex();
-condition_variable cv = new 
-condition_variable();
+condition_variable cv = new condition_variable();
 bool desiredStateReached = false;
 m.lock();
 while (!desiredStateReached)
@@ -54,8 +53,8 @@ _Note: question is important to dwell on, as this is a handheld exam style quest
 ```go
 ...
 import (
-	mutex
-	sync
+	"mutex"
+	"sync"
 )
 
 ...
