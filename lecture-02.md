@@ -1,4 +1,6 @@
 # CDN (content delivery/distribution network)
+
+## S1 Web Cache (34-63)
 Network of _edge servers_ (said to be physically located at edges, different locations). Each server is supposedly close to.
 
 Forward proxy, decides which is the closest edge server to forward incoming request.
@@ -69,6 +71,4 @@ So each page is broken into blocks, ~2KB, each block is digested (MD5) and it's 
 
 - blocks are identical IFF fingerprints match
 
-_lecture stops around here, missed delta encoding, lecturer explains we will using this set of principals in the first assignment!! Next lecture we will look a little more at implementations..._
-
-2. Delta encoding
+So the above, essentially associates hash function. Here we run into the problem of fixed size blocks. And I believe we motivate Rabin boundary functions.
