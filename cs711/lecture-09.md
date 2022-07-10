@@ -8,7 +8,7 @@ Three different approaches:
 # Requirements/Garantues that comprises of MUTEX
 1. **Safety**: At any one point, only `one` task can access the resource at a time
 2. **Liveness**: Tasks should not endlessly wait, no `deadlock`
-3. **Fairness**: each task gets a `fair chance` to access the shared resource
+3. **Fairness**: each task gets a `fair chance` to access the shared resource, request _eventually_ gets satisfied.
 
 ## Timestamp-based
 `Ricart et al` algo
