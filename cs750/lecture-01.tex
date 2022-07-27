@@ -1,0 +1,90 @@
+\documentclass{article}
+\begin{document}
+
+Lecture 1, re-recorded post lecture.
+
+\section*{Introduction}
+
+Research oriented course, must do a considerable amount of due diligence outside of the scope of the lectures.
+
+Note: there is a textbook here, seek it out and read it.
+
+\section*{Mathematical Minimum Knowledge}
+
+Goal is to make a summary of general understanding necessary.
+
+\subsection{Sets}
+
+\begin{equation}
+				s = \{n \in N | P(n)\}
+\end{equation}
+Also note $\emptyset \neq \{\emptyset\}$, moreover, we will see frequent combinations of sets.
+
+\subsection{Functions}
+
+\begin{equation}
+				f: D \rightarrow R
+\end{equation}
+Notable properties to consider, injective, surjective
+
+\begin{itemize}
+				\item Injective or one-to-one; $\forall x,y \in D; x \neq y \Rightarrow f(x) \neq f(y)$
+				\item Surjective or onto; $\forall y \in R \Rightarrow \exists x; f(x) = y$
+				\item Bijective is both injective and surjective.
+\end{itemize}
+Some questions we need to practice; consider $f: \{0,1,2,3,4\} \rightarrow \{0,1,2,3,4\}$.
+\begin{enumerate}
+				\item Prove that $\forall n \in \{0,1,2,3,4\}; f(n) = 0$ is not injective and not surjective:
+
+								Choose, 0 and 1; $0 \neq 1$ however $f(0)=f(1)$ hence $f$ is not injective, moreover $1 \in R$ yet $\not\exists n \in D; f(n) = 1$, hence $f$ is not surjective either.
+
+				\item Prove that $f(n) = n + 1; n \in \{0,1,2,3\}$ and $f(4) = 0$ is bijective.
+
+								Lets chose $x,y \in D$ st. $x\neq y$. If either $x$ or $y$ is $4$ then it's obvious that $f(x) \neq f(y)$. If not, then
+								\begin{math}
+												x \neq y \Rightarrow x + 1 \neq y + 1 \Rightarrow f(x) \neq f(y)
+								\end{math}. Hence $f$ is injective.
+								Now chose some $z \in R$, if $z=0$, then $f(4) = z$, note $4 \in D$. If $z \neq 0$ then notice that $1 \leq z \leq 4$ then set $n = z - 1 \Rightarrow 0 \leq n \leq 3 \Rightarrow n + 1 = z \Rightarrow f(n) = z \Rightarrow n \in D$. Hence $f$ is surjective.
+								
+
+				\item Prove that if $f: \{0,1,2,3,4\} \rightarrow \{0,1,2,3,4\}$ is injective then it must be surjective, and if it's surjective, it must be injective.
+
+\subitem Suppose $f$ is injective. Hence $f(0) \neq f(1) \neq f(2) \neq f(3) \neq f(4)$. $R$ must then contain $K = \{f(0),f(1),f(2),f(3),f(4)\}$, but also $R = \{0,1,2,3,4\}$, since $|K| = |R|$ clearly $K=R$. Hence $f$ is surjective.
+								
+\subitem To prove the converse. Lets suppose, by contradiction, $f$ is surjective yet not injective! Define $S = \{x \mid x \in D; \forall y \in D; x \neq y; f(x) \neq f(y)\}$. Since $f$ is \emph{supposedly} not injective, we have $S \subset D$. Then we have a bijective function $f: S \rightarrow R$, yet $|S| < |D| = |R| \Rightarrow |S| < |R|$.
+
+				\item Prove that $f: \{0,1,2,3,4\} \rightarrow \{0,1,2,3,4,...\}$ defined by $f(n) = n; \forall n \in \{0,1,2,3,4\}$ is injective but not surjective.
+
+				\item Prove that $f: \{0,1,2,3,...\} \rightarrow \{0,1,2\}$ where $f(n)$ is the remainder of the division of n  by 3 $\forall n \in \{0,1,2,3,...\}$ is surjective but not injective.
+
+\end{enumerate}
+
+\subsection{Relation}
+
+A sequence is a list of elements in some order. $(1, 2, 44)$. Order is important (unlike sets). We have k-tuples.
+
+Here we have cross products.
+
+\begin{equation}
+	A x B = \{(a,b) | a \in A, b \in B\}
+\end{equation}
+
+And then so we have a \textbf{relation} $R \subseteq A x B$, we denote this a binary relation. A \textbf{equivalence} relation $R \subseteq A x A$ (also denoted as $\equiv$) has the following three properties.
+
+\begin{itemize}
+	\item reflexivity, $\forall x \in A, (x,x) \in R$
+	\item symmetry, $\forall x,y \in A, (x,y) \in R \Rightarrow (y,x) \in R$
+	\item transitivity $\forall x,y,z \in A, (x,y), (y,z) \in A \Rightarrow (x,z) \in A$
+\end{itemize}
+
+Slide 7 has a good proof re: $n \equiv m$ st. "n - m is a multiple of 7" proving it's 7 properties.
+
+\subsection{Partitions}
+
+Given an equivalence relation R on a set A, the \textbf{equivalence class} (different to equivalence relation) of an element $a \in A$ is
+
+\begin{equation}
+	[a] = \{x\in A|(a,x)\in R\}
+\end{equation}
+
+\end{document}

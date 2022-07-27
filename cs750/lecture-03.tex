@@ -1,0 +1,40 @@
+\documentclass{article}
+\begin{document}
+
+Lecture 3, zoom recorded
+
+\section*{Admin}
+Classes will happen again from next week onwards...
+
+\subsection*{Length of Programs}
+Supposedly the length is an important input. The number of characters required to express the program. Including a space after each instruction, less meta-characters (line numbers, program name).
+
+\subsection*{Decidability}
+In logic, a true/false decision problem is decidable if there exists an effective method for deriving the correct answer. In the context of this course, we refer to the predicate \emph{does this program P with input N halt}?
+
+\subsection*{Decidability Criterion}
+For some $P$ such that $\exists n > 0; \forall v \leq n; P(v)$ halts, then $\{ (P, v) | length(v) \leq n\}$ is decidable.
+
+\begin{enumerate}
+	\item The deciability criterion requires that the bound $n$ is fixed and known: it cannot be replaced by the weaker condition "there exists an $n > 0$"... Why?
+\end{enumerate}
+
+Here is a futile attempt to solve the halting problem, we revise it because it was deemed a \emph{challenge [5]}.
+\begin{verbatim}
+Program(6)
+1: read P,N
+2: P(N)
+3: YES
+4: STOP
+\end{verbatim}
+The thought experiment is; does this solve the halting problem... clearly not. Suppose we have read a program $P$ such that it doesn't satisfy the decidability criterion for inputs of length less than $N$. Then choose any $n < N$. The execution of the program on line 2 \emph{may or may not} terminate. Hence the termination of Program(6) isn't decidable.
+
+\subsection*{The Halting Theorem}
+There is no program solving correctly and in finite time the Halting Problem for every input pair. Typical proof goes by contradiction, indeed there are various visualisations/intuitions of the proof online.
+
+\begin{enumerate}
+	\item Challenge is to find a rigourous proof and fill it in here, the slide proof I find to be lacking a little in clarity.
+\end{enumerate}
+
+
+\end{document}
