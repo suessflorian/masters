@@ -1,0 +1,80 @@
+\documentclass{article}
+\begin{document}
+Will focus on the definition brought to light "acting rational".
+
+\section{Agents and Environments}
+Definition of an agent, types of agents, and types of environments. 
+
+\subsection{What is an Agent?}
+AI is the synthesis and analysis of \emph{computational agents} that act \emph{act intelligently}.
+
+An \textbf{agent} is something that acts in an environment.
+
+Agent as \textbf{actor}:
+\begin{itemize}
+	\item Acts autonomously in the world to achieve goals
+	\item Rational - may have beliefs, desires and intentions
+\end{itemize}
+
+Agent \emph{perceives} its environment through \emph{sensors} and acts on its environment through \emph{effectors/actuators}.
+
+\subsection{Agents as Mapping}
+$f : Percept* \rightarrow Actions$, agent program runs on a physical architecture. However \textbf{the less an agent relies on this type of in-built knowledge, the more autonomous it is}.
+
+\subsection{PAGE}
+\begin{itemize}
+	\item Percepts
+	\item Actions
+	\item Goals
+	\item Environment
+\end{itemize}
+
+\subsection{Rational Agents}
+Rationality depends on 
+\begin{itemize}
+	\item the performance measure defining the agent's degree of success
+	\item the percept sequence, sequence of all the things perceived by the agent
+	\item the agent's knowledge of the environment
+	\item the actions that the agent can perform
+\end{itemize}
+
+We go through \textbf{PAGE} description exercises for different activities, from medical diagnosis, chess playing, movie recommendation and refinery controller.
+
+\subsection{Rationality}
+What is the \emph{right} function?
+
+Fixed performance measure evaluates any given \textbf{sequence of environment states} examples;
+\begin{itemize}
+	\item one point per square cleaned up in time T?
+	\item one point per clean square per time step, minus one per move?
+	\item penalise for dirty squares?
+\end{itemize}
+
+Some obvious contrasts that to the lecturer drive the intuition home;
+\begin{itemize}
+	\item Rational $\neq$ omniscient
+	\item Rational $\neq$ clairvoyant
+	\item Rational $\neq$ successful
+	\item Rational $\Rightarrow$ exploration, learning, autonomy
+\end{itemize}
+
+We want a unified framework that can be used to specify, characterise, compare, and contrast different AI tasks. \textbf{Tasks are the problems to which rational agents are the solutions.} To design a rational agent, we must specify the task environment via \textbf{PEAS}, performance measure, environment, actuators, sensors.
+
+\subsection{Classifying Environment Types}
+
+\begin{itemize}
+	\item \textbf{Simulated} vs \textbf{Situated/Embodied}; the agent acting in a simulated environment vs a physical environment.
+	\item \textbf{Static} vs \textbf{Dynamic}; environment doesn't change vs it changes during the agents exercise.
+	\item \textbf{Discrete} vs \textbf{Continuous}; only finite percepts or actions vs infinite percepts or actions.
+	\item \textbf{Fully Observable} vs \textbf{Partially Observable}; percept is complete vs only relevant information is hidden from the agent.
+	\item \textbf{Deterministic} vs \textbf{Stochastic}; current state uniquely determines next state vs random elements involved.
+	\item \textbf{Episodic} vs \textbf{Sequential}; every action is evaluated independently vs action evaluation being stateful.
+	\item \textbf{Known} vs \textbf{Unknown}; rules of environment requires discovery vs those rules are known.
+	\item \textbf{Single-Agent} vs \textbf{Multi-Agent}; 1 agent vs multiple.
+\end{itemize}
+
+\subsection{Types of Agents}
+
+
+\end{document}
+
