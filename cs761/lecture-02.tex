@@ -75,6 +75,26 @@ We want a unified framework that can be used to specify, characterise, compare, 
 
 \subsection{Types of Agents}
 
+\subsubsection{Reactive}
+Simple "if else", "reflexive agents". Limitations; no memory/state. May repeat same sequence of actions. Can escape from infinite loops is possible if agent introduces random actions.
+
+\subsubsection{Model-Based}
+Introduces memory into this idea of a reflexive agent. Limitations; still cannot plan into the future, it will perform poorly if a task requires any:
+
+\begin{itemize}
+	\item searching several moves ahead
+	\item complex tasks requiring many individual steps
+	\item logical reasoning to achieve goals
+\end{itemize}
+
+\subsubsection{Planning}
+Builds on the top two, introduces a planning stage on the agents world model (provided by the model-based property). Essentially some back and fourth before applying an action. There are two types of \emph{planning agents}.
+
+\begin{itemize}
+	\item (Teleological) \textbf{Goal-based}; agents behaviour can be easily changed.
+	\item \textbf{utility based agent}, fitness function that measures preferences among states of the world. Chooses action that leads to best expected utility. So in contrast to goal based, sounds like there's various "goals".
+	\item Game playing agent. Opponent based, takes into consideration the optimisation an opponent will perform relative to you.
+	\item Learning agent.
+\end{itemize}
 
 \end{document}
-
