@@ -1,0 +1,39 @@
+\documentclass{article}
+\usepackage{datetime}
+\begin{document}
+\title{Informed Search Part One}
+\newdate{date}{25}{07}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+A light recap on the older stuff, \textbf{search problems, search tree, search algorithms}.
+
+\section{Informed Search Part 1}
+\section{Cost Sensitive Search}
+DFS is not optimal... BFS finds the shortest path in terms of number of actions. Not the least-cost path hence we looked at Uniform Cost Search (priority queue implementation).
+
+The issue we will talk about today is how this algorithm explores options \textbf{in every direction}. No information about the goal location.
+
+\subsection{Informed Search Heuristic}
+A heuristic is:
+
+\begin{itemize}
+	\item function that \textbf{estimates} closeness
+	\item not general to all problems (specific to a problem)
+	\item examples; "Manhattan" distance, "Euclidean" distance
+\end{itemize}
+
+And that's kinda the whole crux of informed vs uninformed search algorithms... one uses heuristics, the other does not.
+
+\begin{itemize}
+	\item Generally not complete. Can get stuck in loops, but complete in finite space with repeated-state checking.
+	\item time to search $O(bm)$, (branching factor, maximum depth).
+	\item space $O(bm)$, (all in memory).
+	\item optimal? No?
+\end{itemize}
+
+\section{Summary}
+Heuristic's can be applied to reduce cost. Greedy search tries to minimise cost from current node $n$ to the goal. Informed search makes use of problem-specific knowledge to guide progress of search.
+
+\end{document}
