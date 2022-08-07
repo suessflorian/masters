@@ -1,0 +1,109 @@
+\documentclass{article}
+\usepackage{datetime}
+\begin{document}
+\title{Uninformed Search}
+\newdate{date}{19}{07}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+We previously looked at environments and agents... Specifically we will be extending on \emph{planning agents}. Supposedly will be talking about this one for a while.
+
+\section{Search}
+Typical problem is when the agent is one state, it has a set of deterministic actions it can carry out, and wants to get to a goal state.
+
+Reactive and Model-Based agents choose their actions based only on what they currently perceive, or have perceived in the past but Planning agent can use search techniques to plan several steps ahead in order to achieve its goal.
+
+\begin{itemize}
+	\item \textbf{Uninformed search} strategies can only distinguish between goal states from non-goal states
+	\item \textbf{Informed search} strategies use heuristics to get "closer" to the goal
+\end{itemize}
+
+\subsection{State Space}
+A \textbf{state} contains all of the information necessary to predict the effects of an action and to determine whether a state satisfies the goal.
+
+\begin{itemize}
+	\item The agent has perfect knowledge of the state space and is planning for the case where it observes what state it is in: there is full observability
+	\item Agent has a set of actions that have known deterministic effects
+	\item Agent can determine whether a state satisfies the goal.
+\end{itemize}
+
+A solution is a sequence of actions that will get the agent from its current state to a state that satisfies the goal.
+
+\begin{itemize}
+	\item a set of states
+	\item a subset of states called the start states
+	\item a set of actions
+	\item an action function: given a state and an action, returns a new state a (set of) goal state, specified as Boolean function, goal(s)
+	\item a criterion that specifies the quality of an acceptable solution.
+\end{itemize}
+
+\section{Directed Graphs}
+Some light refreshing language etc... Just see slides. Some terms to ring bells \textbf{nodes, arcs (outgoing, incoming), path, goal, start node, end node}.
+
+\section{Search Tree over State Space Graphs}
+Superimposed over the state space, root search node corresponding to the initial state. Leaf nodes, correspond to states that have no successors in the tree because they were not expanded or generated new nodes.
+
+\section{Refresher on BFS}
+Queue based!
+
+\begin{itemize}
+	\item complete.
+	\item time to search $O(b^d)$, (branching factor, depth).
+	\item space $O(b^d)$, (all in memory).
+	\item optimal? If no edge weights.
+\end{itemize}
+
+Although space is supposedly the big problem for BFS - exponential growth.
+
+\section{Refresher on DFS}
+Stack based!
+
+\begin{itemize}
+	\item not complete (loops - although can be fixed with visited*, infinite depth)
+	\item time to search $O(bm)$, (branching factor, maximum depth ) 
+	\item space $O(bm)$
+	\item optimal? Noooo, can provide suboptimal solutions first.
+\end{itemize}
+
+\section{Lowest-Cost-First/Uniform Cost Search}
+Sometimes there are costs associated with arcs... Cost of a path is the sum of the costs of its arcs...
+
+\begin{equation}
+	\sum_{i=1}^{k} cost(<n_{i-1}, n_i>)
+\end{equation}
+
+Here we look at the most intuitive DFS adaptation that just prefers cheaper paths to explore. The core mechanism being that priority queue.
+
+\begin{itemize}
+	\item complete (if not containing infinite branching factor's $b$)
+	\item time to search $O(b^{[1 + C / \epsilon]})$ where C* = cost of optimal solution, assume every action costs at least $\epsilon$.
+	\item space $O(b^{[1 + C / \epsilon]})$
+	\item optimal? Yes, as paths from start to goal node are discovered in a strictly increasing cost order. 
+\end{itemize}
+
+\section{Iterative Deepening Search}
+Tries to combine the benefits of depth-first (low memory) and breadth-first (optimal and complete) by doing a series of depth-limited searches to depth 1,2,3 etc...
+
+Early states will be expanded multiple times, but that might not matter too much because most of the nodes are near the leaves.
+
+\begin{itemize}
+	\item complete
+	\item time to search $O(b^d)$, nodes at the top level are expanded once, nodes at the next level twice and so on. 
+	\item space $O(bd)$
+	\item re: optimality; iterative depending is the preferred search strategy for a large search space where depth of solution is not known.
+\end{itemize}
+
+\section{Bi-directional Search}
+Intuitively a search that goes both forward and backward from the initial state and goal respectively. Stops when the two searches meet in the middle.
+
+\begin{itemize}
+	\item complete, depends on the search algo used, BFS yes.
+	\item time $O(b^{d/2})$
+	\item space $O(b^{d/2})$
+	\item optimal, depends on the search algo used, BFS yes.
+\end{itemize}
+
+\section{conclusion}
+We've looked at four different algorithms that extend the familiar BFS and DFS search algorithms. \textbf{uniform cost search, depth limited search, iterative deepening search, bidirectional search}.
+
+\end{document}
