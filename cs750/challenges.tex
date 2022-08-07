@@ -1,0 +1,34 @@
+\documentclass{article}
+
+\newenvironment{answered}{\par\normalfont}{}
+\title {Challenges}
+\author {Florian Suess}
+\begin{document}
+\maketitle
+\section{Loops and non-halting programs}
+
+\begin{enumerate}
+	\item A program containing a loop never halts and deciding if a program contains a loop is easy. Why?
+	\begin{answered}
+		As brought to light in slide 11, suppose a program has a line numbered its set of instructions. If we define the sequence of some program $P$ and input $v$, say $S(P, v)$ as the execution flow of the program in terms of the line number of the current executed instruction line number. We can identify if after some $n$th item in the sequence of $S(P,v)$ contains nothing but the repetive pattern (loops) of instructions $(x_1, x_2, ..., x_i)$ where $i$ simply represents the size of this loop.
+	\end{answered}
+\item Show that the program below does not halt;
+\begin{verbatim}
+ 1 i=1
+ 2 while i >= 1 do 
+ 3   j = 1
+ 4   while j <= i do
+ 5     print 0
+ 6     j = j + 1
+ 7   end while	
+ 8   i = i + 1
+ 9 end while
+10 stop
+\end{verbatim}
+ \begin{answered}
+	 Define the sequence $S(i)$ as the of values set to $i$ as the program runs. As defined in line 1, it begins with 1. Filtering the instructions of the program to only changes to variable $i$... it's clear that $\forall n > 0, S(i)_n \geq 1$. Hence the program will never satisfy any condition other than $i \geq 1$, meaning the condition on line 2 will never fail thus never exiting the loop.
+ \end{answered}
+\end{enumerate}
+
+
+\end{document}
