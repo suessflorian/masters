@@ -3,29 +3,30 @@
 [- what sparked this thought](https://alexanderell.is/posts/mscs/)
 
 ## History
-I hated maths before starting university in 2015, I actively avoided doing calculus in my final year of high school... When the time came, I enrolled in a bachelors of science with a broad attendance in statistics, classical physics, organic chemistry, introduction to accounting (yuck), psychology, medical sciences, computer science and math mostly because it was a pre-requisite to my subscribed computer science major. The idea was to essentially build as much exposure as I could before diving into a deeper specialisation.
+I hated maths before starting university in 2015, I actively avoided doing calculus in my final year of high school... When the time came, I enrolled in a bachelors of science with a broad attendance in statistics, classical physics, organic chemistry, introduction to accounting (yuck), psychology, medical sciences, computer science and math mostly because it was a pre-requisite to my subscribed computer science major. The idea was to essentially build as much exposure as I could before diving into a deeper specialisation (thank god I did). 
 
-[Dr Steven Galbraith](https://profiles.auckland.ac.nz/s-galbraith) who was substituting for the regular lecturer that led the delivery for COMPSCI 225, Discrete Structures in Maths; An introduction to the foundations of computer science from a rigorous mathematical logic sense and [Dr Tanya Evans](https://profiles.auckland.ac.nz/t-evans) who led the delivery for MATHS 150; a course spending time on the basics, linear algebra and single variable real calculus absolutely bamboozled me. I weirdly enjoyed exploring mathematical systems with them. Deeply and genuinely. **I learnt that mathematics was ridiculously creative** and I began building very high levels of confidence that nothing is ever too mystic to understand, a complete 180 to where my thoughts used to be. After that first year, I dropped my interest in computer science and went to only do pure mathematics;
+I was met with the great; [Dr Steven Galbraith](https://profiles.auckland.ac.nz/s-galbraith) who was substituting for the regular lecturer that led the delivery for COMPSCI 225, a discrete math paper introducing some tidbit foundations of computer science, some rigor here and there and [Dr Tanya Evans](https://profiles.auckland.ac.nz/t-evans) who led the delivery for MATHS 150; brushing up on the basics; linear algebra, single variable real calculus. The delivery of those courses blew my mind, I begun appreciating general thought that contained precision. **I also learnt that mathematics was ridiculously creative** I truly began appreciating the works of (insert mathmaticians here). After that first year, I dropped my interest in computer science completely and went on a (still arduous) journey through pure mathematics. I was notably exposed to;
 
-- Principles (set theory, proofs, relations, vector spaces, sequences)
-- Logic (predicate and first order)
-- Differential (more applied, simultaneous systems)
-- Algebraic Structures (groups, rings, vector spaces)
-- Real Analysis (revisiting first year stuff axiomatically, loads of crazy cool proofs)
-- Combinatorics (graph colourings, compression)
+- Principles (set theory, proofs, relations, vector spaces, sequences) (TODO: insert mathmatcians)
+- Logic (predicate and first order) (TODO: insert mathematiciains)
+- Differential (more applied, simultaneous systems) (TODO: comment on application vs pure)
+- Algebraic Structures (groups, rings, vector spaces) (TODO: insert mathematicians, books)
+- Real Analysis (revisiting first year stuff axiomatically, loads of crazy cool proofs) (TODO: mathematicians)
+- Combinatorics (graph colourings, compression) (TODO: mathematicians)
 
-With special thanks to [Associate Professor Caroline Yoon](https://profiles.auckland.ac.nz/c-yoon) who delivered the entirety of MATHS 302; exploring ideas that influence mathematical education ended up building general interest sharing intuition behind problems effectively.
+Most impactful to me however was [Associate Professor Caroline Yoon](https://profiles.auckland.ac.nz/c-yoon) who delivered the entirety of MATHS 302; a meta paper focusing on mathematical education. In conjunction with tidbits from my general paper EDUC 121G; how people learn. It built a long term general interest in the tricky craft of sharing intuition behind problems.
 
 Other names for me to look at fondly:
 - [The Crazy Good Tom ter Elst](https://profiles.auckland.ac.nz/t-terelst/)
 - [Master Jianbei](https://profiles.auckland.ac.nz/j-an)
 
-In my final year, I realised I had enough points to technically claim a major in mathematics and with my interest in software I pivoted to also finish off a computer science major, focusing on comparatively more mundane topics:
+In my final year, I realised I had enough points to technically claim a major in mathematics and with my interest in software building up from personal endeavours - I pivoted back into computer science, collecting a neat little second major;
 
-- Data Structures
-- Algorithms
-- Machine Architecture & Assembly
-- Compilers
+- Data structures and some well known algorithms
+- Pretty advanced complexity analysis
+- Machine Architecture ([LC3](https://en.wikipedia.org/wiki/Little_Computer_3), Assembly, Compilers and Language Design
+- Software engineering practices
+- Deep dive into relational calculus
 
 Although I enjoyed these topics overall, they weren't as clutch as my maths studies at the time. Everyone knew there’s a gap between academic CS and working in tech which I felt as de-motivating. But after several years in industry the classes I took ended up having a very positive influence on my career. Typically in short bursts - with a lot of revision necessary.
 
