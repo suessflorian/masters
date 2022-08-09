@@ -1,0 +1,68 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{amsmath}
+\begin{document}
+\title{Informed Search Part Two}
+\newdate{date}{01}{08}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+\section{Recap: Via 8 Puzzle; Heuristic Functions}
+This is aligned closely to the assignment we will be doing. In particular we use this example to refresh our understanding of \textbf{the heuristic function}. Recall... it's an estimation function, linearly related to the priority score in the A* search algorithm. 
+
+For clarity we're reffering to $f(n) = g(n) + h(n)$;
+\begin{itemize}
+	\item $g(n)$; cost from initial node to node $n$ (backward cost).
+	\item $h(n)$; estimated cost from node $n$ to goal node (forward cost).
+	\item $f(n)$; estimated total cost of cheapest solution through node $n$.
+\end{itemize}
+
+\subsection{Conditional Optimality}
+We need this heuristic $h$ to be admissible (not over-estimating the actual costs). We take for granted that if this heuristic is \textbf{admissible}, A* finds the optimal path (we just ignore consistency, since that's usually geometrically enforced, intuitively think of triangles, sum of two edges should be greater than third edge).
+
+\subsection{Ordering heuristic functions}
+We go through a scenario
+
+\subsubsection{Zero heuristic}
+A function that gives no feedback would degrade A* search to perform in a similar fashion the uniform cost search algorithm (with equal action cost becomes the standard breadth-first-search algorithm).
+
+\subsubsection{Number of misplaced tiles}
+Simply put, diff the goal state with your current state. This heuristic is intuitively admissible.
+
+\subsubsection{Manhattan distance}
+Not going to define it here, but the total sum of all tiles Manhattan distance from it's current state to goal state.
+
+\subsubsection{Actual cost}
+Ominously define the heuristic to the actual cost (number of moves) remaining to solve the puzzle. Of course we'd \emph{want} this heuristic, but how obtainable is a heuristic like this?
+
+\subsubsection*{Conclusion}
+There is a notion of \emph{comparable heuristics}, lets define it next section.
+
+\subsection{Dominance and Ordering}
+Dominance: if $h_a(n) \geq h_c(n)$ $\forall n$ (both admissible) then $h_a$ dominates $h_c$ and is better for search. So the aim is to make the heuristic $h(n)$ as large as possible (recall upper bound, over estimation), but without exceeding $h \text{*} n$.
+
+\subsection*{Summary}
+Heuristics are ordered in the sense of effectiveness. Moreover, we can usually derive heuristic functions via "relaxed" versions of the problem (weakened constraints of the actual problem etc...).
+
+\section{Graph Search}
+Idea: never \textbf{expand} a state twice (if not necessary). We do this by:
+
+\begin{itemize}
+	\item Tree search + set of expanded states ("closed set")
+	\item Expand the search tree node-by-node, but...
+	\item Before expanding a node (in the "open set/frontier"), check to make sure its state has never been expanded before
+	\item If not new, skip it, if new expand and add to closed set.
+\end{itemize}
+Importantly, store the closed set as a set (hash table), {not a list} (to save time).
+
+\subsection{Consequences of consistent heuristic}
+The overall A* $f$ value along some path never decreases (monotonically increasing), A* graph search is optimal. A really really desirable property, however consistency is a tricky property to just have.
+
+\section{Constraint satisfaction problem (CSP)}
+Constraint Satisfaction Problems are defined by a set of variables $X_i$, each with a domain $D_i$ of possible values, and a set of constraints $C$ that specify allowable combinations of values. The aim is to \textbf{find an assignment of the variables} $X_i$ from the domains $D_i$ \textbf{in such a way that none of the constraints} $C$ \textbf{are violated}.
+
+\subsection{Constraint graph}
+Nodes are those variables, arcs represent constraints.
+
+\end{document}
