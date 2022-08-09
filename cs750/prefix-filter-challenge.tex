@@ -1,0 +1,28 @@
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+
+In the lecture we explored a coding such that if for \textbf{some fixed string} $x$. We gather all it's \emph{names}. That is programs $P = p_1p_2p_3...p_n$, such that with input $w$ we have $P(w) = x$. We define an encoding:
+
+\begin{equation}
+<P, w> = p_{1}0p_{2}0...p_{n-1}0p_{n}1w
+\end{equation}
+
+In the lecture, during the attempted proof that the set of names of $x$, call it $N_x$ is prefix-free satisfying. That is; 
+
+\begin{equation}
+\forall n,n' \in N_x \Rightarrow n \not\in prefix(n') \text{ and } n' \not\in prefix(n)
+\end{equation}
+
+A student proposed a counter example, narrowed down to precisely the program input pair $(11, 1)$ and $(11, 11)$. Indeed by by following the equation listed in (1) we have the two encodings; $101011$ and $1010111$.
+
+\subsubsection*{What is wrong with this proposed counter example?}
+So far the counter example appears admissable - the only peculiarity is perhaps that the examples $(11, 1)$ and $(11, 11)$ suggests we have a program, say $P_{11}$, such that $P_{11}(1) = P_{11}(11) = x$. But this is indeed fine?
+
+\subsubsection*{Then continue to prove that $N_x$ is prefix-free}
+Induction is a bullet proof method, but perhaps (like in lecture), a direct proof is preferred.
+
+\subsubsection*{Construct an encoding for elements in $N'_x$ such that $\bigcup_{\forall x \in B^*}N'_x$ is prefix-free}
+$N'_x$ simply being the set of names for some string $x$, here the issue is defining what that \emph{name} is.
+
+\end{document}
