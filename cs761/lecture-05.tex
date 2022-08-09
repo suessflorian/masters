@@ -17,7 +17,7 @@ It is, iff $h(n)$ is \textbf{admissible} in the sense that it never overestimate
 An admissible heuristic is one that \textbf{never overestimates} the cost to reach the goal ie; $\forall h(n) \leq h * (n)$ where $h * (n)$ is true cost from $n$ to the goal.
 
 \subsection{Consistent}
-A heuristic is consistent if for every node $n$, every successor $n'$ of $n$ (via action $a$) we have $h(n) \leq c(n,a,n') + h(n')$.
+A heuristic is consistent if for every node $n$, every successor $n'$ of $n$ (via action $a$) we have $|h(n) - h(n')| \leq c(n,n')$.
 
 
 
