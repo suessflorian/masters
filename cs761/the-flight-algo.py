@@ -1,3 +1,12 @@
+"""
+    Justin went through an interview question with Booking.com, it was of special interest to me
+    since it was a classic search problem and I built a strong understanding of the problem via a
+    very successful knee jerk intuition due to this class...
+
+    The problem, given a set of flights (directed); [["Amsterdam", "Bern"], ["Berlin", "Munich"], ["Berlin", "Shanghai"], ...],
+    yield a single connected flight across all mentioned paths.
+"""
+
 input = [['A', 'B'], ['B', 'C'], ['C', 'A'], ['B', 'D']]
 
 def find_path(input):
