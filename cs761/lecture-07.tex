@@ -1,0 +1,50 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{amsmath}
+\begin{document}
+\title{Constraint Satisfaction}
+\newdate{date}{02}{08}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+We quickly reviewed some missed slides from informed search part 3... Specifiably around the IDA* algorithm. Key takeaway would be the collecting of the final all forced discontinued nodes, in order to clearly find the node with the lowest f value.
+
+\section{Constraint Satisfaction}
+Aim is to find an assignment of variables such that no constraints are violated. We're reviewing some problem motivation.
+
+CSP has many similarities to that of a search problem.
+
+\subsection*{Real World Applications}
+
+\begin{itemize}
+	\item General Assignment Problems (eg. who teaches what class)
+	\item Timetabling Problems
+	\item Hardware Configuration (minimising space used in a circuitry layout)
+	\item Transport Scheduling (courier, vehicle routing)
+	\item Factory scheduling (optimise assignment of jobs to machines)
+	\item Gate assignment (w.r.t Aircraft)
+\end{itemize}
+
+\subsection*{Note}
+Next tutorial is going to be heavily based on CSP and how aipython approaches these.
+
+\subsection{Back tracking search}
+CSPs can be solved by assigning values to variables one by one, in different combinations. Whenever a constraint is violated, we go back to the most recently assigned variable and assign it a new value. This can be achieved by a DFS on a special kind of state space, where states are defined by the values assigned so far:
+
+\begin{itemize}
+	\item Initial State; the empty assignment
+	\item Successor function; assign a value to an unassigned variable that does not conflict with previously assigned values of other variables.
+	\item Goal test: all variables have been assigned a value, no constraints have been violated.
+\end{itemize}
+
+\subsubsection*{Corollaries}
+There are $n$ variables, meaning the search tree has depth at most $n$! Variable assignments are commutative. This suggests that DFS is most beneficial (due to the lightweight memory footprint, "optimality" is not a central goal AND tree is finite which prevents tangential searching).
+
+\subsubsection{Improvements}
+\begin{enumerate}
+	\item Which variable should be assigned next? ("MRV", tie-breaker; most constraints)
+	\item What order should its values be tried? (least constraining value)
+	\item Can we detect inevitable failure early?
+\end{enumerate}
+
+\end{document}
