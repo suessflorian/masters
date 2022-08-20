@@ -1,0 +1,87 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\begin{document}
+\title{Constraint Satisfaction}
+\newdate{date}{05}{08}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+\section{Improving the Backtracking Search Approach}
+We covered items one and two and brought a general intuition behind these mechanisms.
+
+\begin{enumerate}
+	\item Which variable should be assigned next? ("MRV", tie-breaker; most constraints)
+	\item What order should its values be tried? (least constraining value)
+	\item Can we detect inevitable failure early?
+\end{enumerate}
+
+\subsection{Forward Checking}
+- Keep track of remaining legal values for unassigned variables... Terminate search when any variable has no legal values... idea is to prune off that branch, focus on the other branches of the search tree. Slide 24, of "3-2 lecture slides" for visual auxilary.
+
+\subsubsection{Constraint Propogation}
+\textbf{Arc Consistency;} goal being to make every arc in the search tree consistent.
+
+$X \rightarrow Y$ is consistent if $\forall x \in X, \exists y in Y$ such that assignment (x,y) is satisfactory. So if $X$ looses a value, neighbours of $X$ need to be re-checked.
+
+\subsubsection{Variable Elimination}
+Veeery difficult to explain via writing, need slide 33-35 for this for visual auxilary.
+
+\section{Summary of CSPs}
+\begin{outline}
+	\1 CSPs are a special kind of problem
+		\2 states defined by values of a fixed set of variables
+		\2 goal test defined by constraints on variable values
+	\1 back tracking is a DFS with one variable assignment per node
+	\1 variable ordering and value selection heuristics help significantly
+\end{outline}
+
+\section{Systematic Vs Local Search: New Topic}
+
+\begin{outline}
+	\1 Systematic search strategies
+		\2 Frontier maintains all unexpanded successors of expanded nodes
+		\2 Traverse the search space of a problem instance in a systematic manner
+		\2 Guarantuee \emph{completeness}, solution is found, or determine it doesn't exist
+	\1 Local search strategies, \textbf{iterative improvement}
+		\2 Frontier maintains \emph{only some} unexpanded successors of expanded nodes
+		\2 Start at some state and "move" from present location to neighbouring locations
+		\2 Not garantueeing completeness
+\end{outline}
+
+\section*{Local Search Strategies}
+A constant space using strategy would be iterative improvement algorithms that, within a problem space, iterates from a given state to a solution that is closer than before to the desired goal test satisfying state.
+
+\subsection*{Termination criteria}
+You can interchange this mechanism via;
+
+\begin{itemize}
+	\item \textbf{Heuristic value} - example, if there was some sort of euclidean sum you are trying to navigate to the goal test score of 0.
+	\item \textbf{Goal test} - think of constraint satisfaction problems, if your solution does not violate any constraints, then nice!
+	\item \textbf{Iteration Cap} - to prevent endless computation, also give \emph{some} sort of solution, whether optimal or not.
+\end{itemize}
+
+\subsection*{Local Search Heuristics}
+Not needed to be admissable or consistent (best effort). Allows moves to optimise this score (move to neighbour with max/min $h$ value).
+
+\subsubsection*{Hill Climbing vs. Greedy Descent}
+Take both intuitively and you know what they are; problems here is the flatten set of senses of movement. Can use a 2d continuous graph to force the intuition that with either method you most certainly will find the local minima/maxima. But how do you garantuee yourself at the global minima/maxima position?
+
+\begin{equation}
+	\exists \epsilon > 0; f(x+\epsilon) \leq f(x) \geq f(x-\epsilon)
+\end{equation}
+\begin{equation}
+	\exists \epsilon > 0; f(x+\epsilon) \geq f(x) \leq f(x-\epsilon)
+\end{equation}
+
+
+Immediately we can see some slight improvements, \textbf{for example when encountering "flat areas"}, just BFS on out of there and find the first neighbour that is greater/less than.
+
+\subsection*{Tabu Search}
+Keep some constant size queue on hand that we use for visitation knowledge, then on each "move", just check this queue for previous visitation.
+
+\subsection{Enforced hill-climbing / greedy descent}
+Practical middle ground between BFS (currently at local optima), then greedy ascent/descent to navigate quickly to the next optima. Middcle groud.
+
+\end{document}
