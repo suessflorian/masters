@@ -1,0 +1,61 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\begin{document}
+\title{Adversarial Search: Game playing Agents}
+\newdate{date}{15}{08}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+Games are a form of multi-agent environments, where we have to keep in mind:
+
+\begin{itemize}
+	\item What do other agents do and how do they affect our success
+	\item Cooperative vs. competitive multi-agent environments
+	\item Competitive multi-agent environments give rise to adversarial search
+\end{itemize}
+
+\section*{Types of Games}
+Game = task environment with more than 1 agent;
+
+Axes:
+\begin{itemize}
+	\item Deterministic vs Stochastic
+	\item Fully vs. Partial Observability
+	\item Number of Agents
+	\item Static vs Dynamic (simulatanous turns for example)
+	\item Zero Sum (?)
+\end{itemize}
+
+\section*{Search Problem vs CSP vs Game}
+
+\textbf{Search problem}; you have a well defined goal state. Solution would be starting at the start state, finding the path of actions, possibly optimally. \textbf{CSP}; here we don't know what the final state looks like, instead we have a set of constraints over a set of variables that tell us wether a particular assignment of those variables is in violation or not. Not interested in path, could have many solutions, just a final non-violating variables. \textbf{Games}, no defined final state, obtaining a policy for every action.
+
+\section{Diversion: Difference between Search Tree vs Search Graph}
+Firstly, we have to understand that the underlying problem (or search space) is almost always represented as a graph (although the underlying graph may not contain cycles, so it may represent a tree). So, the difference is not whether the problem is a tree (a special kind of graph), or a general graph!
+
+The distinction is, instead, how we are traversing the search space (represented as a graph) to search for our goal state and whether we are using an additional list (called the closed list) or not.
+
+So, the basic differences are
+
+In the case of a graph search, we use a list, called the closed list (also called explored set), to keep track of the nodes that have already been visited and expanded, so that they are not visited and expanded again.
+
+In the case of a tree search, we do not keep this closed list. Consequently, the same node can be visited multiple (or even infinitely many) times, which means that the produced tree (by the tree search) may contain the same node multiple times.
+
+Advantages and disadvantages
+The advantage of graph search obviously is that, if we finish the search of a node, we will never search it again. On the other hand, the tree search can visit the same node multiple times.
+
+The disadvantage of graph search is that it uses more memory (which we may or may not have) than tree search. This matters because graph search actually has exponential memory requirements in the worst case, making it impractical without either a really good search heuristic or an extremely simple problem.
+
+So, there is a trade-off between space and time when using graph search as opposed to tree search (or vice-versa).
+
+Conclusion
+So, the difference between tree search and graph search is not that tree search works on trees while graph search works on graphs! Both can work on trees or graphs (but, given that graphs are a generalization of trees, we can simply say that both work on graphs, either trees or not) and both produce a tree!
+
+\section{Adversial Search}
+Minimax search. Optimal against a perfect player. Otherwise, technically a sub-optimal solution. Assume a player makes a mistake the next turn, you may not want to minimize the overall choice bound on the next turn for your opponent then, as doing so may \textbf{also constrain how much damage the opponent can do to themselves}.
+
+\subsection{Analysis of Minimax}
+Only works on full observability. Assumes perfect opponent. Bottom up value assignment of the nodes of the state space graph. (Works on zero sum games, tic tac toe for example).
+
+\end{document}
