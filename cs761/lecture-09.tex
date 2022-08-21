@@ -1,0 +1,94 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\begin{document}
+\title{Local Search Strategies: Stochastic Focus}
+\newdate{date}{08}{08}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+Slight review between systematic and local search strategies... we speak about how systematic searches can in some cases guarantee \textbf{completeness} and/or \textbf{optimality}. You'd use local search strategies when the \emph{path of the solution is not relevant}... Local search algorithms typically uses techniques of \textbf{iterative improvement}.
+
+\section{Today}
+We will continue through local search strategies. Recall we have already looked at the general intuition behind \textbf{hill climbing} and \textbf{greedy descent} which strives to local optima (relative to some local search heuristics). We also explored out to deal with \emph{shoulders}. A capped depth BFS which would terminate at some depth, \textbf{or} find a new candidate node that has a more significant heuristic score than the current \emph{perceived local optima}.
+
+\begin{itemize}
+	\item Stochastic Local Search
+	\item Random-restart Hill-Climbing
+	\item First Choice Hill-Climbing
+	\item Stochastic Hill-Climbing
+	\item Random Walk Hill-Climbing
+	\item Probabilistic Hill-Climbing
+\end{itemize}
+
+\section{Stochastic Local Search}
+Randomisation plays a key role in the stages of; \textbf{Initialisation, Tie Breaking, Step function}. Keep in mind that this can be applied to the local search strategies already covered.
+
+\section{Random-Restart Hill-Climbing}
+Basically just run a hill-climbing local search \emph{multiple times}. Randomising the initialisation of the algorithm to increase the chance of avoiding the trap of local minima.
+
+Recall the problem state space is a series of complete candidates (as opposed to partial candidates like backtracking sudoku search tree). So we can cap the iterations of the restart and decide on a shrug if no solution is found, or terminate when having found a candidate that passes the goal test.
+
+\subsection*{Calculating the expected number of runs}
+Suppose a single try of a greedy descent has a success probability $p$. Then the expected number of tries needed to find the optimal solution is $1/p$.
+
+\section{First Choice Hill-Climbing vs Stochastic Hill-Climbing}
+Both approaches don't consider every neighbour in given some node. First choice chooses the first better state neighbour, where as stochastic chooses a random better state neighbour. Both disregard the rest of the potential neighbours. \emph{Appears to be a memory optimisation}.
+
+\section{Random Walk Hill-Climbing}
+Choose some $p \in [0,1]$. At ever step, with probability $p$ make an \textbf{uninformed random walk}, $p-1$ continue as normal (greedy hill/descent).
+
+\subsubsection{Probabilistic Approximately Complete (PAC)}
+If the set of states $S$, is finite and every state is reachable from every other state by the step function. A search strategy is PAC if the probability that a \emph{try fails to find an optimal solution can be made arbitrarily small} when the search runs for sufficiently long.
+
+\section{Combine Random, Random-Restart, Greedy}
+Each step we do one of:
+\begin{enumerate}
+	\item Greedy, move to a neighbour with a higher h-value
+	\item Random Walk, uninformed step
+	\item Random Restart, re-sample a new current state
+\end{enumerate}
+
+\section{Probabilistic Hill-Climbing}
+Allows worsening search steps with a probability that depends on the respective \emph{deterioration} in evaluation function value. Compared to a pure greedy approach... it's unambiguous as to which neighbour is a candidate neighbour (if any). Here, even though we have a solid neighbour candidate (with higher heuristic than it's neighbours), we still associate probability to each step. Allowing some possibility of walking in a deteriorating way.
+
+\subsection{Annealing}
+Inspired by the metallurgical process where molten metals are cooled down to reach a lower energy state, making them hence stronger. We take this as a means to annotate what we mean by a hot environment gradually cooling. Where the heat directly correlates to the probability to make a random walk. Over time this temperature drops. Goal is to shake the system out of local optima states. We use $\Delta E = h_t - h_{t-1}$, where $t$ is just a way to separate current and next value steps. If $\Delta E$ is indeed negative (heuristic is worse), then we apply this ridiculous formula where $T$ is the temperature at this current evaluation step.
+
+\begin{equation}
+	e^{\Delta E/T}
+\end{equation}
+
+Is it important to remember this formula, god no... But it's a formula that behaves in a way that we want.
+
+\section*{Local Searches in Continuous spaces}
+We've been focusing on very discrete environments... \emph{n}-queens, Soduku, airline paths, fifteen game etc...
+
+\subsection*{Approaches}
+You can \textbf{discretise} it... grid your space up and apply any of the aforementioned algorithms. Or you could just try to use a variable step size, which has it's own set of problems that were covered in the lecutre.
+
+\section*{Summary}
+\begin{outline}
+	\1 Many optimsation problems can be formulated as local search 
+	\1 General families of algorithms
+		\2 Local Search (+ continuous optimisation)
+		\2 Stochastic Search (simulated annealing and other methods)
+		\2 Population based search (next lecture)
+
+	\1 Local search + Gradient Descent / Hill-climbing
+		\2 Hill climbing
+		\2 Hill climbing with sideways moves
+		\2 Tabu search
+		\2 Enforced hill climbing
+
+	\1 Stochastic Local Search
+		\2 First Choice Hill-Climbing
+		\2 Stochastic Hill-Climbing
+		\2 Random Walking Hill-Climbing
+		\2 Random Restart Hill-Climbing
+		\2 Simulated Annealing
+\end{outline}
+
+
+\end{document}
