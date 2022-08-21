@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\begin{document}
+\title{Uncertain Outcomes}
+\newdate{date}{19}{08}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+We recapped a little around \emph{minimax} and $\alpha-\beta$ \emph{pruning}. We revisted the resource limit problem (even with "perfectly ordered" ordered search trees). An so we get to limited depth searching (the required utility of terminal positions replaced by eval function of the depth limit non-terminal node for utility value propogation). Obviously risks optimal solution.
+
+\section{Games with uncertain outcomes: Expectimax, Expectiminimax}
+Suppose the game contains:
+\begin{itemize}
+	\item Explicit randomness
+	\item Unpredictable opponents
+	\item Actions that may fail
+\end{itemize}
+
+Values should reflect average-case (expectimax) approaches, not worst-case (minimax) outcomes. And so we segway into the definition of such an average case approach:
+
+\begin{enumerate}
+	\item compute the average score under optimal play
+	\item max nodes as in minimax search
+	\item chance nodes are like min nodes but the outcome is uncertain
+	\item calculate their expected utilities
+	\item take weighted average (expectation) of children
+\end{enumerate}
+
+Later we will look into something related \emph{Markov Decision Processes}.
+
+\subsection{$\alpha-\beta$ pruning and depth-limited applications}
+It's shown that pruning is not an option under expectiminimax/expectimax algorithm approach. Depth-limited approaches still work, eval function continues to provide utility and non-terminal nodes.
+
+\end{document}
