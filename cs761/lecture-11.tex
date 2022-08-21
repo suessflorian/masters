@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\begin{document}
+\title{Game Tree Pruning}
+\newdate{date}{16}{08}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+Recapping previous lecture, basic minimax stuff (interesting use of "optimal utility"). Recall time complexity is a traversal of the entire tree at a particular point in time. That is $O(b^m)$, where $m$ is strictly the \textbf{maximum} depth of the search tree. $b$ represents the branching factor.
+
+Space complexity, space complexity is $O(bm)$, and we realise quickly that these complexities are unreasonable for chess.
+
+\section*{To then focus on generalising Minimax}
+We can instead swap the node terminals of the well known minimax trees to be tuples. Each player then maximising it's own component of this terminal node tuple (builds levels of competition)...Really nothing fancy.
+
+\section*{Today}
+
+\begin{itemize}
+	\item{$\alpha-\beta$ pruning}
+	\item{Expectimax}
+\end{itemize}
+
+\section{$\alpha-\beta$ pruning}
+A way to improve the performance of the minimax procedure, basically, don't continue to keep investigating if we know the max/min bound is sufficiently high/low enough already.
+
+\subsection{Analysis of this Pruning Technique}
+Pruning has \emph{no effect} on the final result. Move ordering impacts effectiveness. \textbf{With "perfect ordering"} complexity drops to $O(b^{m/2})$, so given some bounded space. This pruning technique can double the solvable depth.
+
+\section{Resource Limits}
+Cannot search trees to the leaves in many cases, and so we employ limited search techniques. \textbf{Where we employ eval functions for these non-terminal positions}. Here the garuantee of optimal play is then gone. Depth still matters though, deeper search $\Rightarrow$ better play.
+
+\subsection{Not sure how much resources are needed?}
+Then we employ the iterative deepening algorithm technique.
+
+\end{document}
