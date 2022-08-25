@@ -1,0 +1,76 @@
+\documentclass{article}
+\usepackage{outlines}
+\usepackage{datetime}
+\usepackage{amsmath}
+
+
+\begin{document}
+\title{Finals Prep}
+\newdate{date}{26}{07}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+\section{PAGE Description}
+Used to group similar tasks together. An axis that describes key characteristics of a task to be performed. 
+
+\begin{itemize}
+	\item Percepts
+	\item Actions
+	\item Goal
+	\item Environment
+\end{itemize}
+
+\section{PEAS Model}
+Used to group similar agents together. An axis that describes key characteristics of an agent.
+
+\begin{itemize}
+	\item Performance Measure
+	\item Environment
+	\item Actuators
+	\item Sensors
+\end{itemize}
+
+\section{Environment (eight) types}
+\begin{itemize}
+	\item Stochastic vs. Deterministic
+	\item Continuous vs. Discrete
+	\item Situated vs. Simulated
+	\item Single Agent vs. Multiple Agent
+	\item Fully Observable vs. Partially Observable
+	\item Static vs. Dynamic
+
+	\item Known vs. Unknown
+	\item Episodic vs. Sequential (Functional vs. Stateful)
+\end{itemize}
+
+\section{State Space Problems}
+A set of states, subset of which contains the starting states. We have a set of actions. A successor function that takes in a state and action and returns a new state. We have a goal function that given a state returns true or false (which includes a criterion of acceptable solutions).
+
+\subsection{Specify the state space problem behind a Rubik's cube}
+\begin{itemize}
+	\item Each cube, $c_{i} = (x_{i}, y_{i}, z_{i}, ry_{i}, rx_{i})$ where $(x_{i},y_{i},z_{i})$ represents the position of the cube, and $ry_{i} \in {0, 90, 180}$ representing the rotation through the y-axis, and $rx_{i} \in {0, 90}$ representing the rotation through the x-axis.
+	\item The set of states $K$, some $k \in K$ appears as $\{c_1, c_2, ..., c_n\}$ where $n=27$.
+	\item Set of actions $A = \{ a^u_{\text{rotate right}}, a^d_{\text{rotate down}}, a^r_{\text{face clockwise}} \}$
+	\item Successor function $f: (K, A) \rightarrow K$
+	\item We can choose an arbitrary goal state, although if we were to color each cube $c_i$, a nice goal state would be the reserving of $c_1 = (1,1,1,0,0), c_2 = (2, 1, 1, 0, 0), c_3 = (3, 1, 1, 0, 0), c_4 = (1, 2, 1, 0, 0), ...$ such that each this state represents a cube with the same color sides. There will be 6 goal states. 1 for each rotation of the entire cube.
+\end{itemize}
+
+\section{Search Problems: Search Tree}
+A tree super imposted onto the state space graph representation of a state space problem. Root being reserved for the start state.
+
+\section{Uninformed Search}
+There's a few we covered \textbf{Breadth-FS, Depth-FS, Uniform Cost Search, Depth Limited Search, Iterative Deepening Search, Bi-Directional Search}
+
+\section{Informed Search}
+There's a few we covered \textbf{Greedy-FS, A*, Iterative Deepening A*}
+
+\subsection{Heuristics}
+All informed searches rely on heuristic functions (take $h$) to effectively guide the search towards the right direction. Two properties of interest are $admissability$ and $consistency$.
+
+\begin{itemize}
+	\item \textbf{admissibility}; given some node $n$, $h(n) \leq a(n)$ where $a$ represents the actual cost.
+	\item \textbf{consistency}; given some node $n$ and it's successor $n'$, $h(n) \geq h(n') + c(n, n')$ where $c$ represents the cost between two adjacent nodes.
+\end{itemize}
+
+\end{document}
