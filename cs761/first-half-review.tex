@@ -6,7 +6,7 @@
 
 \begin{document}
 \title{Finals Prep}
-\newdate{date}{26}{07}{2022}
+\newdate{date}{26}{08}{2022}
 \date{\displaydate{date}}
 \author{Florian Suess}
 \maketitle
@@ -72,5 +72,63 @@ All informed searches rely on heuristic functions (take $h$) to effectively guid
 	\item \textbf{admissibility}; given some node $n$, $h(n) \leq a(n)$ where $a$ represents the actual cost.
 	\item \textbf{consistency}; given some node $n$ and it's successor $n'$, $h(n) \geq h(n') + c(n, n')$ where $c$ represents the cost between two adjacent nodes.
 \end{itemize}
+
+\section{Constraint Satisfaction Problems}
+A set of variables $X$ such that for each variable has a domain, that is for $x_i \in X$, $x_i = \{d_1, d_2, ...\}$ and a set of constraints $C$ where say some $c_i \in C$ is a function with arbitrary quantity of arguments within domain $X$, that is, $c_i: ((x_1, d_1), ..., (x_n,d_n)) \rightarrow \{\text{true}, \text{false}\}$ where $x_1, ..., x_n \in X$ and the $d_i$ wrt. $x_i$ represents the assigned value for $x_i$. \emph{Note: it only makes sense when $n > 0$.}
+
+Goal is to find an assignment such that for $\forall c \in C$, we have "true".
+
+\section{Back Tracking Search}
+Backtracking search simply defines a search tree wrt. the constraint satisfaction problem. Start node being the empty set of variable assignments, every other node being a \emph{valid} assignment of variables such that for all relevant and well defined $c \in C$ we have "true".
+
+Interesting properties is that this tree has depth of at most number of variables. Keep in mind assignments are commutative too.
+
+\subsection*{Backtracking Improvements}
+\subsubsection{MRV, LCV}
+Order variable assignment by, minimum remaining value and as a tie-breaker use the least constraining variable (which variable assignment reduces the overall domain of all variables the least).
+
+\subsection*{Forward Searching Improvements}
+\subsubsection{Variable Eliminination}
+You can systematically reduce the variable set down until you have a single variable, in that case you just intersect the (now) unary constraint functions. The algorithm for such a reduction is as follows:
+
+\begin{enumerate}
+	\item select an arbitrary variable $X$ (to remove)
+	\item begin by finding an adjacent variable, say $Y$ and build $R1$ (all assignments that work)
+	\item continue to build $R2$ which is the product of another adjacent variables, say $Z$
+	\item now build $R3: R1 \bowtie R2$, where we build the list of assignments value for $Y$ and $Z$ 
+	\item then merge this $R3$ with the list of assignments for $Y, Z$ such that any constraints containing these two variables is satisfied.
+\end{enumerate}
+
+At the end of this, we have re-defined the constraint between $Y, Z$ which doesn't involve $X$ at all. You can extrapolate this method if there are more adjacent variables and so on.
+
+\section{Local Search vs. Systematic Search}
+Systematic searches we are looking for complete paths to solutions and/or final state. However we have covered a technique that prioritises just the final state of the solution instead.
+
+Systematic searches are mostly complete, whereas local searches are very much not in general (depends on the problem ofcourse).
+
+This needs a \textbf{goal test} or a \textbf{partial goal state}.
+
+\subsection{Deterministic Local Search Algorithms}
+\textbf{Hill climbing, Hill climbing with sideways moves, Tabu search, Enforced Hill Climbing}. The last algorithm here is not entirely local search (due to the inclusion of systematic BFS).
+
+\subsection{Stochastic Local Search Algorithms}
+\textbf{Stochastic Hill Climbing, First Choice Hill Climbing, Random Walking Hill Climbing, Random Restart Hill Climbing, Simulated Annealing}.
+
+\subsubsection{Simulated Annealing}
+Considering a node $n$ and it's successor $n'$ we use probabilistic "move" depending on some sort of annealing function, in lecture we decided on; $e^{-\frac{h(n')-h(n)}{T}}$
+
+\section{Adversial Search}
+Used for games, where we can assume an opposing agent is playing against you.
+
+\subsection{Minimax Search}
+Bottom up propogation of a minimax tree, we could explain it better here but I'm getting a little tired of studying this over and over again.
+
+\subsection{Expectiminimax Search}
+Similar bottom up propogation of a minimax tree until we hit a "chance node", the value of a chance node is the sum of all children product with branch probabibility. Similar minimax tree propogation continues once solid values are assigned on each "chance node" encounter.
+
+\section{$\alpha-\beta$ Pruning}
+Just look at examples... it's super intuitive, think of bounds being iteratively built. If a bound has no chance of contesting the opposing branch(es), then we do not need to continue searching. \textbf{This requires a multi-level thought intervention as compared tree evaluation}.
+
+\emph{Note: does not impact final result, with "perfect ordering", the complexity of constructing a tree complexity now drops to $O(b^{m/2})$ from $O(b^m)$}.
 
 \end{document}
