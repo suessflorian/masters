@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{algorithmic}
+\usepackage{amsmath}
+\title{Assignment}
+\author{Florian Suess}
+\begin{document}
+\maketitle
+\section{Program Analysis}
+\subsection{}
+Keeping it simple with a primitive trial division method. We consider all candidate factors $f < N$ and check divisibility;
+
+\begin{algorithmic}[1]
+	\REQUIRE $N > 2$
+	\STATE $f \leftarrow 2$
+	\WHILE{$f < N$}
+		\IF{$f \mid N$}
+			\RETURN 1
+		\ENDIF
+		\STATE $c \leftarrow c + 1$
+	\ENDWHILE
+	\RETURN 0
+\end{algorithmic}
+
+If it is not clear, we \textbf{RETURN} to indicate the returning of a value to a potential caller (proactively due to the following question). Suppose this algorithm runs on it's own, we interpret \textbf{RETURN} as a \textbf{print} followed by a \textbf{stop}.
+
+\section{Research Question}
+\section{Mathematical Modelling}
+\subsection{}
+Define the property "the infinite binary sequence contains a monochromatic arithmetic progression".
+
+Given a infinite binary sequence $s = s_{1}s_{2}s_{3}...$
+\begin{math}
+	t>0,k>1; \exists
+\end{math}
+
+\subsection{}
+Does every infinite sequence contain a monochromatic arithmetic progression?
+
+\subsection{} How about for ternary sequences?
+
+\section{Scratch References}
+\begin{itemize}
+	\item trial division for algorithm
+\end{itemize}
+\end{document}
+
