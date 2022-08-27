@@ -12,10 +12,9 @@
 \section{Program Analysis}
 \subsection{Deciding if an even integer N is the sum of two primes}
 For clarity further along - we begin with a simple utility \textbf{isPrime} that via primitive trial division method determines if an input candidate number $C$ is prime.
-
 \begin{algorithmic}[1]
-	\REQUIRE $C \geq 0$
-	\IF{$C = 1 \text{ \textbf{or} } C = 2$}
+	\REQUIRE $C > 1$
+	\IF{$C = 2$}
 		\RETURN 1
 	\ENDIF
 	\STATE $f \leftarrow C - 1$
@@ -32,7 +31,7 @@ If it is not clear, we \textbf{return} to indicate the returning of a value to a
 
 \pagebreak
 
-\subsubsection*{Is Goldbach number algorithm}
+\subsubsection*{Is even number a sum of two primes}
 \begin{algorithmic}[1]
 	\REQUIRE $N > 2 \text{ \textbf{and} } 2 \nmid N$
 	\STATE $c \leftarrow N - 1$
@@ -52,10 +51,25 @@ If it is not clear, we \textbf{return} to indicate the returning of a value to a
 \subsection{Does the above halt?}
 We shall first prove that for any $C > 0$, \textbf{isPrime} halts. It's tediously obvious as $f$ is clearly monotonically decreasing towards a bound of 1. It will inevitably reach this bound and exit the only loop then halt, if not halting beforehand.
 
-We use this result of \textbf{isPrime} directly for the main algorithm. Similarly to above $c$ is monotonically decreasing towards a bound of 2. It will inevitably reach this bound and exit the only loop and halt, if not halting beforehand.
+We use this result of \textbf{isPrime} directly for the main algorithm by effectively ignoring it's complication. Similarly to above $c$ is monotonically decreasing towards a bound of 2. It will inevitably reach this bound and exit the only loop and halt, if not halting beforehand.
 
-\subsection{Does the proposed algorithm in the assignment solve the Goldbach conjecture?}
-Yes. I'm heading to Faber and Faber to pick up my cool million dollars. \textbf{I am ofcourse kidding}.
+\subsection{Does the proposed algorithm halt? And does it solve the Goldbach conjecture?}
+Assuming my work above can be called via \textbf{A(N)}.
+
+\begin{algorithmic}[1]
+	\STATE $G \leftarrow 1$
+	\STATE $N \leftarrow 1$
+		\IF{\textbf{A(N) = 1}}
+			\STATE $N \leftarrow N + 2$
+			\STATE $\textbf{goto 2}$
+		\ENDIF
+		\STATE $G \leftarrow 0$
+	\STATE $\text{\textbf{stop}}$ 
+\end{algorithmic}
+
+Yes - we've solved the Goldbach conjecture. I'm heading to Faber and Faber to pick up my cool million dollars. \textbf{I am ofcourse kidding}. 
+
+A nice property of $N$ is again it's monotonically increasing trajectory. For this algorithm to halt we need \textbf{A(N)} for some $N$ to at some point return a $0$ value in order to break out of the otherwise infinite loop. Assuming $A$ is correct, and $2 \nmid N$, for this to happen the Goldbach conjecture must be false! In which case the bound is set as the least greatest counter example and a halt is inevitable. Suppose though Goldbach's conjecture is true, in that case there exists no bound for this loop and we find that this program never halts.
 
 \pagebreak
 \section{Research Question}
@@ -79,8 +93,7 @@ Well then, here we apply this theorem provided by Hamkin and indeed use this mag
 
 Needless to say then, it appears we do not have in front of us a program solving in "finite" time the Halting problem for every input.
 
-\subsection{Does the main result contradict the Halting Theorem?}
-
+\pagebreak
 
 \section{Mathematical Modelling}
 \subsection{Monochromatic arithmetic progressions}
@@ -96,9 +109,5 @@ Given a infinite ternary sequence $s = s_{1}s_{2}s_{3}...$ and some $k>0$ we say
 
 Verbatim the exact same proof applied (heavy reliance on the finite Van der Waerden theorem), where we now fix $c = 3$.
 
-\section{Scratch References}
-\begin{itemize}
-	\item trial division for algorithm
-\end{itemize}
 \end{document}
 
