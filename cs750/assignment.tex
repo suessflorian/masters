@@ -1,27 +1,63 @@
 \documentclass{article}
+\setlength{\parskip}{\baselineskip}%
+\setlength{\parindent}{0pt}%
+\usepackage{algorithm}
 \usepackage{algorithmic}
 \usepackage{amsmath}
+\usepackage{amssymb}
 \title{Assignment}
 \author{Florian Suess}
 \begin{document}
 \maketitle
 \section{Program Analysis}
-\subsection{}
-Keeping it simple with a primitive trial division method. We consider all candidate factors $f < N$ and check divisibility;
+\subsection{Deciding if an even integer N is the sum of two primes}
+For clarity further along - we begin with a simple utility \textbf{isPrime} that via primitive trial division method determines if an input candidate number $C$ is prime.
 
 \begin{algorithmic}[1]
-	\REQUIRE $N > 2$
-	\STATE $f \leftarrow 2$
-	\WHILE{$f < N$}
-		\IF{$f \mid N$}
-			\RETURN 1
+	\REQUIRE $C \geq 0$
+	\IF{$C = 1 \text{ \textbf{or} } C = 2$}
+		\RETURN 1
+	\ENDIF
+	\STATE $f \leftarrow C - 1$
+	\WHILE{$f > 1$}
+		\IF{$f \mid C$}
+				\RETURN 1
 		\ENDIF
-		\STATE $c \leftarrow c + 1$
+		\STATE $f \leftarrow f - 1$
 	\ENDWHILE
 	\RETURN 0
 \end{algorithmic}
 
-If it is not clear, we \textbf{RETURN} to indicate the returning of a value to a potential caller (proactively due to the following question). Suppose this algorithm runs on it's own, we interpret \textbf{RETURN} as a \textbf{print} followed by a \textbf{stop}.
+If it is not clear, we \textbf{return} to indicate the returning of a value to a potential caller. Suppose this algorithm runs on it's own, we interpret \textbf{return} as a \textbf{print} followed by a \textbf{stop}.
+
+\pagebreak
+
+\subsubsection*{Is Goldbach number algorithm}
+\begin{algorithmic}[1]
+	\REQUIRE $N > 2 \text{ \textbf{and} } 2 \nmid N$
+	\STATE $c \leftarrow N - 1$
+	\WHILE{$c > 2$}
+		\IF{\textbf{isPrime(c)}}
+			\STATE $c' \leftarrow N - c$
+			\IF{\textbf{isPrime(c')}}
+				\RETURN 1
+			\ENDIF
+		\ENDIF
+		\STATE $c \leftarrow c - 1$
+	\ENDWHILE
+	\RETURN 0
+\end{algorithmic}
+
+
+\subsection{Does the above halt?}
+We shall first prove that for any $C > 0$, \textbf{isPrime} halts. It's tediously obvious as $f$ is clearly monotonically decreasing towards a bound of 1. It will inevitably reach this bound and exit the only loop then halt, if not halting beforehand.
+
+We use this result of \textbf{isPrime} directly for the main algorithm. Similarly to above $c$ is monotonically decreasing towards a bound of 2. It will inevitably reach this bound and exit the only loop and halt, if not halting beforehand.
+
+\subsection{Does the proposed algorithm in the assignment solve the Goldbach conjecture?}
+Yes. I'm heading to Faber and Faber to pick up my cool million dollars. \textbf{I am ofcourse kidding}.
+
+
 
 \section{Research Question}
 \section{Mathematical Modelling}
