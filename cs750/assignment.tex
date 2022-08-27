@@ -59,14 +59,21 @@ Yes. I'm heading to Faber and Faber to pick up my cool million dollars. \textbf{
 
 \pagebreak
 \section{Research Question}
-In reference to John Baez; Computing the uncomputable blog post re: Joel David Hamkins result.
+In reference to John Baez; Computing the uncomputable blog post... a direct summation of Joel David Hamkins (and friends like Woodin) result.
 
 \subsection{The main result}
-In lectures we have discovered the existence of some incomputable functions. Concretely the halting function which is considered close enough to a $f: N \rightarrow N$ (an expression of the halting problem) for instance. The result published by Joel David Hamkins asserts that indeed \textbf{any function can be computable}... which at first presumes a conflict with our finding and perhaps a solution to the halting problem.
+There is \textbf{a} Turing machine $T$ that when given any function $f: N \rightarrow N$, there is a model of Peano Axioms (PA), that is, the triple $(N, 0, S)$, $0 \in N$ and $S: N \rightarrow N$ that in tandem satisfy the PA, such that in this model, if we give $T$ any \emph{standard} natural $n$ as input, it halts and outputs $f(n)$.
 
-Under close inspection we realise that he shows the existence of a turing machine $T$ that \textbf{there is a model of PA such that in this model}, if we give $T$ any standard natural $n$ as input, it halts and computes $f(n)$.
+\subsection{My interpretation of Joel David Hamkins proof}
+\subsubsection{Preliminaries}
+I personally will focus within the context of Peano Axiom (PA) as I'm struggling enough with an understanding. A model of PA is a mere triple $(N, 0, S)$, where $N$ is a set, $0 \in N$ and $S: N \rightarrow N$ satisfies the PA the precise "structure" of $N$ and $S$ is up to interpretation (although it is worth noting that $N$ is necessarily infinite). We are all aware of the "standard" PA model, and so I won't dwell. What we need to do is speak about "non-standard" models of PA - construction originally driven by the works of Löwenheim–Skolem. The existence of such models are initial segment isomorphic to the "standard" natural numbers. Initial segment isomorphism suggests the existence of an \emph{upper set} of elements that, as John Baez puts it, are "tacked" on the end of the set of "standard" natural numbers. Somewhat concretely I view these "non-standard" numbers as having the property that they are strictly greater than $0$ and every element of the model you can reach from 0 by applying $S$ (\textbf{finitely} many times). However, these elements still obey all the axioms of PA (which nessecerailly pushes an infinite size of this upper set also).
 
-\subsection{My interpretation of Joel David Hamkins result}
+John Baez points out that a sentence $p$ in such a model is merely provable, or not provable, and factually speaking it either holds or doesn't hold - importantly \textbf{relative} to the adopted model we're using to interpret $p$.
+
+The proof described in the original Hamkins blog derives \textbf{a single} Turing machine $T$ uses an infinite sequence of Rosser sentences and their negations that depend on the given $f$ to actually "build" a model of PA that allows this Turing machine $T$ to computably express this function $f$ on the standard input domain. By that I mean, for any standard $n$ input, this Turing machine halts and computes $f(n)$.
+
+So... it is then proven that if we were to define a halting decider function using Hamkins (and friends)
+
 \subsection{Does the main result contradict the Halting Theorem?}
 
 
