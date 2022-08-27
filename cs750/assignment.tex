@@ -57,22 +57,32 @@ We use this result of \textbf{isPrime} directly for the main algorithm. Similarl
 \subsection{Does the proposed algorithm in the assignment solve the Goldbach conjecture?}
 Yes. I'm heading to Faber and Faber to pick up my cool million dollars. \textbf{I am ofcourse kidding}.
 
-
-
+\pagebreak
 \section{Research Question}
+In reference to John Baez; Computing the uncomputable blog post re: Joel David Hamkins result.
+
+\subsection{The main result}
+In lectures we have discovered the existence of some incomputable functions. Concretely the halting function which is considered close enough to a $f: N \rightarrow N$ (an expression of the halting problem) for instance. The result published by Joel David Hamkins asserts that indeed \textbf{any function can be computable}... which at first presumes a conflict with our finding and perhaps a solution to the halting problem.
+
+Under close inspection we realise that he shows the existence of a turing machine $T$ that \textbf{there is a model of PA such that in this model}, if we give $T$ any standard natural $n$ as input, it halts and computes $f(n)$.
+
+\subsection{My interpretation of Joel David Hamkins result}
+\subsection{Does the main result contradict the Halting Theorem?}
+
+
 \section{Mathematical Modelling}
-\subsection{}
-Define the property "the infinite binary sequence contains a monochromatic arithmetic progression".
+\subsection{Monochromatic arithmetic progressions}
+First, we define concretely what it means for an "infinite binary sequence contains a monochromatic arithmetic progression of \emph{any} length". 
 
-Given a infinite binary sequence $s = s_{1}s_{2}s_{3}...$
-\begin{math}
-	t>0,k>1; \exists
-\end{math}
+Given a infinite binary sequence $s = s_{1}s_{2}s_{3}...$ and some $k>0$ we say there $\exists i,t \geq 1$ such that $s_{i}s_{i+t}s_{i+2t}...s_{i+(k-1)t}$ is $\in \{1^k,0^k\}$.
 
-\subsection{}
-Does every infinite sequence contain a monochromatic arithmetic progression?
+\subsection{Does every infinite sequence contain a monochromatic arithmetic progression?}
+A pretty vacuous application of the \textbf{finite Van der Waerden theorem}. Give me your infinite binary sequence $s$ and desired $k$ value. In close relation to the theorem delivery, fix $c = 2$ (colouring). By thereom, there $\exists \gamma$ such that the prefix of length $\gamma + 1$ has a monochromatic arithmetic progression of length $k$.
 
-\subsection{} How about for ternary sequences?
+\subsection{And for ternary sequences?} 
+Given a infinite ternary sequence $s = s_{1}s_{2}s_{3}...$ and some $k>0$ we say there $\exists i,t \geq 1$ such that $s_{i}s_{i+t}s_{i+2t}...s_{i+(k-1)t}$ is $\in \{1^k,2^k,0^k\}$.
+
+Verbatim the exact same proof applied (heavy reliance on the finite Van der Waerden theorem), where we now fix $c = 3$.
 
 \section{Scratch References}
 \begin{itemize}
