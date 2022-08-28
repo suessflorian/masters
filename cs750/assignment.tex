@@ -114,17 +114,15 @@ What interests me is John Baez convictive stance around the surrounding vaguenes
 
 \section{Mathematical Modelling}
 \subsection{Monochromatic arithmetic progressions}
-First, we define concretely what it means for an "infinite binary sequence contains a monochromatic arithmetic progression of \emph{any} length". 
-
-Given a infinite binary sequence $s = s_{1}s_{2}s_{3}...$ and some $k>0$ we say there $\exists i,t \geq 1$ such that $s_{i}s_{i+t}s_{i+2t}...s_{i+(k-1)t}$ is $\in \{1^k,0^k\}$.
+Given a infinite binary sequence $s = s_{1}s_{2}s_{3}...$, that is for any $\omega \in N$, we have $s_{\omega} = \{0, 1\}$. Given some $k > 0$, we say we can find a monochromatic arithmetic progression of length $k$, that is, $\exists i,t \geq 1$ such that $s_{i}s_{i+t}s_{i+2t}...s_{i+(k-1)t}$ is $\in \{1^k,0^k\}$.\footnote{Evidently a slight amendment to the original question as it concretely seemed to have wanted me to just find  "any" monochromatic arithmetic progression which would be met with me showing the 3 letter prefix contained a monochromatic arithmetic progression of length 2 by virtue of Pigeonhole Principle}
 
 \subsection{Does every infinite sequence contain a monochromatic arithmetic progression?}
-A pretty vacuous application of the \textbf{finite Van der Waerden theorem}. Give me your infinite binary sequence $s$ and desired $k$ value. In close relation to the theorem delivery, fix $c = 2$ (colouring). By thereom, there $\exists \gamma$ such that the prefix of length $\gamma + 1$ has a monochromatic arithmetic progression of length $k$.
+This is a vacuous application of a finding directly from our lectures; the \textbf{finite Van der Waerden theorem}\footnote{visually the theorem \url{https://www.youtube.com/watch?v=Hb35djuGMIg}}. Give me your infinite binary sequence $s$ and desired $k$ value. In close relation to the theorem delivery, fix $c = 2$ (colouring). By theorem, there $\exists \gamma$ such that the prefix of length $\gamma + 1$ contains this monochromatic arithmetic progression of length $k$.
 
 \subsection{And for ternary sequences?} 
-Given a infinite ternary sequence $s = s_{1}s_{2}s_{3}...$ and some $k>0$ we say there $\exists i,t \geq 1$ such that $s_{i}s_{i+t}s_{i+2t}...s_{i+(k-1)t}$ is $\in \{1^k,2^k,0^k\}$.
+Given a infinite binary sequence $s = s_{1}s_{2}s_{3}...$, that is for any $\omega \in N$, we have $s_{\omega} = \{0, 1, 2\}$. Given some $k > 0$, we say we can find a monochromatic arithmetic progression of length $k$, that is, $\exists i,t \geq 1$ such that $s_{i}s_{i+t}s_{i+2t}...s_{i+(k-1)t}$ is $\in \{2^k,1^k,0^k\}$.
 
-Verbatim the exact same proof applied (heavy reliance on the finite Van der Waerden theorem), where we now fix $c = 3$.
+The proof of this statement; surely it's sufficiently apt to prescribe the exact same proof applied as above where instead we now fix $c = 3$.
 
 \end{document}
 
