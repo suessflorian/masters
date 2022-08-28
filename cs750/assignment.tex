@@ -2,6 +2,8 @@
 \setlength{\parskip}{\baselineskip}%
 \setlength{\parindent}{0pt}%
 \usepackage{algorithm}
+\usepackage{hyperref}
+\usepackage[bottom]{footmisc}
 \usepackage{algorithmic}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -12,6 +14,8 @@
 \section{Program Analysis}
 \subsection{Deciding if an even integer N is the sum of two primes}
 For clarity further along - we begin with a simple utility \textbf{isPrime} that via primitive trial division method determines if an input candidate number $C$ is prime.
+
+\vspace{1em}
 \begin{algorithmic}[1]
 	\REQUIRE $C > 1$
 	\IF{$C = 2$}
@@ -26,15 +30,18 @@ For clarity further along - we begin with a simple utility \textbf{isPrime} that
 	\ENDWHILE
 	\RETURN 0
 \end{algorithmic}
+\vspace{1em}
 
 If it is not clear, we \textbf{return} to indicate the returning of a value to a potential caller. Suppose this algorithm runs on it's own, we interpret \textbf{return} as a \textbf{print} followed by a \textbf{stop}.
 
 \pagebreak
 
-\subsubsection*{Is even number a sum of two primes}
+And so here is the requested algorithm that takes in even numbers greater than 2, returns "1" if it is indeed the sum of two prime numbers - "0" if not.
+
+\vspace{1em}
 \begin{algorithmic}[1]
 	\REQUIRE $N > 2 \text{ \textbf{and} } 2 \nmid N$
-	\STATE $c \leftarrow N - 1$
+	\STATE $c \leftarrow N - 2$
 	\WHILE{$c > 2$}
 		\IF{\textbf{isPrime(c)}}
 			\STATE $c' \leftarrow N - c$
@@ -46,23 +53,24 @@ If it is not clear, we \textbf{return} to indicate the returning of a value to a
 	\ENDWHILE
 	\RETURN 0
 \end{algorithmic}
-
+\vspace{1em}
 
 \subsection{Does the above halt?}
-We shall first prove that for any $C > 0$, \textbf{isPrime} halts. It's tediously obvious as $f$ is clearly monotonically decreasing towards a bound of 1. It will inevitably reach this bound and exit the only loop then halt, if not halting beforehand.
+We shall first prove \textbf{isPrime} halts on all valid inputs. Give me some $C \in \mathbb{N}$ where $C>1$. If $C=2$ then \textbf{isPrime(C)} halts. Let $(f_n)_{n\in\mathbb{N}}$ be a sequence into $\mathbb{N}$ representing the \emph{potential assignments} to the variable $f$. We know $f_0 = C - 1 > 0$. We know that \textbf{isPrime} halts if for some $\theta \in \mathbb{N}$, if $f_{\theta} \leq 1$ thus can be viewed as a lower bound of the sequence. Looking at the set of assignment operations on $f$ we know that for any $t,v \in \mathbb{N}$ where $t < v \implies f_t < f_v$. It follows by the monotonic convergence theorem \footnote{\url{https://en.wikipedia.org/wiki/Monotone_convergence_theorem}} (with small enough $\epsilon$) $\exists \pi \in \mathbb{N}$ such that $f_{\pi} = 1$ and so \textbf{isPrime} inevitably halts as we get to the $\pi^{\text{th}}$ assignment to $f$, even if $\forall x \in N, x< \pi$ we have $f_n \nmid C$.
 
-We use this result of \textbf{isPrime} directly for the main algorithm by effectively ignoring it's complication. Similarly to above $c$ is monotonically decreasing towards a bound of 2. It will inevitably reach this bound and exit the only loop and halt, if not halting beforehand.
+We use this result of \textbf{isPrime} directly for the main algorithm by effectively viewing it as a bland statement. We construct an identical argument to above - so in greater strides; let $(c_n)_{n\in\mathbb{N}}$ be the sequence into $\mathbb{N}$ defined by the \emph{potential assignments} to $c$, $c_0 = N - 2$ (for some $N > 2$). Similarly to above the sequence is also bounded below, this time by $2$. Looking at all assignment statements to $c$, $(c_n)$ is indeed a monotonocally decreasing sequence. By the similar application of monotone convergence theorem, $\exists \alpha \in \mathbb{N}$ such that $c_{\alpha} = 2$. So this algorithm inevitably halts as we get to the $\alpha^{\text{th}}$ assignment to $c$ if this hasn't halted already earlier.
 
+\pagebreak
 \subsection{Does the proposed algorithm halt? And does it solve the Goldbach conjecture?}
 Assuming my work above can be called via \textbf{A(N)}.
+\footnote{I adapted this to a while loop for clarity}\footnote{I inferred your intention of stepping $N$ in increments of 2}
 
 \begin{algorithmic}[1]
 	\STATE $G \leftarrow 1$
 	\STATE $N \leftarrow 1$
-		\IF{\textbf{A(N) = 1}}
+		\WHILE{$A(N) = 1$}
 			\STATE $N \leftarrow N + 2$
-			\STATE $\textbf{goto 2}$
-		\ENDIF
+		\ENDWHILE
 		\STATE $G \leftarrow 0$
 	\STATE $\text{\textbf{stop}}$ 
 \end{algorithmic}
