@@ -18,17 +18,14 @@ For clarity further along - we begin with a simple utility \textbf{isPrime} that
 \vspace{1em}
 \begin{algorithmic}[1]
 	\REQUIRE $C > 1$
-	\IF{$C = 2$}
-		\RETURN 1
-	\ENDIF
 	\STATE $f \leftarrow C - 1$
 	\WHILE{$f > 1$}
 		\IF{$f \mid C$}
-				\RETURN 1
+				\RETURN 0
 		\ENDIF
 		\STATE $f \leftarrow f - 1$
 	\ENDWHILE
-	\RETURN 0
+	\RETURN 1
 \end{algorithmic}
 \vspace{1em}
 
@@ -42,10 +39,10 @@ And so here is the requested algorithm that takes in even numbers greater than 2
 \begin{algorithmic}[1]
 	\REQUIRE $N > 2 \text{ \textbf{and} } 2 \nmid N$
 	\STATE $c \leftarrow N - 2$
-	\WHILE{$c > 2$}
-		\IF{\textbf{isPrime(c)}}
+	\WHILE{$c > 1$}
+		\IF{\text{\textbf{isPrime(c)} = 1}}
 			\STATE $c' \leftarrow N - c$
-			\IF{\textbf{isPrime(c')}}
+			\IF{\text{\textbf{isPrime(c)} = 1}}
 				\RETURN 1
 			\ENDIF
 		\ENDIF
@@ -56,9 +53,9 @@ And so here is the requested algorithm that takes in even numbers greater than 2
 \vspace{1em}
 
 \subsection{Does the above halt?}
-We shall first prove \textbf{isPrime} halts on all valid inputs. Give me some $C \in \mathbb{N}$ where $C>1$. If $C=2$ then \textbf{isPrime(C)} halts. Let $(f_n)_{n\in\mathbb{N}}$ be a sequence into $\mathbb{N}$ representing the \emph{potential assignments} to the variable $f$. We know $f_0 = C - 1 > 0$. We know that \textbf{isPrime} halts if for some $\theta \in \mathbb{N}$, if $f_{\theta} \leq 1$ thus can be viewed as a lower bound of the sequence. Looking at the set of assignment operations on $f$ we know that for any $t,v \in \mathbb{N}$ where $t < v \implies f_t < f_v$. It follows by the monotonic convergence theorem \footnote{\url{https://en.wikipedia.org/wiki/Monotone_convergence_theorem}} (with small enough $\epsilon$) $\exists \pi \in \mathbb{N}$ such that $f_{\pi} = 1$ and so \textbf{isPrime} inevitably halts as we get to the $\pi^{\text{th}}$ assignment to $f$, even if $\forall x \in N, x< \pi$ we have $f_n \nmid C$.
+We shall first prove \textbf{isPrime} halts on all valid inputs. Give me some $C \in \mathbb{N}$ where $C>1$. Let $(f_n)_{n\in\mathbb{N}}$ be a sequence into $\mathbb{N}$ representing the \emph{potential assignments} to the variable $f$. We know $f_0 = C - 1 \geq 1$. We know that \textbf{isPrime} halts if for some $\theta \in \mathbb{N}$, if $f_{\theta} \leq 1$ thus can be viewed as a lower bound of the sequence. Looking at the set of assignment operations on $f$ we know that for any $t,v \in \mathbb{N}$ where $t < v \implies f_t < f_v$. It follows by the monotonic convergence theorem \footnote{\url{https://en.wikipedia.org/wiki/Monotone_convergence_theorem}} (with small enough $\epsilon$) $\exists \pi \in \mathbb{N}$ such that $f_{\pi} = 1$ and so \textbf{isPrime} inevitably halts as we get to the $\pi^{\text{th}}$ assignment to $f$, even if $\forall x \in N, x< \pi$ we have $f_n \nmid C$.
 
-We use this result of \textbf{isPrime} directly for the main algorithm by effectively viewing it as a bland statement. We construct an identical argument to above - so in greater strides; let $(c_n)_{n\in\mathbb{N}}$ be the sequence into $\mathbb{N}$ defined by the \emph{potential assignments} to $c$, $c_0 = N - 2$ (for some $N > 2$). Similarly to above the sequence is also bounded below, this time by $2$. Looking at all assignment statements to $c$, $(c_n)$ is indeed a monotonocally decreasing sequence. By the similar application of monotone convergence theorem, $\exists \alpha \in \mathbb{N}$ such that $c_{\alpha} = 2$. So this algorithm inevitably halts as we get to the $\alpha^{\text{th}}$ assignment to $c$ if this hasn't halted already earlier.
+We use this result of \textbf{isPrime} directly for the main algorithm by effectively viewing it as a bland statement. We construct an identical argument to above - so in greater strides; let $(c_n)_{n\in\mathbb{N}}$ be the sequence into $\mathbb{N}$ defined by the \emph{potential assignments} to $c$, $c_0 = N - 2$ (for some $N > 2$). Similarly to above the sequence is also bounded below by $1$. Looking at all assignment statements to $c$, $(c_n)$ is indeed a monotonocally decreasing sequence. By the similar application of monotone convergence theorem, $\exists \alpha \in \mathbb{N}$ such that $c_{\alpha} = 1$. So this algorithm inevitably halts as we get to the $\alpha^{\text{th}}$ assignment to $c$ if this hasn't halted already earlier.
 
 \pagebreak
 \subsection{Does the proposed algorithm halt? And does it solve the Goldbach conjecture?}
@@ -103,7 +100,7 @@ The proof itself uses Rosser sentences\footnote{\url{https://www.sciencedirect.c
 \subsubsection{Contradicting the Halting Theorem?}
 This draws an interesting contrast to the halting theorem. Indeed the halting decider is just a mere function of shape $h: N \times N \rightarrow N$ that takes a program $p$ and input $n$ pair and returns "true" ($1$) or "false" ($0$), interpretted as if the program with input halts or not. We can systematically encode the program itself alongside it's input, and hence bijectively map this $N \times N$ input to just $N$, and so we really have this halting decider function $h: N \rightarrow N$.
 
-Well then, here we apply this theorem provided by Hamkin and indeed use this magical Turing machine $T$, then within a model of PA, say $M = (\xi,0,S)$, which we can compute the result of $h$ given any standard input. The turing machine halts and prints $f(n)$. Concretely we mean that the machine halts after some $\eta \in \xi$ steps. Note we cannot with certainty rule out that $M$ is indeed a "non-standard" model of PA, $\eta$ could be very well contained in the upper set $\gamma \subseteq \xi$ such that if there is no "finite set" of application of $S$ on $0$ that can reach $\eta$. What interests me is the strong deduction of John Baez; that this Turing machine only ever halts in a "non-standard" amount of time.
+Well then, here we apply this theorem provided by Hamkin and indeed use this magical Turing machine $T$, then within a model of PA, say $M = (\xi,0,S)$ (where $\xi \subseteq N$), which we can compute the result of $h$ given any standard input. The turing machine halts and prints $f(n)$. Concretely we mean that the machine halts after some $\eta \in \xi$ steps. Note we cannot with certainty rule out that $M$ is indeed a "non-standard" model of PA, $\eta$ could be very well contained in the upper set $\gamma \subseteq \xi$ such that if there is no "finite set" of application of $S$ on $0$ that can reach $\eta$. What interests me is the strong deduction of John Baez; that this Turing machine only ever halts in a "non-standard" amount of time.
 
 With the halting theorem precisely saying; "There is no program solving correctly and in finite time the Halting Problem for every input pair" - it appears we do not have in front of us a counter example for the halting theorem due to this "non-standard" number of steps being relative to some model of PA. Avoiding the circular argument of finite steps, you could more reasonably assert the same principles discovered here, this idea of relativity, to argue that indeed this halting theorem statement can very much still hold relative to a fixed model as we've discovered that this construction of this Turing machine requires many models in order to compute any $f: N \rightarrow N$.
 
