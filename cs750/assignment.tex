@@ -13,7 +13,7 @@
 \maketitle
 \section{Program Analysis}
 \subsection{Deciding if an even integer N is the sum of two primes}
-For clarity further along - we begin with a simple utility \textbf{isPrime} that via primitive trial division method determines if an input candidate number $C$ is prime.
+For clarity further along - we begin with a simple utility \textbf{isPrime} that via primitive trial division \footnote{as first described in \url{https://en.wikipedia.org/wiki/Liber_Abaci}} method determines if an input candidate number $C$ is prime.
 
 \vspace{1em}
 \begin{algorithmic}[1]
@@ -62,8 +62,8 @@ We use this result of \textbf{isPrime} directly for the main algorithm by effect
 
 \pagebreak
 \subsection{Does the proposed algorithm halt? And does it solve the Goldbach conjecture?}
-Assuming my work above can be called via \textbf{A(N)}.
-\footnote{I adapted this to a while loop for clarity}\footnote{I inferred your intention of stepping $N$ in increments of 2}
+My algorithm being callable via \textbf{A(N)} for some $N$ \footnote{I inferred your intention of stepping $N$ in increments of 2 to be valid arg for $A$}. Here is the caller algorithm for reference.\footnote{I adapted this to a while loop for clarity}
+
 
 \begin{algorithmic}[1]
 	\STATE $G \leftarrow 1$
@@ -87,7 +87,13 @@ My interpretation of Joel David Hamkins proof via reference to John Baez; Comput
 There is \textbf{a} Turing machine $T$ that when given any function $f: N \rightarrow N$, there is a model of Peano Axioms (PA), such that in this model, if we give $T$ any \emph{standard} natural $n$ as input, it halts and outputs $f(n)$.
 
 \subsubsection{Preliminaries}
-A model of PA is a mere triple $(N, 0, S)$, where $N$ is a set, $0 \in N$ and $S: N \rightarrow N$ satisfies the PA the precise "structure" of $N$ and $S$ is up to interpretation (although it is worth noting that $N$ is necessarily infinite). We are all aware of the "standard" PA model, and so I won't dwell. What we need to do is speak about "non-standard" models of PA - construction originally driven by the works of Löwenheim–Skolem. The existence of such models are initial segment isomorphic to the "standard" natural numbers. Initial segment isomorphism suggests the existence of an \emph{upper set} of elements that, as John Baez puts it, are "tacked" on the end of the set of "standard" natural numbers. Somewhat concretely I view these "non-standard" numbers as having the property that they are strictly greater than $0$ and every element of the model you can reach from 0 by applying $S$ (\textbf{finitely} many times). However, these elements still obey all the axioms of PA (which nessecerailly pushes an infinite size of this upper set also).
+A model of PA is a mere triple $(N, 0, S)$, where $N$ is a set, $0 \in N$ and $S: N \rightarrow N$ satisfies the PA the precise "structure" of $N$ and $S$ is up to interpretation (although it is worth noting that $N$ is necessarily infinite). We are all aware of the "standard" PA model, and so I won't dwell. What we need to do is speak about "non-standard" models of PA - construction originally driven by the works of Löwenheim–Skolem. The existence of such models are initial segment isomorphic to the "standard" natural numbers. Initial segment\footnote{initial segment: \url{https://proofwiki.org/wiki/Definition:Initial_Segment}} isomorphism\footnote{Socratica explains isomorphism: \url{https://www.youtube.com/watch?v=BAmWgVjSosY}} suggests the existence of an \emph{upper set}\footnote{upper set: \url{https://en.wikipedia.org/wiki/Upper_set}}, S, of elements;
+
+\begin{equation}
+	S \subseteq N; \text{ if } s \in S \text { and } n \in N \text{ where } s \leq n \implies n \in S
+\end{equation}
+
+John Baez puts it, are "tacked" on the end of the set of "standard" natural numbers. These "non-standard" numbers as having the property that they are strictly greater than $0$ and every element of the model you can reach from 0 by applying $S$ (\textbf{"finitely"} many times). However, these elements still obey all the axioms of PA (which nessecerailly pushes an infinite size of this upper set also).
 
 John Baez points out that a sentence $p$ in such a model is merely provable, or not provable, and factually speaking it either holds or doesn't hold - importantly \textbf{relative} to the adopted model we're using to interpret $p$.
 
