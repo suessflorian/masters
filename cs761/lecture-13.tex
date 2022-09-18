@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\begin{document}
+\title{Part II: Logic}
+\newdate{date}{12}{09}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+Weeks 7-9 will be spent on logic, taught by Yang Chen.
+
+\section{What's Logic}
+We start with a motivational question, prompting the use of our ominous inference. Historical evolving of Aristotle, Yin-Yang's idea of logic. Modern in the 19th-20th centuries, probably all not important.
+
+Since we are going to be writing prolog (an inference based logical language?) the key mantra is inferring the answers to propositions using a knowledge base. The inference technique we will talk about I guess.
+
+\subsection{Types}
+\begin{itemize}
+	\item Propositional Logic
+	\item First-Order Logic
+\end{itemize}
+
+\section{Agents and World Models}
+Review, but in perspective of logic. A \textbf{computational agent} is an entity capable of;
+
+\begin{itemize}
+	\item perceiving the environment
+	\item deliberating
+	\item performing actions
+\end{itemize}
+
+\subsection{PEAS Model; Agent Task}
+\begin{itemize}
+	\item Performance Measure; evaluation function essentially, (task state) $\rightarrow$ rating
+	\item Actuators; things that "can be done" to modify the task state.
+	\item Sensors; ways of understanding the task state
+	\item Environment; the set of task states
+\end{itemize}
+
+\textbf{percept} is the agents perceptual input at any given instance. An agents \textbf{percept sequence} is the complete history of everything that the agent has perceived, and finally, \textbf{agent program} maps a given percept sequence to an action.
+
+So kinda like a function based computational agent, we saw this early on in lectures. Now a \textbf{world model} encodes information about... the world. Specifically two sides, how the world evolves without provocation, and how the world evolves with provocation.
+
+A \textbf{model based agent program} uses a world model to determine the agent's action. Maintains internal state, updated via \textbf{state-transition function}. Also note an agents behaviours may be directed by goals or utilities (goal based agents).
+
+\section{Representing the World}
+
+\subsection{Atomic Representation}
+Explicitly represent each state of the world and their transitions. Kinda like a FSM diagram.
+
+\subsection{Factored Representation}
+A state of the world is captured by a collection of variables and values.
+
+\subsection{Structured Representation}
+Simply keeping the variable values is often insufficient, an agent may only have \emph{partial knowledge} about the state; variables may correlate with each other through constraints. \textbf{Potential for reasoning}.
+
+A structured representation then is a world model that describes the world using variables, while capturing \textbf{knowledge/constraints} and then hosting some sort of \textbf{inference engine (reasoning)} to derive knowledge from percept sequences.
+
+\emph{Note: we go through a "wumpus" example, loved the rigorous definitions of "knowledge" via constraints given... should review if in doubt. Inference is shown via some sort of process of elimination of square classifications on visit.}
+
+\end{document}
