@@ -1,0 +1,80 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amssymb}
+\begin{document}
+\title{Propositional Logic}
+\newdate{date}{13}{09}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+Recapping a world model definition (two types). Then how we dwelled on \emph{structured representation} is world model (after we looked at atomic and factored models). \textbf{knowledge and reasoning}. We continue with "wumpus" example.
+
+\section{Knowledge-Based Agent}
+A knowledge based agent is defined using a knowledge representation language and has two main components... a knowledge base (like constraints on variables) and an ability to reason wrt. to that knowledge base (\emph{inference engine}).
+
+\subsection{Program Framework}
+\textbf{Input: } percept, background knowledge \textbf{KB}, clock \textbf{t} (initially 0). \textbf{Output: } some sort of \textbf{action}.
+
+\begin{algorithmic}
+	\STATE $Tell(KB, MakePerceptSentence(percept, t))$
+	\STATE $action \leftarrow Ask(MakeActionQuery(percept, t))$
+	\STATE $Tell(KB, MakeActionSentence(action, t))$
+	\STATE $t \leftarrow t + 1$
+	\RETURN $action$
+\end{algorithmic}
+
+Note: we use \textbf{Tell} to add a sentence to the knowledge base, KB. And \textbf{Ask} for querying if a sentence "follows" the KB.
+
+\section{How to define knowledge representation language?}
+We know that knowledge is considered a \emph{constraint} specified by a statement. Example; "at least one of these two locations must be a pit", necessarily restricts the possible worlds to have a pit in either on or both of the two locations. Facts as statements, statements interpreted as constraints, inference engine based on logical rules applied on top of these statements to virtuously generate new statements.
+
+\subsection{How to define a language}
+Two levels to consider...
+
+\subsubsection{Atomic Level}
+What are the most elementary entities.
+
+\subsubsection{Compound Level}
+How to construct statements using atoms (as above) via compounding.
+
+\section{Propositional Logic}
+Answers the above requirements; atomic propositions (true or false), and propositions being connected via $\land$, $\neg$, $\lor$, $\rightarrow$, compounding to these atomic propositions.
+
+\subsection{Definition}
+\textbf{Syntax}: atomic propositions, or $Atoms = \{X_1, ..., X_k\}$ and \textbf{Semantics}: an interpretation is a function $\pi: Atom \rightarrow {true, false}$. You can think of $\pi$ as being like a possible world. Then you have \textbf{Compound Entities} where you can combine atoms, via a set of \textbf{connectives}... not gonna write it all here. We know all of this too well.
+
+Recall truth tables... (yielding the semantics of a proposition, whether it be atomic or compound!).
+
+Now we continue with the "wumpus" world by modelling the game via propositional logic.
+
+\emph{Note logical rules like contraposition and de morgans laws at play...}, others like Modus Ponens (easy), but Modus Tollens (yesss makes sense, keep looking) And Syllogism (transitivity).
+
+Recall \textbf{logically implies}, $\Rightarrow$. Note we have a few different laws, remember all the stuff in CS225. The only interesting laws would be \textbf{absorption law} and \textbf{equivalence law}. Oh boy.. yeah that's right the \textbf{implication law}.
+
+\section{Some definitions}
+Suppose $X_1, X_2, ..., X_k$ are atomic propositions. Then a literal is $\neg X_i$ or $X_i$. Interestingly a \textbf{clause} is of the form
+
+\begin{equation}
+	(h_1 \lor h_2 \lor ... \lor h_m) \leftarrow (\lambda_1 \land \lambda_2 ... \land \lambda_k)
+\end{equation}
+
+Where $m \geq 1$ and $k \geq 0$, each $h_i$ and each $\lambda_j$ is a literal. Left is \textbf{head} and right is \textbf{body}. SO left hand is a bunch of "or's" and right hand side is a conjunction.
+
+Interesting... so these clauses are formally what constraints appear like. Close relationship between finding a satisfying interpretation of a proposition and constraint satisfaction problem.
+
+\section{So now what is a KB}
+It's a set of clauses!
+
+\subsection{Models? Relative to some KB}
+Are sets of interpretations, such that it satisfies all clauses in the KB.
+
+Also keep in mind \textbf{logical consequences of} a KB is expressed via; $\vDash$. Say that $KB \vDash k$, if $k$ is true in all models of KB.
+
+\section{Definition of an inference engine}
+$KB \bigcup Percepts \vDash g$, this $g$ is called a \textbf{query}.
+
+\end{document}
