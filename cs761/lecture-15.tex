@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amssymb}
+\begin{document}
+\title{Propositional Logic Inference}
+\newdate{date}{16}{09}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+\section{Summary}
+
+\begin{itemize}
+	\item \textbf{propositional logic inference problem (LIP)}, ie $\alpha \vDash \beta$
+	\item Equivalence between LIP and constraint satisfaction problem (CSP)
+	\item definite clauses are of shape $h \leftarrow a_1 \land a_2 ... \land a_n$, each $h$ and $ai$ are atoms.
+	\item \textbf{definite clause inference engines} (two of them, forward chaining and SLD resolution)
+	\item inference engines must be \textbf{complete} and \textbf{sound}.
+\end{itemize}
+
+\section{Two questions re: knowledge-based agent}
+
+\subsection{How to "add" a sentence to KB}
+We introduced prop. logic to represent knowledge. We also speak of the generalised idea of a \emph{clause}. $(h_1 \lor h_2 ...) \leftarrow (\iota_1 \land \iota_2 ...)$. We know that a KB is just a set of clauses.
+\subsection{How to "ask" KB}
+Reason if a sentence is \emph{entailed} ($\vDash$) by KB. Recall a \emph{model} of a propositional knowledge base is an interpretation ($\pi$) that satisfies KB (all clauses are true). We say a proposition $g$ is a logical consequence ($\vDash$) if $g$ is true for all models of KB.
+\subsubsection{Inference engine}
+Decides for any KB, a set of percept atoms, percepts and proposition $g$, whether $KB \cup percepts \vDash g$.
+
+\section{LIP and CSP}
+Recall a sentence is \textbf{satisfiable} if $\exists$ some $\pi$ interpretation that satisfies the sentence (works to be true). \emph{recall there can be many such interpretations}. The satisfiability problem, that is, asking for a satisfying interpretation of a proposition is the equivalent task of logical inferring things.
+
+\subsection{Equivalence between inference and satisfiability}
+For propositions $\alpha$ and $\beta$, $\alpha \vDash \beta$ iff $\alpha \land \lnot \beta$. Check slides for proof, we go both ways via contradiction.
+
+\section{Some SAT solvers}
+Techniques for solving CSP problems can be used. Which is extra interesting as this directly relates to the previous section of the course. 
+
+\subsection{DPLL algorithms}
+Backtracking-based search algorithm that enumerates possible modles, with the following tricks:
+\begin{itemize}
+	\item Early termination
+	\item Pure symbol heuristic
+	\item Unit clause heuristic
+\end{itemize}
+
+\subsection{Local search algorithms}
+Use the number of unsatisfied clauses as the evaluation function:
+\begin{itemize}
+	\item Greedy descents
+	\item Simulated annealing
+	\item WalkSAT (novel*)
+\end{itemize}
+
+\section{Definite Clause}
+We focus on simpler KB's with \emph{definite clauses}, simplifies the computation to something closer to trivial yet maintaining the core idea of inference engines. Implies \emph{definite clause knowledge base} , \emph{definite clauses inference engine}.
+
+\section{Implementing a definite clause inference engine}
+We cover two main approaches...
+
+\subsection{Forward Chaining}
+Exhaustive use of Modus Ponens (MP) inference rule... See slides for algorithm, but for tactical memory revisit; $C \leftarrow \emptyset$, select $h \leftarrow a_1 \land ... a_m$ of KB $\cup$ Percepts specifically where $a_i \in C$, $h \not\in C$, then add to $C\leftarrow C \cup \{h\}$... recall this is \emph{ASK}. Keep doing this until the asked $g \in C$.
+ 
+\begin{equation}
+	\frac{h \leftarrow a_1 \land ... a_m, a_1,...a_m}{h}
+\end{equation}
+
+\subsection{Selective Linear Definite (SLD) Clause Resolution}
+\begin{equation}
+	\frac{h \leftarrow a_1 \land ...\land a_m, a_m \leftarrow b_1 \land ... \land b_n}{h \leftarrow a_1 \land ... \land a_{m-1} \land b_1 ... \land b_n}
+\end{equation}
+This one feels a lot more natural... although caveats! SLD resolution creates a search tree, one must apply a search algorithm to it. Applying it \emph{narrowly} will cause narrow conclusions.
+
+\end{document}
