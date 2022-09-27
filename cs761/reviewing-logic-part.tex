@@ -1,0 +1,73 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{outlines}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amssymb}
+\begin{document}
+\title{Propositional Logic}
+\newdate{date}{27}{09}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess}
+\maketitle
+
+\section{Preliminaries}
+We covered \textbf{goal-based} agents, maintain explicit information about the situations that are desired by the agent. Covered \textbf{utility-based} program uses functions to measure how desirable a state is.
+
+\subsection{Representing the world}
+Atomic, (FMS)... Factored... Most importantly, structured. Motivates the idea of a KB and inference engine. Advent of "knowledge based agent". Needs three things all up, (1) \emph{knowledge representation language}, (2) \emph{knowledge base}, (3) \emph{inference engine}.
+
+\subsection{Ask and Tell}
+We use percepts, percept sequences as the means of demonstrating stateful modelling of the world.
+
+\begin{algorithmic}
+	\STATE $Tell(KB, MakePerceptSentence(percept, t))$
+	\STATE $action \leftarrow Ask(KB, MakeActionQuery(percept, t))$
+	\STATE $Tell(KB, MakeActionSentence(action, t))$
+	\STATE $t \leftarrow t + 1$
+	\RETURN $action$
+\end{algorithmic}
+
+\subsection{Propositional Logic}
+Truth tables, the set of archaic rules (well they're pretty intuitive really). Interpretations (models when relative to a KB), satisfiability. Literal, clause. KB is a set of clauses. $KB \cup Percepts \vDash g$ for some query $g$ if $g$ is true in every model of KB.
+
+\subsection{LIP and CSP}
+They are equivalent... this is where the word "satisfiable sentence" comes involved. DPLL algorithm vs Local search algorithms.
+
+\subsection{Simplifying the whole scene with definite clauses}
+Simplify it because clause KB's are a bit too hairy to work with.
+
+\subsubsection{Forward Chaining}
+Keep applying Modus Ponens... Proven to be sound and complete
+\subsubsection{SLD (selective linear definite clause) Resolution}
+Keep applying Subsitutions... Proven to be sound and complete. Creates a search tree to be searched via a search algorithm (may have many false leafs).
+
+\section{Kicking the gear to expressiveness}
+Prop. logic lacks
+\begin{itemize}
+	\item universal sentences
+	\item existential sentences
+	\item \textbf{reasoning by instantiation} (harder to pinpoint as to what this means)
+\end{itemize}
+
+\section{First-Order Logic}
+Is just a tuple, letters carefully chosen for concise; $(D, R_1, R_2, ..., F_1, F_2, ...)$. Tuples of a system are called "signature". Then you have \emph{terms} vs \emph{formulas} ($=$). You also have ground terms (non-variable).
+
+\subsection{Free variables and sentences}
+Scope... bounded variable, non-bounded (free variable). No free variables $Rightarrow$ sentence. An interpretation can "satisfy" a sentence. Essentially $I \vDash \phi$ if $\phi$ is \textbf{true} according to the interpretation $I$.
+
+\subsection{A FO-KB}
+Assumes "closed-world", and "domain-closure"... All elements of the domain appear as ground terms that can be expressed using constants.
+
+\section{FO Inference Problem}
+Much like forward chaining and SLD resolution, I imagine we have to build an algorithm for inferences.
+
+\begin{itemize}
+	\item Grounding; reduce to propositional inference task (applying SLD, forward chaining).
+	\item Lifting; iteration effectively on the above method, rather than reducing to all propositional statements, we use \textbf{unification} to generate the ones we want.
+\end{itemize}
+
+\section{Unifiers}
+Can be multiple, hence we build the term; \textbf{most general unifier (mgu)}. Given two substitutions, if one can be derived from the other. The other is "more general" than the first. Natural.
+
+\end{document}
