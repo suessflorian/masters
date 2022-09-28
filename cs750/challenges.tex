@@ -1,6 +1,8 @@
 \documentclass{article}
 
 \newenvironment{answered}{\par\normalfont}{}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 \title {Challenges}
 \author {Florian Suess}
 \begin{document}
@@ -12,7 +14,7 @@
 	\begin{answered}
 		As brought to light in slide 11, suppose a program has a line numbered its set of instructions. If we define the sequence of some program $P$ and input $v$, say $S(P, v)$ as the execution flow of the program in terms of the line number of the current executed instruction line number. We can identify if after some $n$th item in the sequence of $S(P,v)$ contains nothing but the repetive pattern (loops) of instructions $(x_1, x_2, ..., x_i)$ where $i$ simply represents the size of this loop.
 	\end{answered}
-\item Show that the program below does not halt;
+\item \textbf{Show that the program below does not halt;}
 \begin{verbatim}
  1 i=1
  2 while i >= 1 do 
@@ -28,6 +30,40 @@
  \begin{answered}
 	 Define the sequence $S(i)$ as the of values set to $i$ as the program runs. As defined in line 1, it begins with 1. Filtering the instructions of the program to only changes to variable $i$... it's clear that $\forall n > 0, S(i)_n \geq 1$. Hence the program will never satisfy any condition other than $i \geq 1$, meaning the condition on line 2 will never fail thus never exiting the loop.
  \end{answered}
+
+\pagebreak
+\item \textbf{What is the largest decidable set for the Halting Problem}
+	\begin{answered}
+	Suppose for a moment that indeed we find such a set, call it $L$. By the Halting Theorem there must be a program input pair out there, $P$ such that $P \not\in L$. That is, the halting decier $H$, cannot decidably determine wether $P$ halts.
+
+	The fact is, $P$ must either halt or not. Let's build upon $H$, halting deciders $H_t$ or $H_f$. The addition surmounts to simply matching $P$ and just returning in $H_t$ case, true, and in $H_f$, false. Thus we have either $H_t$, or $H_f$, that by construction solves deciably the halting problem for program $L \cup \{P\}$.
+	\end{answered}
+
+\item{\textbf{The decidability criterion cannot be replaced by the weaker condition, there exists an $n > 0$}}
+
+	\begin{answered}
+		Recall; the decidability criterion says that for some program $P$ and a fixed $n > 0$. If we know the number of inputs $v$ of length less than or equal to $n$ for which $P(v)$ stops, then the halting problem for the set $\{(P,v) | length(v) \leq n \}$ is decidable.
+
+		The proof relies on the establishing of a finite set of programs of length at most $n$ encoded over a finite alphabet. Perhaps the weaker condition maneuvre's this to an unbounded set of programs, causing us to not be able to run these programs in parallel?
+	\end{answered}
+
+\item{\textbf{Restricting the class of programs does not diminish the generality of the Halting Problem proof}}
+
+	\begin{answered}
+		Clearly! If we cannot find a decider for the set of program and input pairs $L$, then for some $P \not\in L$ we could also not find a halting decider for the set of program and input pairs $L \cup \{P\}$. Considering programs are encoded over a finite alphabet, the set of all programs is countable, and so we can recursively use the above method to show that there is also no halting decider for \emph{all} program input pairs.
+	\end{answered}
+
+\item{\textbf{does the following program solve the halting problem}}
+	\begin{answered}
+		\begin{algorithmic}[1]
+	\REQUIRE $P, N$
+	\STATE $P(N)$
+	\RETURN YES
+\end{algorithmic}
+For this program to solve the halting problem, this must be interpreted as a candidate halting decider, indeed it satisfies the condition that it can determine wether $P(N)$ halts. The issue is, that this program must in \emph{finite time} conclude this. Assuming time and the number of instructions are executed per unit of time, that means there is a fixed limit, say $T$ instructions, that this algorithm must execute less than to decide wether $P(N)$ halts.
+
+We can quite easily construct an algorithm that has $T+1$ instructions however and this would be an example of a program this halting decider cannot determine wether it halts or not. 
+	\end{answered}
 \end{enumerate}
 
 
