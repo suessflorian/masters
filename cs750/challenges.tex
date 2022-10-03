@@ -1,6 +1,8 @@
 \documentclass{article}
 
 \newenvironment{answered}{\par\normalfont}{}
+\usepackage{amsmath}
+\usepackage{amsfonts}
 \usepackage{algorithm}
 \usepackage{algorithmic}
 \title {Challenges}
@@ -34,9 +36,9 @@
 \pagebreak
 \item \textbf{What is the largest decidable set for the Halting Problem}
 	\begin{answered}
-	Suppose for a moment that indeed we find such a set, call it $L$. By the Halting Theorem there must be a program input pair out there, $P$ such that $P \not\in L$. That is, the halting decier $H$, cannot decidably determine wether $P$ halts.
+	Suppose for a moment that indeed we have the largest decidable set for the halting problem, call it $L$ (set of program input pairs), that means there exists a halting decider relative to $L$, call it $H$, that decidably determines for any $l \in L$, if $l$ halts. By the Halting Theorem there must be a program input pair out there, $P$ such that $P \not\in L$. That is, the halting decider $H$, cannot decidably determine wether $P$ halts.
 
-	The fact is, $P$ must either halt or not. Let's build upon $H$, halting deciders $H_t$ or $H_f$. The addition surmounts to simply matching $P$ and just returning in $H_t$ case, true, and in $H_f$, false. Thus we have either $H_t$, or $H_f$, that by construction solves deciably the halting problem for program $L \cup \{P\}$.
+	$P$ must either halt or not. Let's build upon $H$, halting deciders $H_t$ or $H_f$. The addition surmounts to simply matching the encoding of $P$ and just returning $H_t$ case, true, and in $H_f$, false. One of these halting deciders will correctly decide wether $P$ halts or not. Thus we have in one of $H_t$, or $H_f$, a halting decider for the set of programs $L \cup \{P\}$, which contradicts the assumption that we found the largest decidable set.
 	\end{answered}
 
 \item{\textbf{The decidability criterion cannot be replaced by the weaker condition, there exists an $n > 0$}}
@@ -64,7 +66,53 @@ For this program to solve the halting problem, this must be interpreted as a can
 
 We can quite easily construct an algorithm that has $T+1$ instructions however and this would be an example of a program this halting decider cannot determine wether it halts or not. 
 	\end{answered}
+
+\item{\textbf{Write a universal pseudo-code program U}}
+
+	\begin{answered}
+	Recall; a universal pseudo-code program, first defined by Turing, is a pseudocode program that can simulate an arbitrary Turing machine on every arbitrary input. Achieved by reading both the code/description of the machine to be simulated as well as the input. This is a well known topic.
+	\end{answered}
+
+	\section{Program Size Complexity}
+
+\item{\textbf{Construction of universal PF program with bounded program complexity;}}
+show that one can effectively construct a prefix-free program $U$ such that for every prefix-free program $C$ there effectively exists a constant $c=c_{U,C}$ such that for each input string $x$ we have $H_U(x)\leq H_C(x)+c$.
+
+\begin{answered}
+	Let $C_i$ be a computably enumeration of all prefix-free programs (programs are finite strings over a finite alphabet).
+	Construct U by $U(1^i0\alpha) = C_i(\alpha)$. U is prefix-free.
+
+	For any $C_i$ we have $c_{U,C_i} = 1^i0$. It holds for some $x \in dom(U) \cap dom(C_i)$;
+	\begin{equation}
+		H_u(x) \leq |1^i0l^*| \text{ where } l^* = min\{l \,|\, C_i(l) = x\}
+	\end{equation}
+	\begin{equation}
+		|1^i0l^*| = |c_{U,C_i}| + |l^*| = |c_{U,C_i}| + H_{C_i}(x)
+	\end{equation}
+
+	As required $H_u(x) \leq H_C(x) + c$. (where c in this case is just $|c_{U,C_i}|$)
+
+\end{answered}
+
+\item{Let $C_i$ be a computably enumeration of all prefix-free programs (programs are finite strings over a finite alphabet).}
+	
+	Construct U by $U(1^i0\alpha) = C_i(\alpha)$. Show U is prefix-free.
+
+	\begin{answered}
+		Give me some input for U, say $y$. By definition $y = 1^k0x$ for some $k \in N$ and $x \in B^*$. It's obvious that the substring $1^k0$ uniquely identifies $C_k$. Also since $C_k$ is prefix free, it's clear $x$ uniquely identifies a single element in the $dom(C_k)$.
+	\end{answered}
+
+	Need \textbf{take two} (below)
+
+\item{Let $C_i$ be a computably enumeration of all prefix-free programs (programs are finite strings over a finite alphabet).}
+	
+	Construct U by $U(1^i0\alpha) = C_i(\alpha)$. Show U is prefix-free.
+
+	\begin{answered}
+		Assume one finds two elements in the domain of $U$, call them $p$ and $p'$ such that $p$ is a proper substring of $p'$.
+
+		By definition of $U$, respectively these strings have the form $p = 1^k0x$ and $p' = 1^l0xx'$ for $k,l \in \mathbb{N}$ and $x,x',z \in B^*$. By assumption $\Rightarrow k = l$ as if this was not the case, you'd have $1^l0 != 1^k0$. $\Rightarrow x, xx' \in dom(C_{l})$. But $C_{l}$ is prefix-free. Contradiction.
+	\end{answered}
+
 \end{enumerate}
-
-
 \end{document}

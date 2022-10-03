@@ -1,0 +1,29 @@
+
+\documentclass{article}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{braket}
+\title {Notes for Today}
+\author {Florian Suess}
+\begin{document}
+\maketitle
+\section{Prefix-free (self-deliminating) program}
+
+A \textbf{prefix-free} program is a program whose domain is prefix-free.
+
+Recall; prefix-free... a set, say S, with elements such that for all $x \in S$ then $\forall y \in S$ such that $x \not = y$.. we have that $y$ is not a prefix of $x$.
+
+\begin{itemize}
+	\item The identity, $\psi(x) = x, x \not\in B*$, \textbf{is not} computable by a prefix-free program; not total function is computable by a prefix-free program.
+\end{itemize}
+
+\section{Challenge Question}
+\subsection{Prefix-free program that analogises universal theorem but with program size complexity inequality}
+The question goes; construct a prefix-free program $U$ such that for every prefix-free program $C$ there exists a constant $c_{U,C}$ such that for each input string $x, H_U(x) \leq H_C(x) + c$.
+
+We know by the \textbf{universal prefix free theorem} about the construction of a prefix-free program $U$ such that for every prefix-free program $C$ there already exists a constant $a = a_{U,C}$ where for all inputs $x, \exists y$ such that $|x| \leq |y| + a$ where $U(x) = C(y)$. By definition $H_U(x) = inf\Set{ \vert p \vert | p \in B*, U(p) = x } = p_{U, min} \Rightarrow \exists $.
+
+
+\end{document}

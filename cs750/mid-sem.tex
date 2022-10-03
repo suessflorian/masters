@@ -1,0 +1,46 @@
+
+\documentclass{article}
+
+\newenvironment{answered}{\par\normalfont}{}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algorithmic}
+\usepackage{mathtools}
+\title {CS750: Exam Submission (187147214)}
+\author {Florian Suess}
+\begin{document}
+\maketitle
+
+\section{}
+\subsection{}
+A correlation is a relationship between two variables. Assume these variables without loss of generality is A and B. Then we expect a change in A to imply some behaviour in B. Or a change in some mutual variable C to imply some behaviour in both A and B. We say this correlation is spurious if this correlation is coincidental. This is hard to define, yet we can consider any correlations in a "random" string to be spurious, and if we lean into incompressibility of a string implying maximal randomness in the string, then we can latch onto a tighter partial definition of; \textbf{a correlation is spurious if it appears in an incompressible n-bit string} (which we use for section be).
+
+\subsection{}
+We will algorithmically approach this. Will make use of the \textbf{Van Der Waerdan} theorem. Without loss of generality, we set $c=2$ (and hence deal in $B^*$ strings). Give me some $n$. And intially set $\gamma = n$. Computably enumerate the set of strings $\{l | l \in B^* \text{ and } |l| = \gamma\}$. We only stop if all computable enumrable strings defined in this set, have a monochromatic arithmetic progression of length $n$. If we find any string without such a monochromatic arithmetic progression of length $n$, we increment $\gamma$ and do this all again. This algorithm will terminate as by theorem reference and since we know that there exists $2^\gamma - 2^{\gamma-1}$ strings in this set that are incompressible. There will be a element in this set that is incompressible and contain a correlation with length $\gamma \geq n$. Hence a spurious correlation if we take our definition from the first question.
+
+\section{}
+Define $C_i$ to be the computable enumeration of all prefix-free programs C. Then we define $U(1^i0x) = C_i(x)$. Then given a $C$ input $z$ by definition we have $U(z) = U(1^k0w) = C_k(w) = C(w)$ for some $k \in \mathbb{N}$ and $w \in dom(C_k)$. We know $|1^k0|$ is just a constant. Call this $c_{U,C}$. Then $|z| = |1^k0w| = c_{U,C} + |w|$ where $U(z) = C(w)$. As required.
+
+It remains to be proven that U is prefix-free. Suppose we have two inputs $t,u \in dom(U)$ such that $t$ is a proper substring of $u$. Then $|t| < |u|$.
+
+In $t$, iterate over the sequence defined by the string, until we find a $0$. Algorithmically this process terminates at some position due to the definition of $U$, call it $k_t$. We do the same for $u$, call the position here $k_u$. By assumption, $k_u = k_t$.
+
+Cut both inputs $t$ and $u$ by position $k_u + 1$. By definition of U we have two inputs, call them $v, b \in dom(C_{k_u})$. By assumption we still have $|v| \leq |b|$. But by definition of $C_{k_u}$, $v$ is not a proper prefix of $b$. A contradiction. Hence $U$ is prefix-free.
+
+\section{}
+
+\subsection{}
+The superposition principle relative to our lectures is the idea that a system is in all possible states at the same time, until it is measured. After some measurement it then falls to one of the basis states that form the superposition, thus destroying the original configuration. (\url{http://physics.gmu.edu/~dmaria/590%20Web%20Page/public_html/qm_topics/superposition/superposition.html})
+
+\subsection{}
+$\frac{1}{\sqrt{2}} | 0\rangle + \frac{1}{\sqrt{2}} | 1\rangle \Rightarrow \frac{1}{\sqrt{2}} \begin{pmatrix} 1 \\ 0 \end{pmatrix} + \frac{1}{\sqrt{2}} \begin{pmatrix} 0 \\ 1 \end{pmatrix}$. The probability of $\alpha$ ( amplitude of $| 0\rangle$) and $\beta$ (amplitude of $| 1\rangle$) are the same. Hence the probability sits at equally. 0.5.
+
+\subsection{}
+The relationship between $\alpha$ and $\beta$ is strictly $\alpha^2 + \beta^2 = 1$. Hence any combination of $\{\alpha + \beta | \alpha^2 + \beta^2 = 1\ \text{ and } \alpha = \beta \}$ eg $\alpha = \frac{-1}{\sqrt{2}}$ and $\alpha = \frac{-1}{\sqrt{2}}$.
+
+\subsection{}
+$\alpha$ and $\beta$ can be viewed as probability amplitudes of either the qubit measurement evaluating to a 1 or a 0.
+
+\end{document}
