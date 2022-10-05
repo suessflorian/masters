@@ -114,5 +114,26 @@ show that one can effectively construct a prefix-free program $U$ such that for 
 		By definition of $U$, respectively these strings have the form $p = 1^k0x$ and $p' = 1^l0xx'$ for $k,l \in \mathbb{N}$ and $x,x',z \in B^*$. By assumption $\Rightarrow k = l$ as if this was not the case, you'd have $1^l0 != 1^k0$. $\Rightarrow x, xx' \in dom(C_{l})$. But $C_{l}$ is prefix-free. Contradiction.
 	\end{answered}
 
+\item{\textbf{Prove that Chaitins constant is a viable probability}}
+
+	\begin{answered}
+		That is; prove that for every prefix-free set $S \in B*$,
+		\begin{equation}
+			\Omega_S=\sum_{s \in S} 2^{|-s|} \leq 1 \notag \\
+		\end{equation}
+
+		Set n to be the length of longest string in S. Build for each $s\in S$
+		\begin{equation}
+			C_{s} = \{sb \mid b \in B^* \text{ and } |sb| = n\} \notag \\
+		\end{equation}
+		It's then the case that $|C_{s}| = 2^{n-|s|}$. By assumption for any $s,b \in S$ being prefix-free, then $C_s \cap C_p = \emptyset$ when $s \not = b$.
+
+		\begin{equation}
+			2^n = |B^n| \geq \sum_{s \in S} |C_s| = \sum_{s \in S} 2^{n - |s|} \notag
+		\end{equation}
+
+		Dividing both sides by $2^n$. We get to what is required.
+	\end{answered}
+
 \end{enumerate}
 \end{document}
