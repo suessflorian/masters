@@ -1,0 +1,52 @@
+\documentclass{article}
+\usepackage{datetime}
+\usepackage{amsmath}
+\begin{document}
+\title{CS761: Second Assignment}
+\newdate{date}{08}{10}{2022}
+\date{\displaydate{date}}
+\author{Florian Suess (187147214)}
+\maketitle
+
+\section*{Legend of Zelda}
+\subsection{Constructing a knowledge base, set of static axioms}
+Recall; a propositional knowledge base is a set of \textbf{clauses}.
+\subsubsection*{Ganon must be at one location}
+\begin{align*}
+	\neg G_{i',j'} \leftarrow G_{i,j} \text { and } G_{i,j} \leftarrow \bigwedge_{i',j'} \neg G_{i',j'}
+\end{align*}
+
+\begin{flushright}
+for all $i,i' \in \{1,2,3\} \text{ and } j,j' \in \{1,2,3,4\} \text{ but } i \not= i',j\not=j'$.
+\end{flushright}
+
+
+To commentate; the first group of clauses restrict the number of Ganons to \emph{at most} one. While the second group of clauses restrict the number of Ganons to be \emph{at least} one.
+
+\subsubsection*{Ganon and master sword are not at the same location}
+\begin{align*}
+	\neg G_{i,j} \leftarrow S_{i,j}  \text{ and } \neg S_{i,j} \leftarrow G_{i,j}
+\end{align*}
+\begin{flushright}
+for all $i \in \{1,2,3\} \text{ and } j \in \{1,2,3,4\}$
+\end{flushright}
+
+\subsubsection*{Calamity cannot be sensed at two adjacent locations at the same time}
+\begin{align*}
+	\neg C_{i,j} \leftarrow C_{i,j'} \text{ and } \neg C_{i,j} \leftarrow C_{i',j}
+\end{align*}
+
+\begin{flushright}
+	for all $i,i' \in \{1,2,3\} \text{ and } j,j' \in \{1,2,3,4\}$ \\  $\text{ such that } i-i' = 1 \text{ and } j-j' = 1$ \\ $\text{ moreover } j>j' \text{ and } i > i'$
+\end{flushright}
+
+\newpage
+\subsection{The dynamic knowledge axiom $OK_{i,j}$}
+The following group of clauses in tandem build the $OK_{i,j}$ axiom.
+\begin{itemize}
+	\item $OK_{i,j} \leftarrow C_{i,j}$
+	\item $OK_{i,j} \leftarrow HoldingSword$
+	\item $OK_{i,j} \leftarrow (\neg HoldingSword \land \neg G_{i,j})$
+\end{itemize}
+
+\end{document}

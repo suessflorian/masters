@@ -122,7 +122,7 @@ show that one can effectively construct a prefix-free program $U$ such that for 
 			\Omega_S=\sum_{s \in S} 2^{|-s|} \leq 1 \notag \\
 		\end{equation}
 
-		Set n to be the length of longest string in S. Build for each $s\in S$
+		For finite $S$, set $n$ to be the length of longest string in $S$. Build for each $s\in S$
 		\begin{equation}
 			C_{s} = \{sb \mid b \in B^* \text{ and } |sb| = n\} \notag \\
 		\end{equation}
@@ -133,6 +133,8 @@ show that one can effectively construct a prefix-free program $U$ such that for 
 		\end{equation}
 
 		Dividing both sides by $2^n$. We get to what is required.
+
+    If $S$ is infinite in size, then consider $S_m$ to denote the set of strings in $S$ of length at most $m$. We already know that $\sum_{s \in S} 2^{|-s|} \leq 1$. We can quite easily let $m \rightarrow \infty$.
 	\end{answered}
 
 \end{enumerate}
