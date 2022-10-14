@@ -24,10 +24,10 @@ Assume that the claim is true for all $a$ of length $n$, and that $a=la'$ with $
 \end{align*}
 
 \subsubsection*{Lemma 1: $\bm{R}(\bm{R}(s)) = s$ for all $s \in \{0,1\}^*$.}
-Inductively then, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have $\bm{R}(\bm{R}(x)) = x$. Now for this $w$, it must be the case that $w = xl$ for some other $l \in \{0,1\}$ and $x \in \{0,1\}^*$. Clearly $|x| < |w|$.
+Inductively then, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have $\bm{R}(\bm{R}(x)) = x$. Now for this $w$, it must be the case that $w = lx$ for some other $l \in \{0,1\}$ and $x \in \{0,1\}^*$. Clearly $|x| < |w|$.
 
 \begin{align*}
-	\bm{R}(\bm{R}(w)) = \bm{R}(\bm{R}(xl)) = \bm{R}(l\bm{R}(x)) = \bm{R}(\bm{R}(x))l = xl = w
+	\bm{R}(\bm{R}(w)) = \bm{R}(\bm{R}(lx)) = \bm{R}(\bm{R}(x)l) = \bm{R}(l)\bm{R}\bigl(\bm{R}(x)\bigr) = lx = w
 \end{align*}
 
 \subsubsection*{$\bm{R}$ is a bijection}
