@@ -1,6 +1,8 @@
 \documentclass{article}
 \usepackage{amsmath}
 \usepackage{bm}
+\usepackage{amsfonts}
+\usepackage{hyperref}
 \title{COMPSCI 750: Computation Complexity \\ Second Assignment}
 \author{Florian Suess}
 \begin{document}
@@ -9,8 +11,16 @@
 \section*{Computable Transformation}
 We dive into the inards of the \emph{reverse string} function $\bm{R}$. Consider the very nifty recursive definition;
 \begin{align*}
-	\text{for } a \in \{0,1\} \text{ then } \bm{R}(a) = a \\
-	\text{let } w \in \{0,1\}^* \text{ then } \bm{R}(wa) = a\bm{R}(w)
+	\text{for } l \in \{0,1\} \text{ then } \bm{R}(l) = l \\
+	\text{let } w \in \{0,1\}^* \text{ then } \bm{R}(lw) = \bm{R}(w)l
+\end{align*}
+
+\subsubsection*{Lemma 0: $a,b \in \{0,1\}^*$ we have $\bm{R}(ab) = \bm{R}(b)\bm{R}(a)$.}
+Trivially if $|a|=1$, $a=l\in \{0,1\}$, then $\bm{R}(ab)=\bm{R}(lb)=\bm{R}(b)l=\bm{R}(b)\bm{R}(y)$.
+
+Assume that the claim is true for all $a$ of length $n$, and that $a=la'$ with $l\in \{0,1\}$ and $|a'|=n$ is of length $n+1$. Then we have
+\begin{align*}
+	\bm{R}(ab)=\bm{R}\bigl(l(a'b)\bigr)=\bm{R}(a'b)l=\bm{R}(b)\bm{R}(a')l=\bm{R}(b)\bm{R}(la')=\bm{R}(b)\bm{R}(a)
 \end{align*}
 
 \subsubsection*{Lemma 1: $\bm{R}(\bm{R}(s)) = s$ for all $s \in \{0,1\}^*$.}
@@ -23,7 +33,55 @@ Inductively then, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(
 \subsubsection*{$\bm{R}$ is a bijection}
 For \textbf{injectivity}, let's assume that for some $a,b \in {0,1}^*$ that $\bm{R}(a) = \bm{R}(b)$. By lemma 1, applying $\bm{R}$ both sides yields $a = b$. For \textbf{surjectivity}, given some $a \in \{0,1\}^*$, we can construct $\bm{R}(a) \in \{0,1\}^*$ such that $\bm{R}(\bm{R}(a)) = a$ by lemma 1.
 
+\subsubsection*{Corollary: $i \leq |w|, l_{|w| - i} \in \bm{R}(w) \Rightarrow l_{|w| - i}=w_i \in w$, for all $w \in \{0,1\}^*$}
+Inductively, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Given $i \leq |l|$, clearly $l_i \in l = l_i \in \bm{R}(l)$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have for any $i \leq |x|, x_i \in x = x_i \in \bm{R}(x)$.
+
 \section*{Research Question}
+We consider the question \emph{can programs simulate the human mind?}. We begin with the formal arguments presented, for the negative, in Ahbinav Muraleedharan's provocative paper\footnote{"Turing Machines Cannot Simulate The Human Mind"}.
+
+\subsection*{Negative}
+Ahbinav constructs a simple decision problem, "is your memory finite", and proves it as uncomputable for a Turing Machine. In stark contrast to that of it's creator, the human mathematician, who can trivially solve this problem.
+
+\subsection*{Negative}
+
+\subsection*{Positive}
+For all practical purposes, it remains that, the fundamental building block of our brain is the so called neuron. A primitive simulation of this collection of neurons undisputably would mimic the nature of the human brain, and thus in turn mimic the function of the human brain that itself is known to simulate the mind. We have already fully digitized the C. elegans worm, with a nervous powered by a much smaller 302 neurons. \footnote{\url{https://newatlas.com/c-elegans-worm-neural-network/53296}}
+
+\subsection*{Positive}
+
+\pagebreak
 \section*{Mathematical modelling}
+In order to formalise the statement; "There exists a form of quantum randomness that is provable better than pseudo-randomness". We must break it in parts.
+
+\subsubsection*{Pseudo-Randomness}
+The widely accepted mechanism for a pseudo-randomn number generator today is a two stage function.
+
+\begin{itemize}
+	\item{Accepts a \emph{seed}.}
+	\item{Deterministically generates a sequence based on this seed.}
+\end{itemize}
+
+Without loss of generality, we shall live in the space of bit strings $\{0, 1\}$. We can now formalise this pseudorandom mechanism via the function that returns a function;
+
+\begin{align*}
+	\bm{PR}: \{0,1\}^* \rightarrow (\bm{G}: \mathbb{N} \rightarrow \{0,1\})
+\end{align*}
+
+When we speak of pseudo-randomness, we think of sequences of the form $(S_n)_{n \in \mathbb{N}}$ where $S_n = G(s)(n)$ for some fixed seed $s$.
+
+\subsubsection*{Quantum-Randomness}
+
+\subsubsection*{Provably Better}
+As per lecture; randomness is best known symptomatically through the following properties;
+
+\begin{itemize}
+	\item Unpredictability
+	\item Incompressibility 
+	\item Typicality 
+\end{itemize}
+
+If we find a form of randomness, $R$, exerting more symptoms of randomness than another form of randomness, say $R'$. We say $R$ is a "provably better" form of randomness than $R'$.
+
+
 
 \end{document}
