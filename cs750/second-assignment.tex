@@ -1,0 +1,29 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{bm}
+\title{COMPSCI 750: Computation Complexity \\ Second Assignment}
+\author{Florian Suess}
+\begin{document}
+\maketitle
+
+\section*{Computable Transformation}
+We dive into the inards of the \emph{reverse string} function $\bm{R}$. Consider the very nifty recursive definition;
+\begin{align*}
+	\text{for } a \in \{0,1\} \text{ then } \bm{R}(a) = a \\
+	\text{let } w \in \{0,1\}^* \text{ then } \bm{R}(wa) = a\bm{R}(w)
+\end{align*}
+
+\subsubsection*{Lemma 1: $\bm{R}(\bm{R}(s)) = s$ for all $s \in \{0,1\}^*$.}
+Inductively then, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have $\bm{R}(\bm{R}(x)) = x$. Now for this $w$, it must be the case that $w = xl$ for some other $l \in \{0,1\}$ and $x \in \{0,1\}^*$. Clearly $|x| < |w|$.
+
+\begin{align*}
+	\bm{R}(\bm{R}(w)) = \bm{R}(\bm{R}(xl)) = \bm{R}(l\bm{R}(x)) = \bm{R}(\bm{R}(x))l = xl = w
+\end{align*}
+
+\subsubsection*{$\bm{R}$ is a bijection}
+For \textbf{injectivity}, let's assume that for some $a,b \in {0,1}^*$ that $\bm{R}(a) = \bm{R}(b)$. By lemma 1, applying $\bm{R}$ both sides yields $a = b$. For \textbf{surjectivity}, given some $a \in \{0,1\}^*$, we can construct $\bm{R}(a) \in \{0,1\}^*$ such that $\bm{R}(\bm{R}(a)) = a$ by lemma 1.
+
+\section*{Research Question}
+\section*{Mathematical modelling}
+
+\end{document}
