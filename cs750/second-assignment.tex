@@ -2,6 +2,8 @@
 \usepackage{amsmath}
 \usepackage{bm}
 \usepackage{amsfonts}
+\usepackage{algorithm}
+\usepackage{algorithmic}
 \usepackage{hyperref}
 \title{COMPSCI 750: Computation Complexity \\ Second Assignment}
 \author{Florian Suess}
@@ -32,6 +34,25 @@ Inductively then, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(
 
 \subsubsection*{$\bm{R}$ is a bijection}
 For \textbf{injectivity}, let's assume that for some $a,b \in {0,1}^*$ that $\bm{R}(a) = \bm{R}(b)$. By lemma 1, applying $\bm{R}$ both sides yields $a = b$. For \textbf{surjectivity}, given some $a \in \{0,1\}^*$, we can construct $\bm{R}(a) \in \{0,1\}^*$ such that $\bm{R}(\bm{R}(a)) = a$ by lemma 1.
+
+\subsubsection*{Computability}
+Although obvious, we can write a brief algorithm that shows by force the computable nature of $\bm{R}$.
+
+\begin{algorithmic}[1]
+	\REQUIRE $W = w_1w_2w_3...w_n$
+	\IF{$W \text{ is } Empty$}
+			\RETURN Empty 
+	\ENDIF
+	\STATE $W' = Empty$
+	\STATE $i = |W| - 1$
+	\WHILE{$i \geq 0$}
+		\STATE $W' = W'W[i]$
+		\STATE $i = i - 1$
+	\ENDWHILE
+	\RETURN $W'$ 
+\end{algorithmic}
+
+Clearly this algorithm halts nicely. As there is only one potential loop, which is administered via the variable $i$ which is monotonically decreasing to 0.
 
 \subsubsection*{Corollary: $i \leq |w|, l_{|w| - i} \in \bm{R}(w) \Rightarrow l_{|w| - i}=w_i \in w$, for all $w \in \{0,1\}^*$}
 Inductively, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Given $i \leq |l|$, clearly $l_i \in l = l_i \in \bm{R}(l)$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have for any $i \leq |x|, x_i \in x = x_i \in \bm{R}(x)$.
@@ -70,18 +91,21 @@ Without loss of generality, we shall live in the space of bit strings $\{0, 1\}$
 When we speak of pseudo-randomness, we think of sequences of the form $(S_n)_{n \in \mathbb{N}}$ where $S_n = G(s)(n)$ for some fixed seed $s$.
 
 \subsubsection*{Quantum-Randomness}
+Quantum-computing is fundamentally supported by the qubit; that is $\varphi = \alpha | 0\rangle + \beta | 1\rangle$. Which represents a superposition state, represented by the linear combination of the basis states $| 0\rangle$ and $| 1\rangle$. Where $\alpha$ and $\beta$ are complex numbers, restricted to $\alpha^2 + \beta^2 = 1$. 
+
+When we speak of quantum-randomness, we think in particular a sequence of the form $(Q_n)_{n \in \mathbb{N}}$ where $Q_n$ is the measurement of some qubit.
 
 \subsubsection*{Provably Better}
-As per lecture; randomness is best known symptomatically through the following properties;
+As per lecture; randomness is best known symptomatically through the following properties\footnote{I spend effort formalising the first property, and relax on the others as we won't be dwelling on the other properties too much for the purposes of this assignment question}
 
 \begin{itemize}
-	\item Unpredictability
-	\item Incompressibility 
-	\item Typicality 
+	\item Unpredictability, that is given a $n$ expanded sequence (where $n$ is finite), $S_n=s_1s_2s_3...s_n$, there is no $f: \{0,1\}^n \times N \rightarrow \{0,1\}$ such that this function can emulate forever the sequence hence fourth; $S_{n+1} = f(s_1,s_2,s_3...s_n, 1), S_{n+2} = f(s_1,s_2,s_3...s_n, 2), ...$.
+	\item Incompressibility, the impossibility of a $n$ expanded sequence (where $n$ can $\rightarrow \infty$), to be compressed.
+	\item Typicality, random sequences passing every statistical test of randomness.
 \end{itemize}
 
-If we find a form of randomness, $R$, exerting more symptoms of randomness than another form of randomness, say $R'$. We say $R$ is a "provably better" form of randomness than $R'$.
+If we find a form of randomness, that is the sequence $R$, exerting more symptoms of randomness than another form of randomness, say $R'$. We say $R$ is a "provably better" form of randomness than $R'$.
 
-
+\subsubsection{Then the statement in can be formalised in the following way}
 
 \end{document}
