@@ -17,7 +17,29 @@ We dive into the inards of the \emph{reverse string} function $\bm{R}$. Consider
 	\text{let } w \in \{0,1\}^* \text{ then } \bm{R}(lw) = \bm{R}(w)l
 \end{align*}
 
-\subsubsection*{Lemma 0: $a,b \in \{0,1\}^*$ we have $\bm{R}(ab) = \bm{R}(b)\bm{R}(a)$.}
+\textbf{Preliminaries;} for $w \in \{0,1\}^*$, $w_i \in w$ refers to the letter in the \emph{i\textsuperscript{th}} position of $w$ (necessarily $0 < i \leq |w|$).
+
+\subsubsection*{Lemma 1: $w_i \in w$, $w'_k \in \bm{R}(w)$, $k=|w|-i+1 \Rightarrow w_i = w_k$}
+We prove this inductively on the length of $w$.
+
+If $|w| = 1$, then $w = l$ for $l\in \{0,1\}$ and by definition $\bm{R}(l) = l$. Given $w_i \in w$, set $k=|w|-i+1=1$. 
+\begin{align*}
+w_i = w_1 = l = R(w) = w_1 = w_k
+\end{align*}
+Now when $1 \leq |v| < |w|$ we assume for $v_i$ we can set $k=|v|-i+1$ such that $v_i = v'_k \in R(v)$.
+
+We can say $w = lv$ for some $l \in \{0,1\}$ and $v \in \{0,1\}^*$. Note: $|w|=|v|+1$. Consider $w_i \in w$.
+\begin{itemize}
+	\item if $i=1$, \\
+		$\Rightarrow w_i=l$, and since $R(vl) = lR(v) = w'$, $k=|w|-i+1=1$ and $w'_k=w_i$
+	\item if $i\not=1$, \\
+		$\Rightarrow w_i\in v$, set $v' = R(v)$, by assumption, $w_i=v'_t$ if $t=|v|-i+1$ \\
+		$\Rightarrow$ if $v'_t \in lR(v) = R(vl) = R(w)$, $w_i=v'_k$ if \\
+		$k=t+1=|v|-i+1+1=|w|-i+1$.
+\end{itemize}
+By induction, we're finished.
+
+\subsubsection*{Lemma 1: $a,b \in \{0,1\}^*$ we have $\bm{R}(ab) = \bm{R}(b)\bm{R}(a)$.}
 Trivially if $|a|=1$, $a=l\in \{0,1\}$, then $\bm{R}(ab)=\bm{R}(lb)=\bm{R}(b)l=\bm{R}(b)\bm{R}(y)$.
 
 Assume that the claim is true for all $a$ of length $n$, and that $a=la'$ with $l\in \{0,1\}$ and $|a'|=n$ is of length $n+1$. Then we have
@@ -25,8 +47,9 @@ Assume that the claim is true for all $a$ of length $n$, and that $a=la'$ with $
 	\bm{R}(ab)=\bm{R}\bigl(l(a'b)\bigr)=\bm{R}(a'b)l=\bm{R}(b)\bm{R}(a')l=\bm{R}(b)\bm{R}(la')=\bm{R}(b)\bm{R}(a)
 \end{align*}
 
-\subsubsection*{Lemma 1: $\bm{R}(\bm{R}(s)) = s$ for all $s \in \{0,1\}^*$.}
+\subsubsection*{Lemma 2: $\bm{R}(\bm{R}(s)) = s$ for all $s \in \{0,1\}^*$.}
 Inductively then, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have $\bm{R}(\bm{R}(x)) = x$. Now for this $w$, it must be the case that $w = lx$ for some other $l \in \{0,1\}$ and $x \in \{0,1\}^*$. Clearly $|x| < |w|$.
+
 
 \begin{align*}
 	\bm{R}(\bm{R}(w)) = \bm{R}(\bm{R}(lx)) = \bm{R}(\bm{R}(x)l) = \bm{R}(l)\bm{R}\bigl(\bm{R}(x)\bigr) = lx = w
