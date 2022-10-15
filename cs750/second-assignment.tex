@@ -54,8 +54,19 @@ Although obvious, we can write a brief algorithm that shows by force the computa
 
 Clearly this algorithm halts nicely. As there is only one potential loop, which is administered via the variable $i$ which is monotonically decreasing to 0.
 
-\subsubsection*{Corollary: $i \leq |w|, l_{|w| - i} \in \bm{R}(w) \Rightarrow l_{|w| - i}=w_i \in w$, for all $w \in \{0,1\}^*$}
-Inductively, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Given $i \leq |l|$, clearly $l_i \in l = l_i \in \bm{R}(l)$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have for any $i \leq |x|, x_i \in x = x_i \in \bm{R}(x)$.
+\subsubsection*{$\bm{R}(w)$ and $w$ have equal number of Monochromatic Arithmetic Progressions}
+First we show that for every monochromatic arithmetic progression in $w$ there is one in $\bm{R}(w)$.
+
+We operate inductively on the length of the progression, $k$.
+
+If $k=1$...
+
+\begin{align*}
+	w_iw_{i+t}w_{i+2t}...w_{i+(k-1)t},
+\end{align*}
+
+% \subsubsection*{Corollary: $i \leq |w|, l_{|w| - i} \in \bm{R}(w) \Rightarrow l_{|w| - i}=w_i \in w$, for all $w \in \{0,1\}^*$}
+% Inductively, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Given $i \leq |l|$, clearly $l_i \in l = l_i \in \bm{R}(l)$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have for any $i \leq |x|, x_i \in x = x_i \in \bm{R}(x)$.
 
 \section*{Research Question}
 We consider the question \emph{can programs simulate the human mind?}. We begin with the formal arguments presented, for the negative, in Ahbinav Muraleedharan's provocative paper\footnote{"Turing Machines Cannot Simulate The Human Mind"}.
@@ -107,5 +118,15 @@ As per lecture; randomness is best known symptomatically through the following p
 If we find a form of randomness, that is the sequence $R$, exerting more symptoms of randomness than another form of randomness, say $R'$. We say $R$ is a "provably better" form of randomness than $R'$.
 
 \subsubsection{Then the statement in can be formalised in the following way}
+\begin{align*}
+	\exists (Q_n)_{n \in \mathbb{N}} \text{ that exhibits stronger symptoms of randomness than } (Sn)_{n\in\mathbb{N}}
+\end{align*}
+
+\subsubsection{Proof of this statement}
+By definition $(Sn)_{n\in\mathbb{N}}$ is defined by a seed $k \in \{0,1\}^*$, $\bm{PR}: \{0,1\}^* \rightarrow \bigl(\bm{G}: \mathbb{N} \rightarrow \{0,1\}\bigr)$ would yield the pseudo-random generating function $\bm{G}_k: \mathbb{N} \rightarrow \{0,1\}$. The existence of this function shows that this sequence is clearly predictable.
+
+We construct the qubit with $\alpha$, $\beta$ amplitudes that are equal. ie, suppose we have $\alpha = \beta = \frac{1}{\sqrt{2}}$ then we construct a quantum random generator sequence $(Q_n)_{n \in \mathbb{N}}$ that on each $n$ collapses the qubit $\varphi = \frac{1}{\sqrt{2}} | 0\rangle + \frac{1}{\sqrt{2}} | 1\rangle$. By definition the probability that this sequences returns a $1$, or $0$, are both $0.5$. Due to the fundamental nature of a qubit, it is indeterministic and incomputable.
+
+Here we show that quantum-randomness is less predictable than any form of pseudo-randomness, hence it's provably better.
 
 \end{document}
