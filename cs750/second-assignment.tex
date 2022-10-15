@@ -177,6 +177,7 @@ Quantum-computing is fundamentally supported by the qubit; that is $\varphi = \a
 
 When we speak of quantum-randomness, we think in particular a sequence of the form $(Q_n)_{n \in \mathbb{N}}$ where $Q_n$ is the measurement of some qubit.
 
+\pagebreak
 \subsubsection*{Provably Better}
 As per lecture; randomness is best known symptomatically through the following properties\footnote{I spend effort formalising the first property, and relax on the others as we won't be dwelling on the other properties too much for the purposes of this assignment question}
 
@@ -186,19 +187,19 @@ As per lecture; randomness is best known symptomatically through the following p
 	\item Typicality, random sequences passing every statistical test of randomness.
 \end{itemize}
 
-If we find a form of randomness, that is the sequence $R$, exerting more symptoms of randomness than another form of randomness, say $R'$. We say $R$ is a "provably better" form of randomness than $R'$.
+If we find a form of randomness, that is the sequence $R$, exerting more of a symptom of randomness than another form of randomness, say $R'$, for the same symptom. We say $R$ is a "provably better" form of randomness than $R'$.
 
 \subsubsection*{Then the statement in can be formalised in the following way}
 \begin{align*}
-	\exists (Q_n)_{n \in \mathbb{N}} \text{ that exhibits stronger symptoms of randomness than } (Sn)_{n\in\mathbb{N}}
+	\exists (Q_n)_{n \in \mathbb{N}} \text{ exhibits a symptom of randomness stronger than } (Sn)_{n\in\mathbb{N}}
 \end{align*}
 
 \subsubsection*{Proof of this statement}
-By definition $(Sn)_{n\in\mathbb{N}}$ is defined by a seed $k \in \{0,1\}^*$, $\bm{PR}: \{0,1\}^* \rightarrow \bigl(\bm{G}: \mathbb{N} \rightarrow \{0,1\}\bigr)$ would yield the pseudo-random generating function $\bm{G}_k: \mathbb{N} \rightarrow \{0,1\}$. The existence of this function shows that this sequence is clearly predictable.
+By definition $(Sn)_{n\in\mathbb{N}}$ is defined by a seed $k \in \{0,1\}^*$, $\bm{PR}: \{0,1\}^* \rightarrow \bigl(\bm{G}: \mathbb{N} \rightarrow \{0,1\}\bigr)$ would yield the pseudo-random generating function $\bm{G}_k: \mathbb{N} \rightarrow \{0,1\}$. The existence of this function shows that this sequence is clearly predictable, as it is a computable function (clearly by the existence of pseudo-random number generators today).
 
 We construct the qubit with $\alpha$, $\beta$ amplitudes that are equal. ie, suppose we have $\alpha = \beta = \frac{1}{\sqrt{2}}$ then we construct a quantum random generator sequence $(Q_n)_{n \in \mathbb{N}}$ that on each $n$ collapses the qubit $\varphi = \frac{1}{\sqrt{2}} | 0\rangle + \frac{1}{\sqrt{2}} | 1\rangle$. By definition the probability that this sequences returns a $1$, or $0$, are both $0.5$. Due to the fundamental nature of a qubit, it is indeterministic and incomputable.
 
-Here we show that quantum-randomness is less predictable than any form of pseudo-randomness, hence it's provably better.
+And so we show that quantum-randomness is less predictable than any form of pseudo-randomness, hence it's provably better.
 
 \emergencystretch=1em
 \printbibliography
