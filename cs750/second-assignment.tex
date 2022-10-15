@@ -26,7 +26,7 @@ If $|w| = 1$, then $w = l$ for $l\in \{0,1\}$ and by definition $\bm{R}(l) = l$.
 \begin{align*}
 w_i = w_1 = l = R(w) = w_1 = w_k
 \end{align*}
-Now when $1 \leq |v| < |w|$ we assume for $v_i$ we can set $k=|v|-i+1$ such that $v_i = v'_k \in R(v)$.
+Now when $|v| < |w|$ we assume for $v_i$ we can set $k=|v|-i+1$ such that $v_i = v'_k \in R(v)$.
 
 We can say $w = lv$ for some $l \in \{0,1\}$ and $v \in \{0,1\}^*$. Note: $|w|=|v|+1$. Consider $w_i \in w$.
 \begin{itemize}
@@ -39,7 +39,9 @@ We can say $w = lv$ for some $l \in \{0,1\}$ and $v \in \{0,1\}^*$. Note: $|w|=|
 \end{itemize}
 By induction, we're finished.
 
-\subsubsection*{Lemma 1: $a,b \in \{0,1\}^*$ we have $\bm{R}(ab) = \bm{R}(b)\bm{R}(a)$.}
+\subsubsection*{Lemma 2: $a,b \in \{0,1\}^*$ we have $\bm{R}(ab) = \bm{R}(b)\bm{R}(a)$.}
+We prove this inductively by the length of $a$.
+
 Trivially if $|a|=1$, $a=l\in \{0,1\}$, then $\bm{R}(ab)=\bm{R}(lb)=\bm{R}(b)l=\bm{R}(b)\bm{R}(y)$.
 
 Assume that the claim is true for all $a$ of length $n$, and that $a=la'$ with $l\in \{0,1\}$ and $|a'|=n$ is of length $n+1$. Then we have
@@ -47,12 +49,22 @@ Assume that the claim is true for all $a$ of length $n$, and that $a=la'$ with $
 	\bm{R}(ab)=\bm{R}\bigl(l(a'b)\bigr)=\bm{R}(a'b)l=\bm{R}(b)\bm{R}(a')l=\bm{R}(b)\bm{R}(la')=\bm{R}(b)\bm{R}(a)
 \end{align*}
 
-\subsubsection*{Lemma 2: $\bm{R}(\bm{R}(s)) = s$ for all $s \in \{0,1\}^*$.}
-Inductively then, give some $l \in \{0,1\}$, then by definition we have $\bm{R}(l) = l$. Let $w \in \{0,1\}^*$ be something arbitrary, we now assume that for any $x \in \{0,1\}^*$ such that $|x| < |w|$, we have $\bm{R}(\bm{R}(x)) = x$. Now for this $w$, it must be the case that $w = lx$ for some other $l \in \{0,1\}$ and $x \in \{0,1\}^*$. Clearly $|x| < |w|$.
+By induction, we're finished.
+
+\subsubsection*{Lemma 3: $\bm{R}(\bm{R}(w)) = w$ for all $w \in \{0,1\}^*$.}
+We prove this inductively yet again on the length of $|w|$.
+
+Suppose $|w| = 1$ then $w = l \in \{0,1\}$ by definition we have $\bm{R}(l) = l$.
+
+Assume that for any $v \in \{0,1\}^*$ such that $|v| < |w|$, we have $\bm{R}(\bm{R}(v)) = v$. Now for this $w$, it must be the case that $w = lv$ for some other $l \in \{0,1\}$ and $v \in \{0,1\}^*$. Clearly $|v| < |w|$.
 
 
 \begin{align*}
-	\bm{R}(\bm{R}(w)) = \bm{R}(\bm{R}(lx)) = \bm{R}(\bm{R}(x)l) = \bm{R}(l)\bm{R}\bigl(\bm{R}(x)\bigr) = lx = w
+	\bm{R}(\bm{R}(w)) = \bm{R}(\bm{R}(lv)) = \bm{R}(\bm{R}(v)l) 
+\end{align*}
+... then crucially by \textbf{lemma 2} we continue to see;
+\begin{align*}
+	= \bm{R}(l)\bm{R}\bigl(\bm{R}(v)\bigr) = lv = w
 \end{align*}
 
 \subsubsection*{$\bm{R}$ is a bijection}
