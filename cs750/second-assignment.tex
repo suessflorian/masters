@@ -121,10 +121,10 @@ $w = lv$ for some $v \in \{0,1\}^*$ and $l \in \{0,1\}$. Then...
 By induction, we're finished.
 
 \subsubsection*{There exists a c $>$ 0, $\forall w \in \{0,1\}^*, |K(w) - K(\bm{R}(w))| \leq c$}
-Choose a $c > 0$. Note; by lemma 2, $K(w) \leq c_p + |\bm{R}(w)|$ where $c_p$ is some program encoding constant. By lemma 4 we see, $c_p + |\bm{R}(w)| = c_p + |w| \geq K(\bm{R}(w))$. Hence;
+The choice of $\bm{R}$ as a self-inverse function makes this rather straight forward. Choose any $c > 0$. Note; by lemma 2, $K(w) \leq c_p + |\bm{R}(w)|$ where $c_p$ is some program encoding constant (can use encoding of the algorithm I supplied if desired). By lemma 4 we see, $c_p + |\bm{R}(w)| = c_p + |w| \geq K(\bm{R}(w))$. Hence;
 
 \begin{align*}
-	|K(w) - K(\bm{R}(w))| = (c_p + |w|) - (c_p + |w|)| = 0 < c.
+	|K(w) - K(\bm{R}(w))| \leq |(c_p + |w|) - (c_p + |w|)| = 0 < c.
 \end{align*}
 
 As required.
