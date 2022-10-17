@@ -28,7 +28,11 @@ Trivially if $|a|=1$, $a=l\in \{0,1\}$, then $\bm{R}(ab)=\bm{R}(lb)=\bm{R}(b)l=\
 
 Assume that the claim is true for all $a$ of length $n$, and that $a=la'$ with $l\in \{0,1\}$ and $|a'|=n$ is of length $n+1$. Then we have
 \begin{align*}
-	\bm{R}(ab)=\bm{R}\bigl(l(a'b)\bigr)=\bm{R}(a'b)l=\bm{R}(b)\bm{R}(a')l=\bm{R}(b)\bm{R}(la')=\bm{R}(b)\bm{R}(a)
+	\bm{R}(ab)=\bm{R}\bigl(l(a'b)\bigr)=\bm{R}(a'b)l
+\end{align*}
+Then by assumption...
+\begin{align*}
+	=\bm{R}(b)\bm{R}(a')l=\bm{R}(b)\bm{R}(la')=\bm{R}(b)\bm{R}(a)
 \end{align*}
 
 By induction, we're finished.
@@ -201,6 +205,7 @@ We construct the qubit with $\alpha$, $\beta$ amplitudes that are equal. ie, sup
 
 And so we show that quantum-randomness is less predictable than any form of pseudo-randomness, hence it's provably better.
 
+\pagebreak
 \emergencystretch=1em
 \printbibliography
 
