@@ -1,0 +1,140 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\rfoot{Florian Suess (187147214)}
+\cfoot{}
+\lhead{CS761: Third Assignment Question 3}
+\begin{document}
+
+\title{CS761 Assignment: Final Question}
+
+\begin{flushright}
+Probability that someone goes to jail given that they broke the law, have been indicted, and face a politically motivated prosecutor. Evaluating... $P(J | B, I, M)$
+\end{flushright}
+
+\textbf{Restriction}: In $P(G)$, keep only those rows where $B$ is true, then restrict that table in turn to where only $I$ is true, finally we restrict one more time for where $M$ is true. Obtain new CPT, $f(G)$.
+\begin{center}
+	\begin{tabular}{ |c c c c|c| }
+	 \hline
+	 B & I & M & G & $P(G)$ \\
+	 \hline
+	 1 & 1 & 1 & 1 & 0.9 \\
+	 1 & 1 & 1 & 0 & 0.1 \\
+
+	 1 & 1 & 0 & 1 & 0.8 \\
+	 1 & 1 & 0 & 0 & 0.2 \\
+
+	 1 & 0 & 1 & 1 & 0 \\
+	 1 & 0 & 1 & 0 & 1 \\
+
+	 1 & 0 & 0 & 1 & 0 \\
+	 1 & 0 & 0 & 1 & 1 \\
+
+	 0 & 1 & 1 & 1 & 0.2 \\
+	 0 & 1 & 1 & 0 & 0.8 \\
+
+	 0 & 1 & 0 & 1 & 0.1 \\
+	 0 & 1 & 0 & 0 & 0.9 \\
+
+	 0 & 0 & 1 & 1 & 0 \\
+	 0 & 0 & 1 & 0 & 1 \\
+
+	 0 & 0 & 0 & 1 & 0 \\
+	 0 & 0 & 0 & 1 & 1 \\
+	 \hline
+	\end{tabular}
+	$\Rightarrow$
+	\begin{tabular}{ |c c c|c| }
+	 \hline
+	 I & M & G & $P(G)$ \\
+	 \hline
+	 1 & 1 & 1 & 0.9 \\
+	 1 & 1 & 0 & 0.1 \\
+
+	 1 & 0 & 1 & 0.8 \\
+	 1 & 0 & 0 & 0.2 \\
+
+	 0 & 1 & 1 & 0 \\
+	 0 & 1 & 0 & 1 \\
+
+	 0 & 0 & 1 & 0 \\
+	 0 & 0 & 1 & 1 \\
+	 \hline
+	\end{tabular}
+	$\Rightarrow$
+	\begin{tabular}{ |c c|c| }
+	 \hline
+	 M & G & $P(G)$ \\
+	 \hline
+	 1 & 1 & 0.9 \\
+	 1 & 0 & 0.1 \\
+
+	 0 & 1 & 0.8 \\
+	 0 & 0 & 0.2 \\
+	 \hline
+	\end{tabular}
+\end{center}
+\begin{center}
+	$\Rightarrow$
+	\begin{tabular}{ |c|c| }
+	 \hline
+	 G & $P(G)$ \\
+	 \hline
+	 1 & 0.9 \\
+	 0 & 0.1 \\
+	 \hline
+	\end{tabular}
+	$= f(G)$
+\end{center}
+\textbf{Elimination}: Elimate G. Multiply $f(G) \times P(J)$ to get a new table $l(G,J)$ then we $G$-sum $l(G,J)$ to get a new table $r(J)$.
+\begin{center}
+	\begin{tabular}{ |c|c| }
+	 \hline
+	 G & $P(G)$ \\
+	 \hline
+	 1 & 0.9 \\
+	 0 & 0.1 \\
+	 \hline
+	\end{tabular}
+	$\times$
+	\begin{tabular}{ |c|c|c| }
+	 \hline
+	 G & J & $P(J)$ \\
+	 \hline
+	 1 & 1 & 0.9 \\
+	 1 & 0 & 0.1 \\
+	 0 & 1 & 0.1 \\
+	 0 & 0 & 0.9 \\
+	 \hline
+	\end{tabular}
+	=
+	\begin{tabular}{ |c|c|c| }
+	 \hline
+	 G & J & $P(J)$ \\
+	 \hline
+	 1 & 1 & $0.9 \times 0.9 = 0.81$ \\
+	 1 & 0 & $0.1 \times 0.9 = 0.09$ \\
+	 0 & 1 & $0.1 \times 0.1 = 0.01$ \\
+	 0 & 0 & $0.9 \times 0.1 = 0.09$ \\
+	 \hline
+	\end{tabular}
+	= $l(G,J)$
+\end{center}
+\begin{center}
+	$l(G,J) \Rightarrow_{\text{G-sum}}$
+	\begin{tabular}{ |c|c| }
+	 \hline
+	 J & $P(J)$ \\
+	 \hline
+	 1 & $0.81 + 0.01 = 0.82$ \\
+	 0 & $0.09 + 0.09 = 0.18$ \\
+	 \hline
+	\end{tabular}
+	$= r(J)$
+\end{center}
+
+\textbf{Normalisation}... effectively a no-op in this case and we end up with $P(J | B, I, M) = 0.82$ and $P(\neg J | B, I, M) = 0.18$.
+
+\end{document}
