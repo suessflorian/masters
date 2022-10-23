@@ -36,7 +36,7 @@
 				(not ( wall ?box_to_x ?box_to_y )) (not ( box ?box_to_x ?box_to_y ))		; no obstacles in the way of the push
 			)
 			:effect(and 
-				(not (at ?x ?y)) (at ?to_x ?to_y)																				; same effect as a move upwards
+				(not (at ?x ?y)) (at ?box_from_x ?box_from_y)														; move to where box was
 				(not (box ?box_from_x ?box_from_y)) (box ?box_to_x ?box_to_y)						; box moved upwards
 			)
 	)
@@ -49,7 +49,7 @@
 				(not ( wall ?box_to_x ?box_to_y )) (not ( box ?box_to_x ?box_to_y ))		; no obstacles in the way of the push
 			)
 			:effect(and 
-				(not (at ?x ?y)) (at ?to_x ?to_y)																				; same effect as a move upwards
+				(not (at ?x ?y)) (at ?box_from_x ?box_from_y)														; move to where box was
 				(not (box ?box_from_x ?box_from_y)) (box ?box_to_x ?box_to_y)						; box moved upwards
 			)
 	)
@@ -62,7 +62,7 @@
 				(not ( wall ?box_to_x ?box_to_y )) (not ( box ?box_to_x ?box_to_y ))		; no obstacles in the way of the push
 			)
 			:effect(and 
-				(not (at ?x ?y)) (at ?to_x ?to_y)																				; same effect as a move upwards
+				(not (at ?x ?y)) (at ?box_from_x ?box_from_y)														; move to where box was
 				(not (box ?box_from_x ?box_from_y)) (box ?box_to_x ?box_to_y)						; box moved upwards
 			)
 	)
@@ -75,7 +75,7 @@
 				(not ( wall ?box_to_x ?box_to_y )) (not ( box ?box_to_x ?box_to_y ))		; no obstacles in the way of the push
 			)
 			:effect(and 
-				(not (at ?x ?y)) (at ?to_x ?to_y)																				; same effect as a move upwards
+				(not (at ?x ?y)) (at ?box_from_x ?box_from_y)														; move to where box was
 				(not (box ?box_from_x ?box_from_y)) (box ?box_to_x ?box_to_y)						; box moved upwards
 			)
 	)
