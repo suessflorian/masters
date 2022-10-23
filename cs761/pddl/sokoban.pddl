@@ -30,7 +30,7 @@
 
 	( :action push_up
 	    :parameters(?x ?y ?box_from_x ?box_from_y ?box_to_x ?box_to_y)
-			:precondition(and (at ?x ?y) 
+			:precondition(and (at ?x ?y) (box ?box_from_x ?box_from_y)
 				(= ?x ?box_from_x) (= ?box_from_x ?box_to_x)														; all along the same x-axis
 				(inc ?y ?box_from_y) (inc ?box_from_y ?box_to_y)												; agent, box and above box all inline
 				(not ( wall ?box_to_x ?box_to_y )) (not ( box ?box_to_x ?box_to_y ))		; no obstacles in the way of the push
@@ -43,7 +43,7 @@
 
 	( :action push_down
 	    :parameters(?x ?y ?box_from_x ?box_from_y ?box_to_x ?box_to_y)
-			:precondition(and (at ?x ?y) 
+			:precondition(and (at ?x ?y) (box ?box_from_x ?box_from_y)
 				(= ?x ?box_from_x) (= ?box_from_x ?box_to_x)														; all along the same x-axis
 				(dec ?y ?box_from_y) (dec ?box_from_y ?box_to_y)												; agent, box and above box all inline
 				(not ( wall ?box_to_x ?box_to_y )) (not ( box ?box_to_x ?box_to_y ))		; no obstacles in the way of the push
@@ -56,7 +56,7 @@
 
 	( :action push_right
 	    :parameters(?x ?y ?box_from_x ?box_from_y ?box_to_x ?box_to_y)
-			:precondition(and (at ?x ?y) 
+			:precondition(and (at ?x ?y) (box ?box_from_x ?box_from_y)
 				(= ?y ?box_from_y) (= ?box_from_y ?box_to_y)														; all along the same y-axis
 				(inc ?x ?box_from_x) (inc ?box_from_x ?box_to_x)												; agent, box and above box all inline
 				(not ( wall ?box_to_x ?box_to_y )) (not ( box ?box_to_x ?box_to_y ))		; no obstacles in the way of the push
@@ -69,7 +69,7 @@
 
 	( :action push_left
 	    :parameters(?x ?y ?box_from_x ?box_from_y ?box_to_x ?box_to_y)
-			:precondition(and (at ?x ?y) 
+			:precondition(and (at ?x ?y) (box ?box_from_x ?box_from_y)
 				(= ?y ?box_from_y) (= ?box_from_y ?box_to_y)														; all along the same y-axis
 				(dec ?x ?box_from_x) (dec ?box_from_x ?box_to_x)												; agent, box and above box all inline
 				(not ( wall ?box_to_x ?box_to_y )) (not ( box ?box_to_x ?box_to_y ))		; no obstacles in the way of the push
