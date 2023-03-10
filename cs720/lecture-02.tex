@@ -1,0 +1,67 @@
+\documentclass{article}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
+\begin{document}
+(1st March)
+\section*{Finishing up Permutations with Unranking}
+To unrank $P_j$ for permutation of length $j$ Let $P_{j-1} = \floor*{P_j/j}$ and remainder $R_{j-1} = P_j \text{ mod } j$. That is $P_j = P_{j-1}+R_{j-1}$.
+
+Compute $\pi_{j-1} =  unrank(P_{j-1})$... 
+If $P_{j-1}$ even then $\pi_j = \pi_{j-1}$ with "$j$" inserted at the position $R_j-1$ from the right.
+If $P_{j-1}$ odd then $\pi_j = \pi_{j-1}$ with "$j$" inserted at the position $R_j-1$ from the left.
+
+\subsection*{Example Unrank(19)}
+Table makes more sense, but cbf'd writing one out sorry...working down... we see;
+\begin{align}
+j=4, Unrank(19),P_{j-1} &= 4 , R_{j-1} = 3,\pi_j = ?, direction = ?\\
+j=3, Unrank(4), P_{j-1} &= 1 , R_{j-1} = 1,\pi_j = ?, direction = ?\\
+j=2, Unrank(1), P_{j-1} &= 0 , R_{j-1} = 1,\pi_j = ?, direction = ?\\
+j=1, Unrank(0), P_{j-1} &= 0 , R_{j-1} = 0,\pi_j = ?, direction = ?
+\end{align}
+
+And then working back up from our starting permutation of "1". Note direction is derived on {\bf current} $P_{j-1}$ and position is based on {\bf current} $R_{j-1}$.
+
+\begin{align}
+j=4, Unrank(19),P_{j-1} &= 4 , R_{j-1} = 3,\pi_j = 4231, \leftarrow\\
+j=3, Unrank(4), P_{j-1} &= 1 , R_{j-1} = 1,\pi_j = 231, \rightarrow \\
+j=2, Unrank(1), P_{j-1} &= 0 , R_{j-1} = 1,\pi_j = 21, \leftarrow\\
+j=1, Unrank(0), P_{j-1} &= 0 , R_{j-1} = 0,\pi_j = 1
+\end{align}
+
+\section*{Subset}
+So emphasis is on lack of order importance, ie; $\{1, 2\} = \{2, 1\}$. We dive right into binomial coefficients $\binom{n}{k} = \frac{n!}{k!(n-k)!} = \frac{n_k}{k!}$.
+
+Some facts ({\em based of really cool binary string mapping of possible subsets});
+\begin{itemize}
+  \item $\sum_{k=0}^{n}{\binom{n}{k}} = 2^n$, basically the number of subsets possible for a set of objects size $n$, is $2^n$.
+  \item $\binom{n}{k} = \binom{n}{n-k}$
+  \item $\binom{n}{k} = \binom{n-1}{k-1} + \binom{n-1}{k}$
+\end{itemize}
+
+\subsubsection*{Example $\binom{5}{3}$}
+\begin{math}
+|\{(123),(124),(125),(134),(135),(145),(234),(235),(245),(345)\}|\\
+= 10 = \frac{5!}{3!(5-3)!}
+\end{math}
+
+\subsubsection*{Co-lexicographic Ordering (Colex)}
+So how we just listed the above, we opted for a lexicographic ordering for sake of nicety above... Right to left (while keeping confusing for representation by still keeping the set order left to right).
+\begin{align}
+(123) \nonumber \\ 
+(124) \nonumber \\
+(134) \nonumber \\ 
+(234) \nonumber \\
+(125) \nonumber \\
+(135) \nonumber \\ 
+(235) \nonumber \\ 
+(145) \nonumber \\ 
+(245) \nonumber \\ 
+(345) \nonumber \\ 
+\end{align}
+
+Okay that took a while to get right mentally...
+
+
+
+\end{document}
