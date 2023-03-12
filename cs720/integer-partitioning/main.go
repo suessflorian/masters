@@ -9,36 +9,35 @@ func main() {
 	rank := 0
 	fmt.Println(rank, start)
 	for true {
-		start = uniqueParitionSuccessor(start[:]) // woah add a : here
+		start = paritionSucessor(start[:], 7) // woah add a : here
 		rank++
 		fmt.Println(rank, start)
 	}
 }
 
-func uniqueParitionSuccessor(current []int) []int {
-	successor := paritionSucessor(current)
-	for !isReverseSorted(successor) {
-		successor = paritionSucessor(successor)
-	}
-	return successor
-}
-
-func paritionSucessor(current []int) []int {
+func paritionSucessor(current []int, k int) []int {
 	// scan right to left
 	end := len(current) - 1
 	for i := end; i >= 0; i-- {
 		// if current is greater then one, then we decrement and pad
 		if current[i] > 1 {
-			if i == end {
-				decremented := current[:]
-				decremented[end]--
-				decremented = append(decremented, 1)
-				return decremented
+			decremented := current[:i]
+			oneLessForPadding := current[i] - 1
+			decremented = append(decremented, oneLessForPadding)
+
+			decrementedSum := sum(decremented)
+
+			bufferedRemaining := k - decrementedSum
+			numberOf := bufferedRemaining / oneLessForPadding
+
+			for i := 0; i < numberOf; i++ {
+				decremented = append(decremented, oneLessForPadding)
 			}
 
-			decremented := current[:]
-			decremented[i]--
-			decremented[i+1]++
+			if bufferedRemaining%oneLessForPadding != 0 {
+				decremented = append(decremented, bufferedRemaining%oneLessForPadding)
+			}
+
 			return decremented
 		}
 	}
@@ -46,14 +45,10 @@ func paritionSucessor(current []int) []int {
 	panic("cannot iterate")
 }
 
-func isReverseSorted(input []int) bool {
-	if len(input) == 0 || len(input) == 1 {
-		return true
+func sum(nums []int) int {
+	var result int
+	for _, num := range nums {
+		result += num
 	}
-	for i := 0; i < len(input)-1; i++ {
-		if input[i] < input[i+1] {
-			return false
-		}
-	}
-	return true
+	return result
 }
