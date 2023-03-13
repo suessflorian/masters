@@ -1,0 +1,48 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\begin{document}
+
+(2nd March)
+\section*{Integer Paritions of $I_n$}
+All $k$ tuples $\lambda = (\lambda_1 \lambda_2 ... \lambda_k)$ where $\lambda_1 \geq \lambda_2 ... \geq \lambda_k$ and $\lambda_1+\lambda_2+\lambda_k = n$. (decreasing).
+
+"superscript/multiplicitive" notation 
+\begin{equation}
+\lambda = \lambda_{1}^{p_1}\lambda_{2}^{p_2}...\lambda_{m}^{p_m}
+\end{equation}
+eg; $\lambda=(5,5,5,3,2,2,1,1)$ can be expressed as $5^{2}32^{2}1^{3}$.
+
+Then there is also the pictorical representation... imagine a 2D plane. The number of blocks in this representation adds to $n$. And in decreasing order from top to bottom you'd lay out horizontally the blocks quantities for each parition of $n$. This motivates the idea of a conjugate partition $\lambda'$. (bijective).
+
+\section*{Theorem}
+The number of paritions of $n$ with $k$ parts is equal to the number of paritions of $n$ with the greatest part equal to $k$.
+
+{\em visually proven using the conjugate mapping shown via the pictorial representation}
+
+\section*{Reverse Lexicographic Order}
+Lexic, Colex, Reverse Lex are the orderings covered so far.
+
+For $n=4$, example of "Reverse Lex".
+\begin{align*}
+4 \\
+3 1 \\
+2 1 1 \\
+1 1 1 1
+\end{align*}
+
+For $n=5$, example of "Reverse Lex".
+\begin{align*}
+5 \\
+4 1 \\
+3 2 \\
+3 1 1 \\
+2 2 1 \\
+2 1 1 1 \\
+1 1 1 1 1 \\
+\end{align*}
+
+Michael mentioned a successor function here, we should code it up (it is now).
+
+\end{document}

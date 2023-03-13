@@ -5,11 +5,12 @@ import (
 )
 
 func main() {
-	var start = []int{7}
+	k := 20
+	var start = []int{k}
 	rank := 0
 	fmt.Println(rank, start)
 	for true {
-		start = paritionSucessor(start[:], 7) // woah add a : here
+		start = paritionSucessor(start[:], k) // woah add a : here
 		rank++
 		fmt.Println(rank, start)
 	}

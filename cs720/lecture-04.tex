@@ -1,0 +1,44 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\begin{document}
+(7th March)
+\section*{Arithmetic Progression Graphs}
+Cover the brute force approach before iterating. $G = (V, E)$ where we label with weights each $v \in V$ and $e \in E$. ie. $L_1 : V \rightarrow Z+$, where $Z+$ are just positive integers. We say $L_1$ are the vertex labels, $L_2$ are the edge labels.
+
+\begin{itemize}
+				\item Each vertex labels are the sum of it's incident edge labels. So $L_1(v) = \sum_{u \in N(v)} L_2(uv)$.
+				\item These vertex labels if looped (sorted) would have the shape $\{a, a+d,...,a+(n-1)d\}$ where $n=|V|$
+\end{itemize}
+
+"An APG with parameters $a$ and $d$".
+
+So the question we have is "given a description of a graph" does there exist a labeling such that the vertices form a APG.
+
+\subsection*{Properties}
+
+With $n = |V|$ and $m = |E|$ and arithmetic progression parameters positive;
+\begin{itemize}
+				\item $a \geq $ the minimum vertex degree in $G$. (vertex of graph with least incident edges).
+				\item Sum of edge labels is half of the sum of the vertex labels.
+				\item Given $a,d$ parameters of an APG, $s_v = na + (0 + 1 + ... + (n-1)d) = na + \frac{n(n-1)}{2}d$
+				\item $2na + n(n-1)d$ is divisible by 4 (multiplying a known even $s_v$ by 2)
+				\item $s_e = (2na + n(n-1)d) / 4 \geq m$
+\end{itemize}
+
+All of those should make sense... So now we know $s_e$, the problem is to tweak numbers $a$ and $d$ whilst dealing with paritionings.
+
+\subsection*{Solution 1 - Combinatorial}
+Check all combinations of edge labels that sum up to $s_e = (2na + n(n-1)d)/4$. This is the same as checking all integer paritions of $s_e$ with $m = |E|$ parts.
+
+\subsection*{Solution 2 - Solving Systems of Equations}
+(28min)
+
+\subsection*{Solution 3 - Augmenting Paths Approach}
+Improving walk technique... (43min)
+
+\subsubsection*{Not hugely important to take everything in here}
+Mostly to get familiar with the general idea of integer programming so perhaps we create seperate section for just that.
+
+\end{document}
