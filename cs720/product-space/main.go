@@ -7,7 +7,9 @@ import (
 
 func main() {
 	// fmt.Println(enumerateGrayCodes(3))
-	fmt.Println(enumerateProductSpaces([]int{3, 2, 2}))
+	for i, value := range enumerateProductSpaces([]int{3, 5, 10}) {
+		fmt.Println(i, value)
+	}
 }
 
 func enumerateGrayCodes(n int) []string {
@@ -39,11 +41,11 @@ func enumerateProductSpaces(spaces []int) []string {
 	for prefix := 0; prefix < currentSpace; prefix++ {
 		if prefix%2 == 0 {
 			for _, enumeration := range childrenEnumerations {
-				list = append(list, strconv.Itoa(prefix)+enumeration)
+				list = append(list, strconv.Itoa(prefix)+","+enumeration)
 			}
 		} else {
 			for i := len(childrenEnumerations) - 1; i >= 0; i-- {
-				list = append(list, strconv.Itoa(prefix)+childrenEnumerations[i])
+				list = append(list, strconv.Itoa(prefix)+","+childrenEnumerations[i])
 			}
 		}
 	}
