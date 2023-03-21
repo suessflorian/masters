@@ -1,0 +1,37 @@
+\documentclass{article}
+\usepackage{tikz}
+\usepackage{amsmath}
+
+\begin{document}
+( March 9th)
+\section*{Set Paritions}
+We want to divide $\{1,2,...,n\}$ into disjoint union of subsets (blocks). 
+
+The number of set paritions of $n$ items is called the "Bell numbers", $B_n$.
+
+The number of set paritions of $n$ items with $k$ blocks is called the "Sterling Number (of the second kind)" $S(n,k)$.
+
+We're setting up the basis for a DP problem..
+\begin{align*}
+				S(n, k) &= S(n-1, k-1) + k \cdot S(n-1, k) \\
+				B_n &= \sum_{j=1}^{n} S(n,j) \\
+				S(n,1) &= 1 \\
+				S(n,n) &= 1
+\end{align*}
+
+\section*{Enumeration}
+Enumerate via enumerating all restricted growth functions (of length $n$). Any vector $(v_1, v_2, ..., v_n)$ satisfying $v_1 = 1$ and $v_i \leq max(v_1, v_2, ..., v_{i-1}) + 1$ (in lexicographic ordering).
+
+Example; $n=3$
+\begin{align*}
+   1 1 1 \\ 
+   1 1 2 \\
+   1 2 1 \\
+   1 2 2 \\
+   1 2 3
+\end{align*}
+
+\subsection*{Theorem}
+There is a bijection between restricted growth functions of length $n$ and set partitions of $n$ items.
+
+\end{document}
