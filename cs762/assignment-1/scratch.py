@@ -1,5 +1,6 @@
 import pandas as pd
 from sklearn import tree
+import graphviz
 
 # dealing with missing data;
 # https://pandas.pydata.org/docs/user_guide/missing_data.html
@@ -16,15 +17,18 @@ features, labels = df.iloc[:, :-1], df.iloc[:, -1]
 
 # decision stump
 # https://scikit-learn.org/stable/modules/generated/sklearn.tree.DecisionTreeClassifier.html
-decision_stump = tree.DecisionTreeClassifier(max_depth=1, criterion="entropy")
-decision_stump.fit(features, labels)
+# decision_stump = tree.DecisionTreeClassifier(max_depth=1, criterion="entropy")
+# decision_stump.fit(features, labels)
 
 # unpruned
-unpruned_tree = tree.DecisionTreeClassifier(criterion="entropy")
+unpruned_tree = tree.DecisionTreeClassifier(criterion="entropy", max_depth=1)
 unpruned_tree.fit(features, labels)
+
+
 
 # post pruned tree
 # https://scikit-learn.org/stable/modules/tree.html#minimal-cost-complexity-pruning
 # https://scikit-learn.org/stable/auto_examples/tree/plot_cost_complexity_pruning.html
 
-unpruned_tree
+graph = graphviz.Source(tree.export_graphviz(unpruned_tree, out_file=None))
+graph.render("model")
