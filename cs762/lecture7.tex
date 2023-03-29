@@ -1,4 +1,5 @@
 \documentclass{article}
+\usepackage{amsmath}
 \begin{document}
 (14th March, Week 3)
 \section*{Cross-Validation (CV)}
@@ -7,6 +8,45 @@ Building ontop to hyper parameter discovery methods, we did a crude 70/30 split 
 This splitting is interesting because it feels like we're suboptimally training a model on only 70\% of the data. Is there a method in which we can train on more then that, whilst still being able to self refer an accuracy measure? A long wind up to {\bf yes - indeed we can sir}.
 
 \subsection*{Welcome to folding}
-We parition our data set into a $k$-fold. Where each fold ("partition")
+We parition our data set into a $k$-fold. Where we proceed to approach an iteration, specifically iterating $k$ times... each iteration we mark a unique to other iteration fold as the iterations "validation" set. We train on the other $k - 1$ iterations and validate on the "validation" set of that iteration.
+
+Each iteration provides some "score" that we in combination average out for our final evaluation of the model.
+
+The higher the fold, the more accurately representing the run's score is of what it would be "in real application". Usually you will see leave one out, 10, 5, and 3 as your $k$ parameter...
+
+\subsection*{Classifier Evaluation Metrics}
+Accuracy; $\frac{TP + FP}{all}$ is not always enough as a evaluation metric of a classifier. Perhaps you have a model target of proportion of false positives or target proportion of false negatives etc...
+
+\subsubsection{Confusion Matrices}
+Given $m$ classes, an entry $CM_{i,j}$ in a confusion matrix indicates the number of tuples in class $i$ that where labeled by the classifier as $j$.
+
+{\em Note; FP is often called type I error - reject the true null hypothesis and FP is often called type II error - reject the false null hypothesis.}
+
+\subsubsection{Other Metrics}
+\begin{itemize}
+	\item Precision/Exactness: $P = \frac{TP}{TP + FP}$
+	\item Recall/Completeness: $P = \frac{TP}{TP + FN}$
+\end{itemize}
+
+Inverse relationship between precision and recall.
+
+\subsubsection{F-Measure, F-Score}
+Harmonic mean of precision and recall...
+
+\begin{align*}
+	F_{b} = (1 + \beta^2) \frac{P_{\text{precision}} \cdot P_{\text{recall}}}{(\beta^2 \cdot P_{\text{precision}}) + P_{\text{recall}}}
+\end{align*}
+
+\begin{itemize}
+	\item In general, it is the weighted measure of precision \& recall
+	\item $\beta$ is a weight - assign $\beta$ times as much weight to recall as to precision.
+\end{itemize}
+
+{\em precision is more important, so choose higher $\beta$ and vice versa re: recall}
+
+\subsubsection{ROC Curves}
+ROC (Receiver Operating Characteristics) curves: for visual comparision of models. Originated from signal detection theory...
+
+{\bf Shows the trade-off between the true positive rate $TPR$ and false positive rate $FPR$}...the area under the ROC curve (AUROC) is a measure of the accuracy of the model.
 
 \end{document}

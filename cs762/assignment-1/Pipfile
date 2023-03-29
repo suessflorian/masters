@@ -11,6 +11,7 @@ graphviz = "*"
 scipy = "*"
 numpy = "*"
 matplotlib = "*"
+nbconvert = "*"
 
 [dev-packages]
 
