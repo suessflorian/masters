@@ -1,6 +1,9 @@
-.DS_Store
+**/.DS_Store
+
+# latex compiler auxiliaries
 *.aux
 *.fdb_latexmk
 *.fls
 *.log
 *.synctex.gz
+*.out
