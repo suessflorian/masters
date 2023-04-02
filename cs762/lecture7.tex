@@ -47,6 +47,8 @@ Harmonic mean of precision and recall...
 \subsubsection{ROC Curves}
 ROC (Receiver Operating Characteristics) curves: for visual comparision of models. Originated from signal detection theory...
 
-{\bf Shows the trade-off between the true positive rate $TPR$ and false positive rate $FPR$}...the area under the ROC curve (AUROC) is a measure of the accuracy of the model.
+Applicable when your classification model is trimmed in a way where it provides "estimate probabilities" for wether a classification is suitable or not for a sample. You need this as this ROC curve is drawn as you shift the "threshold" needed for a classifiers estimate to be turned into a deemed classification. Used to tune this threshold.
+
+{\bf Shows the trade-off between the true positive rate $TPR$ and false positive rate $FPR$}...the area under the ROC curve (AUROC) is a measure of the accuracy of the model and the AUROC of different classification models can be compared.
 
 \end{document}
