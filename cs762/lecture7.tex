@@ -1,5 +1,7 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{hyperref}
+
 \begin{document}
 (14th March, Week 3)
 \section*{Cross-Validation (CV)}
@@ -43,6 +45,8 @@ Harmonic mean of precision and recall...
 \end{itemize}
 
 {\em precision is more important, so choose higher $\beta$ and vice versa re: recall}
+
+Now this F measure, (known in "scikit-learn" as \href{https://scikit-learn.org/stable/modules/generated/sklearn.metrics.f1_score.html}{"f1"}) can be viewed as a way of tackling heavily skewed data. Example; a dataset that is made 95\% "falsy". A "good" classifier may be more weighted towards one that can provide reliable visibility on those curious cases that make up 5\% of the dataset. As this provides contrast to a well behaving mode/baseline classifier (as it'd have 95\% accuracy), an f-measure may be more favourable.
 
 \subsubsection{ROC Curves}
 ROC (Receiver Operating Characteristics) curves: for visual comparision of models. Originated from signal detection theory...
