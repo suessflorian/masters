@@ -1,0 +1,32 @@
+\documentclass{article}
+\begin{document}
+
+(21st March, Week 4)
+\section{Ensembles}
+Some of the best performing classification methods to date come from the idea; aggregating other classifiers... We will look at
+
+\begin{itemize}
+	\item Averaging
+	\item Boosting
+	\item Bootstrapping
+	\item Bagging
+	\item Cascading
+	\item Random Forests
+	\item Stacking
+\end{itemize}
+
+Ofcourse, we wouldn't do this unless {\bf ensemble methods often have a higher accuracy than the individual input classifiers}
+
+\section{Finding}
+We recall the bias, variance tradeoff. $E_{train}$ and $E_{approx}$. We can make $E_{train}$ "really small" at the cost of $E_{approx}$ and vice versa.
+
+We find that ensemble methods can do "much better" on one of these, than each individual classifier, whilst not being "only somewhat worse" on the other.
+
+\begin{itemize}
+	\item {\bf Boosting}; improves $E_{train}$ in cases where $E_{train}$ is high, and, 
+	\item {\bf Averaging}; improves $E_{approx}$ in cases where $E_{approx}$ is high.
+\end{itemize}
+
+And now we begin sections for each of these methods in the following lecture...
+
+\end{document}
