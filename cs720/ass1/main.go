@@ -24,11 +24,6 @@ type ast struct {
 	root      node
 }
 
-// node could either be an addition of two nodes, or a graph
-type node interface {
-	astNode()
-}
-
 func (t *ast) from(s string) error {
 	// header represents the treewidth of the t-parse input string
 	var withHeader = []rune(strings.TrimSpace(s))
@@ -39,6 +34,10 @@ func (t *ast) from(s string) error {
 
 	t.root = t.parseNode(tokenizer)
 	return nil
+}
+
+func (t *ast) evaluate() graph {
+	panic("not implemented")
 }
 
 func (t *ast) parseNode(tokenizer *tokenizer) node {
@@ -60,7 +59,7 @@ func (t *ast) parseNode(tokenizer *tokenizer) node {
 		return newGraph(nums, t.treeWidth)
 	case OPEN:
 		left := t.parseNode(tokenizer)
-		tokenizer.next()
+		tokenizer.next() // accounts for the next expected open brace
 		return &addition{
 			left:  left,
 			right: t.parseNode(tokenizer),
@@ -68,13 +67,23 @@ func (t *ast) parseNode(tokenizer *tokenizer) node {
 	}
 
 	return nil
-
 }
+
+// node could either be an addition of two nodes, or a graph
+type node interface {
+	astNode()
+}
+
 
 // addition of two graphs
 type addition struct {
 	left  node
 	right node
+}
+
+// sum recursively sums up the graph tree
+func (a *addition) sum() *graph {
+	panic("not implemented")
 }
 
 func (a addition) astNode() {}
@@ -91,6 +100,16 @@ type graph struct {
 	edges []pair
 	// vertices contained in the graph, described via "seen" index
 	vertices []int
+}
+
+// degreeSequence for assignment part 1
+func (g *graph) degreeSequence() string {
+	panic("not implemented")
+}
+
+// adjacencyList for assignment part 2
+func (g *graph) adjacencyList() string {
+	panic("not implemented")
 }
 
 func (g graph) astNode() {}
