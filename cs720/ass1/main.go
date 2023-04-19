@@ -14,50 +14,70 @@ func main() {
 	tParseInput := os.Args[1]
 	fmt.Printf("parsing: \"%s\" \n", tParseInput)
 
-	ast := new(tParseAST)
+	ast := new(ast)
 	_ = ast.from(tParseInput)
-
-	fmt.Println(ast.treeWidth)
-	// TODO: build an AST
 }
 
-// tParseAST represent a traversable abstract syntax tree of a t-parse input string.
-type tParseAST struct {
+// ast represent a traversable abstract syntax tree of a t-parse input string.
+type ast struct {
 	treeWidth int
-	// root node could either be an addition of two nodes, or a graph
-	// TODO: for now we will just parse the graph, but we need to include possibility of addition
-	root graph
+	root      node
 }
 
-func (t *tParseAST) from(s string) error {
+// node could either be an addition of two nodes, or a graph
+type node interface {
+	astNode()
+}
+
+func (t *ast) from(s string) error {
 	// header represents the treewidth of the t-parse input string
 	var withHeader = []rune(strings.TrimSpace(s))
 	t.treeWidth, _ = strconv.Atoi(string(withHeader[0]))
 
 	tokenizer := &tokenizer{input: withHeader[1:]}
-	for {
-		run, token, err := tokenizer.next()
-		if errors.Is(err, io.EOF) {
-			return nil
-		}
+	tokenizer.next() // we skip the first open
 
-		switch token {
-		case OPEN:
-			continue
-		case GRAPH:
-			rawNums := strings.Split(run, " ")
-			nums := make([]int, len(rawNums))
-			for i, s := range rawNums {
-				nums[i], err = strconv.Atoi(s)
-				if err != nil { // NOTE: shouldn't happen, but shows the need for another error handling layer over the core tokenizer
-					panic(fmt.Errorf("tokenizer returned a non-int slice of numbers %v: %w", rawNums, err))
-				}
+	t.root = t.parseNode(tokenizer)
+	return nil
+}
+
+func (t *ast) parseNode(tokenizer *tokenizer) node {
+	run, token, err := tokenizer.next() // TODO: properly evaluate
+	if errors.Is(err, io.EOF) {
+		return nil
+	}
+
+	switch token {
+	case GRAPH:
+		rawNums := strings.Split(run, " ")
+		nums := make([]int, len(rawNums))
+		for i, s := range rawNums {
+			nums[i], err = strconv.Atoi(s)
+			if err != nil { // NOTE: shouldn't happen, but shows the need for another error handling layer over the core tokenizer
+				panic(fmt.Errorf("tokenizer returned a non-int slice of numbers %v: %w", rawNums, err))
 			}
-			graph := newGraph(nums, t.treeWidth) // TODO: continue
-			panic(fmt.Sprintf("%+v", graph))
+		}
+		return newGraph(nums, t.treeWidth)
+	case OPEN:
+		left := t.parseNode(tokenizer)
+		tokenizer.next()
+		return &addition{
+			left:  left,
+			right: t.parseNode(tokenizer),
 		}
 	}
+
+	return nil
+
 }
+
+// addition of two graphs
+type addition struct {
+	left  node
+	right node
+}
+
+func (a addition) astNode() {}
 
 // graph represents the core graph nodes of the tParseAST. Each graph is undirected with a slice of
 // vertices and unordered pair of vertices.
@@ -73,6 +93,24 @@ type graph struct {
 	vertices []int
 }
 
+func (g graph) astNode() {}
+
+func (g *graph) String() string {
+	var sb strings.Builder
+	sb.WriteString("G = (V, E)\n")
+	sb.WriteString(fmt.Sprintf("V = %v \n", g.vertices))
+	sb.WriteString("E = ")
+	for i, edge := range g.edges {
+		sb.WriteString(fmt.Sprintf("(%d, %d)", edge.a, edge.b))
+		if i+1 < len(g.edges) {
+			sb.WriteString(", ")
+		}
+	}
+	sb.WriteString(fmt.Sprintf("\n with boundary = %v", g.boundary))
+
+	return sb.String()
+}
+
 type pair struct {
 	a int
 	b int
@@ -86,7 +124,7 @@ func newGraph(build []int, treeWidth int) *graph {
 	}
 
 	g := &graph{
-		boundary: make([]int, treeWidth + 1),
+		boundary: make([]int, treeWidth+1),
 		raw:      build,
 		edges:    []pair{},
 		vertices: []int{},
@@ -144,24 +182,17 @@ type tokenizer struct {
 // next returns a triple, the raw parsed string and the associated token. Returns an
 // io.EOF error when the end of the string has been hit.
 func (i *tokenizer) next() (string, token, error) {
+	// we want the index to increment on any return
+	defer func() {
+		i.index++
+	}()
+
 	for {
 		if i.index >= len(i.input) {
 			return "", NULL, io.EOF
 		}
 
-		// we want the index to increment on any return to set up the indexer for the
-		// next call
-		defer func() {
-			i.index++
-		}()
-
-		if unicode.IsSpace(i.input[i.index]) {
-			i.index++
-			continue
-		}
-
 		r := i.input[i.index]
-
 		if r == '(' {
 			return "(", OPEN, nil
 		}
@@ -178,5 +209,8 @@ func (i *tokenizer) next() (string, token, error) {
 				i.index++
 			}
 		}
+
+		// all else skipped
+		i.index++
 	}
 }
