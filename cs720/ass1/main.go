@@ -15,7 +15,19 @@ func main() {
 	fmt.Printf("parsing: \"%s\" \n", tParseInput)
 
 	ast := new(ast)
-	_ = ast.from(tParseInput)
+	ast.from(tParseInput)
+
+	root := ast.root.(*addition)
+
+	leftGraph := root.left.(*graph)
+
+	rightAddition := root.right.(*addition)
+	leftAdditionGRaph := rightAddition.left.(*graph)
+	righttAdditionGRaph := rightAddition.right.(*graph)
+
+	fmt.Println(leftGraph)
+	fmt.Println(leftAdditionGRaph)
+	fmt.Println(righttAdditionGRaph)
 }
 
 // ast represent a traversable abstract syntax tree of a t-parse input string.
