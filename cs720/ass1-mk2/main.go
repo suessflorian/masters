@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"sort"
 	"strconv"
 	"strings"
@@ -11,15 +12,16 @@ import (
 )
 
 func main() {
-	tParseInput := "3 ( 0 21 10 30 20 )"
+	tParseInput := os.Args[1]
 	fmt.Printf("parsing: \"%s\" \n", tParseInput)
 
 	// header represents the treewidth of the t-parse input string
 	var withHeader = []rune(strings.TrimSpace(tParseInput))
 	treeWidth, _ := strconv.Atoi(string(withHeader[0]))
-	ast := newParser(&tokenizer{input: withHeader[1:]}, treeWidth).parse() // TODO: returns this AST
+	ast := newParser(&tokenizer{input: withHeader[1:]}, treeWidth).parse()
 
-	fmt.Println(ast.eval())
+	g := ast.eval()
+	fmt.Println(g.degreeSequence())
 }
 
 type parser struct {
@@ -60,7 +62,7 @@ func (p *parser) parse() ast {
 		switch p.currToken {
 		case CIRCLEPLUS:
 			p.setNext()
-			var right = p.base()
+			var right = p.parse()
 			result = &astCirclePlus{
 				left:  result,
 				right: right,
