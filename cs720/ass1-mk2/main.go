@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	tParseInput := "3 ( ( 30 ) ( 20 ) 0 21 10 30 20 )"
+	tParseInput := "3 ( 0 21 10 30 20 )"
 	fmt.Printf("parsing: \"%s\" \n", tParseInput)
 
 	// header represents the treewidth of the t-parse input string
@@ -18,7 +18,7 @@ func main() {
 	treeWidth, _ := strconv.Atoi(string(withHeader[0]))
 	ast := newParser(&tokenizer{input: withHeader[1:]}, treeWidth).parse() // TODO: returns this AST
 
-	fmt.Println(ast)
+	fmt.Println(ast.eval())
 }
 
 type parser struct {
@@ -158,15 +158,13 @@ type bottomless struct {
 // base constructs a graph given a treewidth set.
 func (b *bottomless) base() *graph {
 	g := &graph{
-		boundary: make([]int, b.treeWidth+1),
-		raw:      []int{},
-		edges:    []pair{},
-		vertices: []int{},
+		boundary:  make([]int, b.treeWidth+1),
+		edges:     []pair{},
+		seenIndex: b.treeWidth,
 	}
 
 	for i := range g.boundary {
 		g.boundary[i] = i
-		g.vertices = append(g.vertices, i)
 	}
 
 	return g
@@ -205,13 +203,11 @@ func (a *astVertex) eval() *graph {
 type graph struct {
 	// boundary is an ordered set of vertices, each element representing the vertix "seen" index
 	boundary []int
-	// raw represents the raw input string used to build this graph
-	raw []int
 
 	// edges described via tuples using the "seen" index
 	edges []pair
-	// vertices contained in the graph, described via "seen" index
-	vertices []int
+	// seenIndex is the counter used to label vertices as they get added
+	seenIndex int
 }
 
 type pair struct {
@@ -224,11 +220,17 @@ func (g *graph) circlePlus(right *graph) *graph {
 }
 
 func (g *graph) addVertex(i int) *graph {
-	panic("not implemented")
+	g.seenIndex += 1
+	g.boundary[i] = g.seenIndex
+	return g
 }
 
 func (g *graph) addEdge(i int) *graph {
-	panic("not implemented")
+	first := i / 10
+	second := i % 10
+
+	g.edges = append(g.edges, pair{g.boundary[first], g.boundary[second]})
+	return g
 }
 
 // degreeSequence for assignment part 1
@@ -244,7 +246,11 @@ func (g *graph) adjacencyList() string {
 func (g *graph) String() string {
 	var sb strings.Builder
 	sb.WriteString("G = (V, E)\n")
-	sb.WriteString(fmt.Sprintf("V = %v \n", g.vertices))
+	vertices := make([]int, g.seenIndex + 1)
+	for i := range vertices {
+		vertices[i] = i
+	}
+	sb.WriteString(fmt.Sprintf("V = %v \n", vertices))
 	sb.WriteString("E = ")
 	for i, edge := range g.edges {
 		sb.WriteString(fmt.Sprintf("(%d, %d)", edge.a, edge.b))
@@ -255,49 +261,6 @@ func (g *graph) String() string {
 	sb.WriteString(fmt.Sprintf("\n with boundary = %v", g.boundary))
 
 	return sb.String()
-}
-
-// newGraph takes an int slice that indicates the construction of this graph, plus the tree width
-// and returns the new parsed graph instance.
-func newGraph(build []int, treeWidth int) *graph {
-	if treeWidth > 9 {
-		panic("cannot construct a graph with a tree width greater than 9")
-	}
-
-	g := &graph{
-		boundary: make([]int, treeWidth+1),
-		raw:      build,
-		edges:    []pair{},
-		vertices: []int{},
-	}
-
-	for i := range g.boundary {
-		g.boundary[i] = i
-		g.vertices = append(g.vertices, i)
-	}
-
-	// nextIndex holds the index to be assigned to the next vertex when added to the graph
-	var nextIndex = len(g.boundary)
-	for _, num := range build {
-		if num <= treeWidth { // we are replacing a boundary vertex with a new one
-			g.vertices = append(g.vertices, nextIndex)
-			g.boundary[num] = nextIndex
-			nextIndex++
-			continue
-		}
-		if num >= 10 && num < 100 { // we have an edge definition
-			first := num / 10
-			second := num % 10
-
-			// WARN: assumes correct input, would ideally validate these two references are in fact
-			// proper edge references, below will panic if referencing out of boundary.
-			g.edges = append(g.edges, pair{g.boundary[first], g.boundary[second]})
-			continue
-		}
-		panic(fmt.Errorf("received an invalid numeric atom in the graph string: %v", build))
-	}
-
-	return g
 }
 
 // the types of tokens to be parsed, we expect the indexer to only yield GRAPH
