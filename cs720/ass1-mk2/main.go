@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 	"unicode"
@@ -159,7 +160,7 @@ type bottomless struct {
 func (b *bottomless) base() *graph {
 	g := &graph{
 		boundary:  make([]int, b.treeWidth+1),
-		edges:     []pair{},
+		edges:     [][]int{},
 		seenIndex: b.treeWidth,
 	}
 
@@ -204,19 +205,73 @@ type graph struct {
 	// boundary is an ordered set of vertices, each element representing the vertix "seen" index
 	boundary []int
 
-	// edges described via tuples using the "seen" index
-	edges []pair
-	// seenIndex is the counter used to label vertices as they get added
+	// edges described via tuples using vertex assigned "seen" indices
+	edges [][]int
+	// seenIndex is the counter used for assigning labels to vertices as they get added
 	seenIndex int
 }
 
-type pair struct {
-	a int
-	b int
+// uniqueSortedEdges takes a list of sorted edges; if a,b in V and a < b, then (a,b) in E
+// strictly not (b ,a) in E. Returns a unique list of them.
+func uniqueSortedEdges(edges [][]int) [][]int {
+	sort.Slice(edges, func(i, j int) bool { // lexically sorting
+		if edges[i][0] < edges[j][0] {
+			return true
+		}
+		if edges[i][0] == edges[j][0] {
+			if edges[i][1] <= edges[j][1] {
+				return true
+			}
+		}
+		return false
+	})
+
+	return slices.CompactFunc(edges, func(i, j []int) bool {
+		if i[0] == j[0] {
+			if i[1] == j[1] {
+				return true
+			}
+		}
+		return false
+	})
 }
 
-func (g *graph) circlePlus(right *graph) *graph {
-	panic("not implemented")
+func (left *graph) circlePlus(right *graph) *graph {
+	allRightVertixLabels := make([]int, right.seenIndex+1)
+	for i := range allRightVertixLabels {
+		allRightVertixLabels[i] = i
+	}
+
+	// we then remove all right vertices labels that are not contained in the right boundary
+	// these will represent all the right vertices that we will need to add to the left
+	var newVerticesInRightToAdd []int
+	for _, vertex := range allRightVertixLabels {
+		if !slices.Contains(right.boundary, vertex) {
+			newVerticesInRightToAdd = append(newVerticesInRightToAdd, vertex)
+		}
+	}
+
+	// for every new vertex, we figure out how the right labels maps to the left labels
+	var rightToLeft = make(map[int]int)
+	for i, right := range newVerticesInRightToAdd {
+		rightToLeft[right] = left.seenIndex + 1 + i
+	}
+
+	// we also respectively map each right boundary vertex label to the right boundary vertex label
+	for i, right := range right.boundary {
+		rightToLeft[right] = left.boundary[i]
+	}
+
+	// now we have a full mapping from right vertex label to left vertex label and we can incorporate
+	// each edge from the right into the left using this mapping
+	for _, edge := range right.edges {
+		left.edges = append(left.edges, []int{rightToLeft[edge[0]], rightToLeft[edge[1]]})
+	}
+	left.edges = uniqueSortedEdges(left.edges)
+
+	// now we also add these vertices to the left
+	left.seenIndex += len(newVerticesInRightToAdd)
+	return left
 }
 
 func (g *graph) addVertex(i int) *graph {
@@ -226,10 +281,10 @@ func (g *graph) addVertex(i int) *graph {
 }
 
 func (g *graph) addEdge(i int) *graph {
-	first := i / 10
-	second := i % 10
+	a := i / 10
+	b := i % 10
 
-	g.edges = append(g.edges, pair{g.boundary[first], g.boundary[second]})
+	g.edges = uniqueSortedEdges(append(g.edges, []int{g.boundary[a], g.boundary[b]}))
 	return g
 }
 
@@ -246,14 +301,14 @@ func (g *graph) adjacencyList() string {
 func (g *graph) String() string {
 	var sb strings.Builder
 	sb.WriteString("G = (V, E)\n")
-	vertices := make([]int, g.seenIndex + 1)
+	vertices := make([]int, g.seenIndex+1)
 	for i := range vertices {
 		vertices[i] = i
 	}
 	sb.WriteString(fmt.Sprintf("V = %v \n", vertices))
 	sb.WriteString("E = ")
 	for i, edge := range g.edges {
-		sb.WriteString(fmt.Sprintf("(%d, %d)", edge.a, edge.b))
+		sb.WriteString(fmt.Sprintf("(%d, %d)", edge[0], edge[1]))
 		if i+1 < len(g.edges) {
 			sb.WriteString(", ")
 		}
