@@ -223,3 +223,47 @@ func TestCirclePlus(t *testing.T) {
 		})
 	}
 }
+
+func TestDegreeSequence(t *testing.T) {
+	type test struct {
+		name     string
+		graph    *graph
+		expected string
+	}
+
+	tests := []test{
+		{
+			name: "no edges",
+			graph: &graph{
+				boundary:  []int{8, 9, 10, 11, 12},
+				edges:     [][]int{},
+				seenIndex: 12,
+			},
+			expected: "0 0 0 0 0 0 0 0 0 0 0 0 0",
+		},
+		{
+			name: "equal",
+			graph: &graph{
+				boundary:  []int{0, 1, 2, 3, 4, 5},
+				edges:     [][]int{{0, 1}, {2, 3}, {4, 5}},
+				seenIndex: 5,
+			},
+			expected: "1 1 1 1 1 1",
+		},
+		{
+			name: "overlapping run, should be desc",
+			graph: &graph{
+				boundary:  []int{0, 1, 2, 3, 4, 5},
+				edges:     [][]int{{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 5}},
+				seenIndex: 5,
+			},
+			expected: "2 2 2 2 1 1",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			assert.Equal(t, test.expected, test.graph.degreeSequence())
+		})
+	}
+}

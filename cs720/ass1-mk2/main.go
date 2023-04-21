@@ -290,7 +290,28 @@ func (g *graph) addEdge(i int) *graph {
 
 // degreeSequence for assignment part 1
 func (g *graph) degreeSequence() string {
-	panic("not implemented")
+	var degrees = make(map[int]int)
+	for i := 0; i <= g.seenIndex; i++ {
+		degrees[i] = 0
+	}
+
+	for _, edge := range g.edges {
+		degrees[edge[0]] += 1
+		degrees[edge[1]] += 1
+	}
+
+	var summedDegrees []int
+	for _, degree := range degrees {
+		summedDegrees = append(summedDegrees, degree)
+	}
+
+	slices.Sort(summedDegrees)
+
+	var result []string
+	for i := len(summedDegrees) - 1; i >= 0; i-- {
+		result = append(result, strconv.Itoa(summedDegrees[i]))
+	}
+	return strings.Join(result, " ")
 }
 
 // adjacencyList for assignment part 2
