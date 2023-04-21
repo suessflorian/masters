@@ -21,7 +21,7 @@ func main() {
 	ast := newParser(&tokenizer{input: withHeader[1:]}, treeWidth).parse()
 
 	g := ast.eval()
-	fmt.Println(g.degreeSequence())
+	fmt.Println(g.adjacencyList())
 }
 
 type parser struct {
@@ -318,7 +318,34 @@ func (g *graph) degreeSequence() string {
 
 // adjacencyList for assignment part 2
 func (g *graph) adjacencyList() string {
-	panic("not implemented")
+	var sb strings.Builder
+
+	sb.WriteString(strconv.Itoa(g.seenIndex + 1))
+	sb.WriteString("\n")
+
+	var adjacency = make(map[int][]int)
+	for i := 0; i <= g.seenIndex; i++ {
+		adjacency[i] = []int{}
+	}
+
+	for _, edge := range g.edges {
+		adjacency[edge[0]] = append(adjacency[edge[0]], edge[1])
+		adjacency[edge[1]] = append(adjacency[edge[1]], edge[0])
+	}
+
+	for i := 0; i <= g.seenIndex; i++ {
+		adjacent := adjacency[i]
+		slices.Sort(adjacent)
+
+		var result []string
+		for _, neighbour := range adjacent {
+			result = append(result, strconv.Itoa(neighbour))
+		}
+		sb.WriteString(strings.Join(result, " "))
+		sb.WriteString("\n")
+	}
+
+	return sb.String()
 }
 
 func (g *graph) String() string {
