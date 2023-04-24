@@ -2,10 +2,7 @@ module ass1
 
 go 1.20
 
-require (
-	github.com/stretchr/testify v1.8.2
-	golang.org/x/exp v0.0.0-20230420155640-133eef4313cb
-)
+require github.com/stretchr/testify v1.8.2
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect

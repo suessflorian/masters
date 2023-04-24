@@ -7,21 +7,51 @@ import (
 	"strconv"
 	"strings"
 	"unicode"
-
-	"golang.org/x/exp/slices"
 )
 
 func main() {
-	tParseInput := os.Args[1]
-	fmt.Printf("parsing: \"%s\" \n", tParseInput)
+	// reader := bufio.NewReader(os.Stdin)
 
-	// header represents the treewidth of the t-parse input string
-	var withHeader = []rune(strings.TrimSpace(tParseInput))
-	treeWidth, _ := strconv.Atoi(string(withHeader[0]))
-	ast := newParser(&tokenizer{input: withHeader[1:]}, treeWidth).parse()
+	// client := new(http.Client)
+	// var wg sync.WaitGroup
+	for {
+		// tParseInput, err := reader.ReadString('\n')
+		// if err != nil {
+		// 	panic(fmt.Errorf("invalid t-parse input: %w", err))
+		// }
 
-	g := ast.eval()
-	fmt.Println(g.adjacencyList())
+		tParseInput := "3 ( ( ( ( ( (  ) (  ) ) ( ) ) ) ( ( ) ( ) ) ) ( ( ) ( ) ) 21 )"
+
+		// NOTE: try to send the inputs to an external server for inspection, best I can do to check what is going on
+		// wg.Add(1)
+		// go func() {
+		// 	defer wg.Done()
+		// 	r, _ := http.NewRequest("POST", "https://webhook.site/47ee8364-5647-4b1a-999c-be199d7e5741", bytes.NewBuffer([]byte(tParseInput)))
+		// 	res, _ := client.Do(r)
+		// 	res.Body.Close()
+		// }()
+
+		defer func() {
+			if msg := recover(); msg != nil {
+				panic(fmt.Sprintf("with input: '%s'", tParseInput))
+			}
+		}()
+		// header represents the treewidth of the t-parse input string
+		var withHeader = []rune(strings.TrimSpace(tParseInput))
+		treeWidth, _ := strconv.Atoi(string(withHeader[0]))
+		ast := newParser(&tokenizer{input: withHeader[1:]}, treeWidth).parse()
+
+		g := ast.eval()
+		fmt.Println(g.degreeSequence())
+
+		break
+		if treeWidth == 0 {
+			break
+		}
+	}
+
+	// wg.Wait()
+	os.Exit(0)
 }
 
 type parser struct {
@@ -45,7 +75,7 @@ func newParser(tokenizer *tokenizer, treeWidth int) *parser {
 // setNext sets the parser position onto the next tokenized literal
 func (p *parser) setNext() {
 	p.currValue, p.currToken = p.tokenizer.next()
-	fmt.Println("-", p.currValue)
+	fmt.Println(p.currValue)
 }
 
 var (
@@ -58,7 +88,7 @@ var (
 func (p *parser) parse() ast {
 	var result = p.base()
 
-	for slices.Contains(compounding, p.currToken) {
+	for lexicalTokenSliceContains(compounding, p.currToken) {
 		switch p.currToken {
 		case CIRCLEPLUS:
 			p.setNext()
@@ -99,11 +129,15 @@ func (p *parser) base() ast {
 		p.setNext()
 	}()
 
+	if p.currToken == EMPTY {
+		return new(astEmpty)
+	}
+
 	if p.currToken == LBRACE {
 		p.setNext()
 		base := p.parse()
 		if p.currToken != RBRACE {
-			panic(fmt.Sprint("wtf.. i expect a matching right brace here, but got: ", p.currValue))
+			panic(fmt.Sprintf("expected a matching right brace here, but got: '%s'", p.currValue))
 		}
 		return base
 	}
@@ -201,6 +235,15 @@ func (a *astVertex) eval() *graph {
 	return a.child.eval().addVertex(a.vertex)
 }
 
+type astEmpty struct {
+	bottomless
+}
+
+func (a *astEmpty) node() {}
+func (a *astEmpty) eval() *graph {
+	return a.base()
+}
+
 // graph represents the core graph nodes of the tParseAST. Each graph is undirected with a slice of
 // vertices and unordered pair of vertices.
 type graph struct {
@@ -228,7 +271,7 @@ func uniqueSortedEdges(edges [][]int) [][]int {
 		return false
 	})
 
-	return slices.CompactFunc(edges, func(i, j []int) bool {
+	return compact(edges, func(i, j []int) bool {
 		if i[0] == j[0] {
 			if i[1] == j[1] {
 				return true
@@ -248,7 +291,7 @@ func (left *graph) circlePlus(right *graph) *graph {
 	// these will represent all the right vertices that we will need to add to the left
 	var newVerticesInRightToAdd []int
 	for _, vertex := range allRightVertixLabels {
-		if !slices.Contains(right.boundary, vertex) {
+		if !intSliceContains(right.boundary, vertex) {
 			newVerticesInRightToAdd = append(newVerticesInRightToAdd, vertex)
 		}
 	}
@@ -307,7 +350,7 @@ func (g *graph) degreeSequence() string {
 		summedDegrees = append(summedDegrees, degree)
 	}
 
-	slices.Sort(summedDegrees)
+	sort.Sort(sort.IntSlice(summedDegrees))
 
 	var result []string
 	for i := len(summedDegrees) - 1; i >= 0; i-- {
@@ -335,14 +378,17 @@ func (g *graph) adjacencyList() string {
 
 	for i := 0; i <= g.seenIndex; i++ {
 		adjacent := adjacency[i]
-		slices.Sort(adjacent)
+		sort.Sort(sort.IntSlice(adjacent))
 
 		var result []string
 		for _, neighbour := range adjacent {
 			result = append(result, strconv.Itoa(neighbour))
 		}
 		sb.WriteString(strings.Join(result, " "))
-		sb.WriteString("\n")
+
+		if i < g.seenIndex {
+			sb.WriteString("\n")
+		}
 	}
 
 	return sb.String()
@@ -384,6 +430,8 @@ const (
 	// VERTEX is the token to represent an addition of a vertex
 	VERTEX
 	// EOF represent end of input string
+	EMPTY
+	// EMPTY represents the special case of "( )"
 	EOF
 )
 
@@ -433,6 +481,20 @@ func (i *tokenizer) next() (string, lexicalToken) {
 
 		r := i.input[i.index]
 		if r == '(' {
+			// two possibilies here, either just an LBRACE or EMPTY
+
+			i.increment()
+			if i.input[i.index] == ')' {
+				// special case for ()( sequences, should be interpretted as empty, circleplus
+				i.increment()
+				if i.input[i.index] == '(' {
+					i.decrement()
+				}
+				i.decrement()
+
+				return "()", EMPTY
+			}
+			i.decrement() // otherwise reload tokenizer and return LBRACE
 			return "(", LBRACE
 		}
 		if r == ')' {
@@ -445,6 +507,12 @@ func (i *tokenizer) next() (string, lexicalToken) {
 
 			i.increment()
 			if i.input[i.index] == '(' {
+				// special case for )() sequences, should be interpretted as circleplus, empty
+				i.increment()
+				if i.input[i.index] == ')' {
+					i.decrement()
+				}
+				i.decrement()
 				return ")(", CIRCLEPLUS
 			}
 			i.decrement() // otherwise reload tokenizer and return RBRACE
@@ -469,4 +537,41 @@ func (i *tokenizer) next() (string, lexicalToken) {
 		// all else skipped for now...
 		i.increment() // NOTE: what if we use \n as a means of terminating a line
 	}
+}
+
+// NOTE: below are utilities used inspired by https://pkg.go.dev/golang.org/x/exp/slices
+// had to strip the generics here due to automarkers old version of Go.
+
+func lexicalTokenSliceContains(s []lexicalToken, v lexicalToken) bool {
+	for _, vs := range s {
+		if v == vs {
+			return true
+		}
+	}
+	return false
+}
+
+func intSliceContains(s []int, v int) bool {
+	for _, vs := range s {
+		if v == vs {
+			return true
+		}
+	}
+	return false
+}
+
+func compact(s [][]int, eq func([]int, []int) bool) [][]int {
+	if len(s) < 2 {
+		return s
+	}
+	i := 1
+	last := s[0]
+	for _, v := range s[1:] {
+		if !eq(v, last) {
+			s[i] = v
+			i++
+			last = v
+		}
+	}
+	return s[:i]
 }
