@@ -1,0 +1,89 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+\begin{document}
+\section*{Vertex Cover}
+We exploit the input structure, that is $G = (V,E)$ being a tree (connected acyclic graph) by confidently traversing {\em from} an arbitrary root $v \in V$. This method requires an intermediate structural translation of $G = (V, E)$ into a series of nodes with children nodes hence surfacing sub-problems, allowing for the use of this dynamic programming approach;
+
+\vspace{1em}
+\begin{algorithm} \caption{IncExcRootVC}
+\begin{algorithmic}[1]
+\Require $r$, the root of the tree
+\ForEach {$v \in child(r)$}
+\State $inc[v], exc[v] \gets IncExcRootVC(v)$
+\EndFor
+\State $exc \gets \bigcup_{v \in child(r)} inc[v]$
+\State $inc \gets \{r\} \cup \bigcup_{v \in child(r)} min(inc[v], exc[v])$
+\State \Return inc, exc
+\Comment{ Returns $\{r\}, \emptyset$ in case of $child(r) = \emptyset$}
+\end{algorithmic}
+\end{algorithm}
+
+Noting that we only really need $E$ due to how the information of the vertices is nessecarily contained in it already (property of a tree). For any $e = (a, b) \in E$, we know $a,b \in V$. We will abritrarilly interpret this edge as having $b$ as child of $a$. We just assume the edges provided are sorted, if not, we can just apply some basic lexical sorting to the edges provided. We wrap the above function in the following way;
+
+\vspace{1em}
+\begin{algorithm} \caption{VertexCoverOfTree}
+\begin{algorithmic}[1]
+\Require $sorted(E)$, the edges
+\State $R \gets \{\}$
+\Comment{ The set of nodes that are parentless }
+\State $C \gets \{\}$
+\Comment{ The set of nodes that have children }
+\ForEach {$(a,b) \in E$}
+\State $a[child] \gets a[child] \cap \{b\}$
+
+\State $R \gets R \setminus \{b\}$
+\State $C \gets C \cap \{b\}$
+
+\If{$a \not\in C$}
+\State $R \gets R \cap \{a\}$
+\EndIf
+\EndFor
+\State $root \gets R[0]$
+\State \Return $min(IncExcRootVC(root))$
+\end{algorithmic}
+\end{algorithm}
+
+This algorithm works linearly, as we stitch two linear algorithms together $O(n + n)=O(n)$. Iterating once on the edges of G to construct an auxiliary structure, for which we recursively iterate down the tree and vist each vertex once.
+
+\section*{Kernelization}
+In order to prove safety of the proposed reduction rules we must show $(\psi, k)$ is a yes-instance of MAX SAT {\bf if and only if} $(\psi', k')$ is a yes-instance of MAX SAT. Must prove both sides of implication, albeit a simple counter-example in any direction suffices to show a reduction rules ineligibility.
+
+For reference; the boolean formula $\psi$ is in conjunctive normal form (CNF) over variables $V = \{v_1, v_2, ... , v_n\}$ and clauses $C = \{C1, C2, ... , Cm\}$. We also know that for each $v \in V$ appears at most once in any $c \in C$.
+
+\subsection*{Rule A}
+\subsubsection*{Lemma 1: Construction of $t: \{F,T\}$ for "unnegated" variable}
+Given a $\psi$ over $V$ and $C$ such that if $v_i \in V$ is "unnegated" in all $c \in C$. Let $C_{v_i} \subseteq C$ be defined as all clauses mention $v_i$. Trivially any truth assignment $t: V \rightarrow \{F,T\}$ such that $t(v_i) = T$ satisfies all $c \in C_{v_i}$ as the clause by definition of CNF on $\psi$ has a disjunction on $v_i$ hence $t$ satisfies at least $|C_{v_i}|$ clauses of $C$ in $\psi$.
+
+\subsubsection*{Lemma 1a: Such $t(v_i) = T$ definition is strictly more satisfying on $C$ than if the same $t(v_i) = F$}
+Say $t$ satisfies $C_{tF} \subseteq C$ clauses when $t(v_i) = F$. Then by the above lemma when we change $t(v_i)=T$, we satisfy all $C_{v_i}$ clauses {\bf also}. Hence $C_{tT}$ = $C_{tF} \cup C_{v_i}$ and hence $|C_{tF}| \geq |C_{tT}|$.
+
+\subsubsection*{$\Rightarrow$}
+
+Consider a yes-instance of $(\psi, k)$. If there is some $v_i \in V$ that is "unnegated" in $C$, by lemma 1a, we know the truth assignment $t(v_i)=T$ is maximal relative to $t(v_i)=F$. Let $C_{\text{sat}_\psi} \subseteq C$ be all the satisfied clauses by our maximal truth assignment on $\psi$. We know by lemma 1 that $|C_{\text{sat}_\psi}| = |C_{v_i}| + l \geq k$ for some $l$ and $C_{v_i}$ being all clauses mentioning $v_i$.
+
+Building $\psi'$ on $V'=V \setminus {v_i}$ and $C'=C \setminus C_{v_i}$, it's clear that we have $|C_{\text{sat}_{\psi'}}| = l \geq k - |C_{v_i}|$ showing that $(\psi', k - |C_{v_i}|)$ is a yes-instance. As the rule describes.
+
+\subsubsection*{$\Leftarrow$}
+Given a $\psi'$ over $V'$ and $C'$. Let $C_{\text{sat}_\psi'} \subseteq C'$ be all the satisfied clauses by some maximal truth assignment on $\psi'$. Suppose $|C_{\text{sat}_\psi'}| = l$.
+
+Arbitrarily define a novel $v_i \not\in V'$ and generate a series of disjunctive clauses $|C_{v_i}|$ that contain $v_i$ "unnegated" alongside any number of $v \in V'$. Suppose $|C_{\text{sat}_\psi'}| = l \geq k - |C_{v_i}|$ for some $k$. Then by definition $(\psi', k - |C_{v_i}|)$ is a yes-instance. Building $\psi$ on $V = V' \cup \{v_i\}$ and $C = C' \cup {C_{v_i}}$ and extending the $t$ such that $t(v_i)=T$ then $|C_{\text{sat}_\psi}| = |C_{v_i}| + l \geq k$, hence $(\psi, k)$ is a yes-instance.
+
+
+\subsection*{b}
+Works
+\subsection*{c}
+Fails given that $C = \psi$ for example...
+
+\section{Depth-bounded search trees 1.}
+We first construct a simple quadratic algorithm to detect a candidate 4-cycle path. This returns four candidate vertices that we use for the branching in our search tree. Each depth is marked, and we take our parameter $k$ as the search tree bound wrt. to the search depth. Due to the decision problem nature, we can either traverse this graph in BFS or DFS fashion. DFS allows for a cleaner algorithm implementation.
+
+\section{Depth-bounded search trees 2.}
+
+\end{document}
