@@ -51,7 +51,12 @@ Noting that we only really need $E$ due to how the information of the vertices i
 \end{algorithmic}
 \end{algorithm}
 
-This algorithm works linearly, as we stitch two linear algorithms together $O(n + n)=O(n)$. Iterating once on the edges of G to construct an auxiliary structure, for which we recursively iterate down the tree and vist each vertex once.
+This algorithm works linearly, as we stitch two linear algorithms together $O(n + n)=O(n)$. Iterating once on the edges of G to construct an auxiliary structure, for which we recursively iterate down the tree and vist each vertex once. I like to think that that we traverse this tree {\em bottom up} even though it doesn't quite appear that way. For leaves, we only have possible vertex covers with itself included or not at all (as per comments), we return both though for reasons that are clearer later. For internal nodes we think of the same two situations, but generalised;
+
+\begin{itemize}
+  \item The simpler situation where it {\bf does not} include itself, then we know it's childrens vertex covers that have the children included {\bf must} be unioned and used in order to cover those incident edges.
+  \item The situation where it {\bf does} include itself, then even though natural to assume we include vertex covers of childrens that don't have it included, we're not sure from this perspective alone whether the grandchildren are covering the edges or not in the minimal vertex cover. Hence we just take the minimal vertex cover of both!
+\end{itemize}
 
 \section*{Kernelization}
 In order to prove safety of the proposed reduction rules we must show $(\psi, k)$ is a yes-instance of MAX SAT {\bf if and only if} $(\psi', k')$ is a yes-instance of MAX SAT. Must prove both sides of implication, albeit a simple counter-example in any direction suffices to show a reduction rules ineligibility.
@@ -81,6 +86,9 @@ Arbitrarily define a novel $v_i \not\in V'$ and generate a series of disjunctive
 Consider a yes instance of $(\psi, k)$ such that $C' \subseteq C$ with a maximal truth assignment $t: V \rightarrow \{T,F\}$ such that $t(x)=F$, $t(y)=T$ and $t(z)=T$. We know that all clauses in $C'$ (defined in the rule) are satisfied. If $C \setminus C'$ has no literals $x$, $y$ and $z$, we know that $C_{\text{sat}_\psi}$ (as defined earlier) has a size $ l + |C'| \geq k$ for some $l$. Define a $\psi'$ over $V' = V \setminus \{x,y,z\}$ and $C \setminus C'$. Let $C_{\text{sat}_\psi'} \subseteq C\setminus C'$ be all the satisfied clauses the same truth assignment from $\psi$. Clearly $|C_{\text{sat}_\psi'}| = l \geq k - |C'| = k - 3$, hence $(\psi', k - 3)$ is a yes-instance as the rule describes.
 
 \subsubsection*{$\Leftarrow$}
+Consider a yes-instance $(\psi, l)$ acting over $V'$ and $C'$. Let $C_{\text{sat}_\psi'} \subseteq C'$ be all the satisfied clauses by some maximal truth assignment on $\psi'$. Then $|C_{\text{sat}_\psi'}| \geq l$.
+
+Without loss of generality arbitrarily define a novel $x,y,z \not\in V'$ and construct the set of disjunctive clauses $C_{x,y,z} = \{(x \lor y), (\neg y \lor z), (\neg z \lor \neg x)\}$. Extend the truth assignment such that $t(x)=F$, $t(y)=T$ and $t(z)=T$. Then a new $\psi$ over $V = V' \cap \{x,y,z\}, C = C' \cap C_{x,y,z}$ has clearly then $|C_{\text{sat}_\psi}| \geq l + |C_{x,y,z} = l + 3$. Hence $(\psi, l + 3)$ is a yes-instance.
 
 \subsection*{c}
 We just show a counter example; given $\psi$ on $C'$ and $V = \{x,y,z\}$. We know $(\psi, 3)$ is a yes-instance. For example the truth assignment $t: V \rightarrow\{T,F\}$, with $t(x)=F$, $t(y)=T$, $t(z)=T$ satisfies all clauses in $C'$. Applying the rule, 
