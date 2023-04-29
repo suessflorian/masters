@@ -3,6 +3,7 @@
 \usepackage{amsmath}
 \usepackage{algpseudocode}
 \usepackage{algorithm}
+\usepackage{qtree}
 
 \algnewcommand\algorithmicforeach{\textbf{for each}}
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
@@ -68,22 +69,144 @@ Say $t$ satisfies $C_{tF} \subseteq C$ clauses when $t(v_i) = F$. Then by the ab
 
 Consider a yes-instance of $(\psi, k)$. If there is some $v_i \in V$ that is "unnegated" in $C$, by lemma 1a, we know the truth assignment $t(v_i)=T$ is maximal relative to $t(v_i)=F$. Let $C_{\text{sat}_\psi} \subseteq C$ be all the satisfied clauses by our maximal truth assignment on $\psi$. We know by lemma 1 that $|C_{\text{sat}_\psi}| = |C_{v_i}| + l \geq k$ for some $l$ and $C_{v_i}$ being all clauses mentioning $v_i$.
 
-Building $\psi'$ on $V'=V \setminus {v_i}$ and $C'=C \setminus C_{v_i}$, it's clear that we have $|C_{\text{sat}_{\psi'}}| = l \geq k - |C_{v_i}|$ showing that $(\psi', k - |C_{v_i}|)$ is a yes-instance. As the rule describes.
+Building $\psi'$ on $V'=V \setminus {v_i}$ and $C'=C \setminus C_{v_i}$, it's clear that we have $|C_{\text{sat}_{\psi'}}| = l \geq k - |C_{v_i}|$ showing that $(\psi', k - |C_{v_i}|)$ is a yes-instance as the rule describes.
 
 \subsubsection*{$\Leftarrow$}
 Given a $\psi'$ over $V'$ and $C'$. Let $C_{\text{sat}_\psi'} \subseteq C'$ be all the satisfied clauses by some maximal truth assignment on $\psi'$. Suppose $|C_{\text{sat}_\psi'}| = l$.
 
 Arbitrarily define a novel $v_i \not\in V'$ and generate a series of disjunctive clauses $|C_{v_i}|$ that contain $v_i$ "unnegated" alongside any number of $v \in V'$. Suppose $|C_{\text{sat}_\psi'}| = l \geq k - |C_{v_i}|$ for some $k$. Then by definition $(\psi', k - |C_{v_i}|)$ is a yes-instance. Building $\psi$ on $V = V' \cup \{v_i\}$ and $C = C' \cup {C_{v_i}}$ and extending the $t$ such that $t(v_i)=T$ then $|C_{\text{sat}_\psi}| = |C_{v_i}| + l \geq k$, hence $(\psi, k)$ is a yes-instance.
 
-
 \subsection*{b}
-Works
+\subsubsection*{$\Rightarrow$}
+Consider a yes instance of $(\psi, k)$ such that $C' \subseteq C$ with a maximal truth assignment $t: V \rightarrow \{T,F\}$ such that $t(x)=F$, $t(y)=T$ and $t(z)=T$. We know that all clauses in $C'$ (defined in the rule) are satisfied. If $C \setminus C'$ has no literals $x$, $y$ and $z$, we know that $C_{\text{sat}_\psi}$ (as defined earlier) has a size $ l + |C'| \geq k$ for some $l$. Define a $\psi'$ over $V' = V \setminus \{x,y,z\}$ and $C \setminus C'$. Let $C_{\text{sat}_\psi'} \subseteq C\setminus C'$ be all the satisfied clauses the same truth assignment from $\psi$. Clearly $|C_{\text{sat}_\psi'}| = l \geq k - |C'| = k - 3$, hence $(\psi', k - 3)$ is a yes-instance as the rule describes.
+
+\subsubsection*{$\Leftarrow$}
+
 \subsection*{c}
-Fails given that $C = \psi$ for example...
+We just show a counter example; given $\psi$ on $C'$ and $V = \{x,y,z\}$. We know $(\psi, 3)$ is a yes-instance. For example the truth assignment $t: V \rightarrow\{T,F\}$, with $t(x)=F$, $t(y)=T$, $t(z)=T$ satisfies all clauses in $C'$. Applying the rule, 
+we create $\psi'$, which operates on the rule transformed clauses $C_{\text{rule}}=\{(y \lor y), (y \lor z), (\lnot y)\}$. Note $(y \lor y)$ = $(y)$ and there is no truth assignment that can satisfy both $y$ and $\lnot y$. Hence $(\psi', 3)$ is a no-instance in contradiction to what the rule describes.
 
-\section{Depth-bounded search trees 1.}
-We first construct a simple quadratic algorithm to detect a candidate 4-cycle path. This returns four candidate vertices that we use for the branching in our search tree. Each depth is marked, and we take our parameter $k$ as the search tree bound wrt. to the search depth. Due to the decision problem nature, we can either traverse this graph in BFS or DFS fashion. DFS allows for a cleaner algorithm implementation.
+\section*{Depth-bounded search trees 1.}
+Given a graph $G = (V, E)$ and $k$, we construct a search tree as follows. We perform a recursive 4 path deep DFS search on each node given in $V$ searching for 4-cycles. If no 4-cycle is found, then $G = (V,E)$ is cycle free and we return. If there is a 4-cycle and $k > 0$ (ie we can still remove vertices), choose the first 4-cycle path. It will have shape $\{(a,b), (b,c), (c,d), (d,a)\}$ for vertices $a,b,c,d \in V$. These form the branching factor of our search tree, where for each mentioned vertex, say $v$. We recursively step down with $G = (V \setminus \{v\}, E)$ and $k-1$.
 
-\section{Depth-bounded search trees 2.}
+The running complexity of this DFS search is $O(n^4)$, whilst the search tree is bounded strictly by $4^k$. Hence complexity lies in $O(4^{k}n^3)$. Which shows that the problem is indeed FPT.
+
+\section*{Depth-bounded search trees 2.}
+Given a vertex pair in $H$, we can find the path between the two in a given tree $T$ linearly. This path represents all candidate edges that can be cut to break this particular pair up. Letting a search tree depend on this path alone is susceptible to a combinatorial explosion depending on input $T$ and hence doesn't offer a FPT algorithm no matter what the "per search" task is. 
+
+We must begin with some preparations showing that certain edges in this path are strictly "more" impactful to cut when considering other pairs in $H$. Given a tree $T = (V,E)$ rooted at some vertex, consider an arbitrary pair of vertices, for illustration say $(c, j)$;
+
+\Tree[.{...} [.{a} [.b [.{\bf c} ] [.d ] {\ldots} ]
+          [.f [.g ]
+	  [.h [.i {\ldots} [.{\bf j} ]
+	  [.k ]]] {\ldots} ]]]
+\vspace{1em}
+
+We can always find the least common ancestor ($LCA_T$ with respect to $T$) uniquely. 
+
+\subsubsection*{Definition: $PE_{LCA}$ of $(a,b)$}
+Let $PE_{LCA}$ be the function that maps $(a,b)$ for $a,b \in V$ to the set of edges on the shortest connecting $path(a,b) = \{... , (i, LCA(a,b)), (LCA(a,b), j), ...\}$ that are incident to $LCA(a,b)$.
+
+\subsubsection*{Corollary: $1 \leq |PE_{LCA}(a,b)| \leq 2$ when $a \neq b$ in $V$ of a tree $T = (V,E)$}
+Follows directly of the acyclic nature of a tree. There is only one shortest path between $a,b$. It must go through $LCA(a,b)$. Two cases to consider - one being that $LCA(a,b) \in \{a, b\}$ then clearly there is only one edge in $PE_{LCA}(a,b)$ (the terminal one) and if $LCA(a,b) \not\in \{a, b\}$, then as the definition shows, there is exactly 2 edges in $LCA(a,b)$.
+
+\subsubsection*{Definition: $H$ is partially ordered on $\leq_{\alpha}$}
+Define the following reflexive and transitive partial ordering;
+
+\begin{align*}
+ \text{for any two } (a, b), (c, d) \in H \\
+ \text{if } PE_{LCA}(a,b) \cap path(c,d) \neq \emptyset \text{ then } (a,b) \leq_{\alpha} (c,d) \\
+\end{align*}
+
+\subsubsection*{Corollary $(a,b) \leq_{\alpha} (c,d) \in H$, $\exists e \in PE_{LCA}(a,b) \Rightarrow$ forest $G = (V, E\setminus \{e\})$ disjoins both $(a,b)$ and $(c,d)$}
+Since $e \in PE_{LCA}(a,b) \cap path(c,d) \Leftrightarrow e \in path(a,b) \cap path(c,d)$.
+
+\subsection*{Algorithm to solve TREE MULTI CUT}
+Similar to our first algorithm, we want $T = (V,E)$ mapped to the node/children structure of a tree (for easier sub problem splitting). Then for the recursive step we first in sequence clarify our candidate edge to remove by;
+
+\begin{itemize}
+  \item We reduce $H$ into $M$ by map reducing each element $(a,b)$ of $H$ to pairs $(LCA(a,b), path(a,b))$, dropping elements if $LCA(a,b)$ is not found. This can be done in $|H|n$ steps. Ofcourse if $|M|$ is empty, return true with the passed $k$. 
+  \item In another $|H|n$ steps we map $m = (LCA(a,b), path(a,b)) \in M$ to $k = (PE_{LCA}(a,b), path(a,b))\in K$.
+  \item Then we reduce $K$ with another $|H|^2n$ to $L$ by pairwise checking elements $(a,b)$, $(c,d)$ if $(a,b) \leq (c,d)$, if so drop element $(c,d)$.
+\end{itemize}
+
+Take the first element of $L$, say $(i,j)$ and then perform at {\bf most two subsequent} calls for each $e \in PE_{LCA}(i,j)$ (by corollary, at most size 2) passing down $k-1$ and the tree $T$ rooted at both sides of $e$.
+
+\begin{itemize}
+  \item The return of the first is either false (unable to cut), or true and the remaining cuts say $l$, which is
+  \item Directly passed into the subsequent recursive call that also either returns false (unable to cut), or true and the remaining cuts say $m$. 
+\end{itemize}
+
+We pass up true in that case alongside $m$.
+
+\subsubsection*{Example run on a yes-instance such that $k=3, |V|=14, |H| = 5$}
+Consider the following yes-instance, curated to serve the best parts of this algorithm.
+
+with $H = \{(1,14), (3,13), (4,12), (5,11), (6,10)\}$.
+
+\vspace{1em}
+\Tree[.1 [.2 [.3 [.4 [.{...} [.14 ]]]]]]
+\vspace{1em}
+
+Respectively we begin with the following map reductions on $H$
+
+\noindent\begin{minipage}{.5\linewidth}
+\begin{align*}
+  &M = \{(2, \{(2,3), ..., (13,14)\}), \\
+  &  (3, \{(3,4), (4,5), ..., (12,13)\}), \\
+  &  (4, \{(4,5), (5,6), ..., (11,12)\}), \\
+  &  (5, \{(5,6), (6,7), ..., (10,11)\}), \\
+  &  (6, \{(6,7), (8,9), (9,10)\})\} \\
+\end{align*}
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+\begin{align*}
+  &K = \{(\{(2,3)\}, \{(2,3), ..., (13,14)\}), \\
+  &  (\{(3,4)\}, \{(3,4), (4,5), ..., (12,13)\}), \\
+  &  (\{(4,5)\}, \{(4,5), (5,6), ..., (11,12)\}), \\
+  &  (\{(5,6)\}, \{(5,6), (6,7), ..., (10,11)\}), \\
+  &  (\{(6,7)\}, \{(6,7), (8,9), (9,10)\})\} \\
+\end{align*}
+\end{minipage}
+
+The final reduction we end up with only one candidate in $K$ to step into since $(6,7)$ is an element of all other paths found.
+
+\begin{align*}
+  &\text{\bf K} = \{(\{(6,7)\}, \{(6,7), (8,9), (9,10)\})\} \\
+\end{align*}
+
+Now the search tree expands in a bounded way to repeat the process (mind you this happens sequentially).
+
+\noindent\begin{minipage}{.5\linewidth}
+\vspace{1em}
+With passed down
+
+$k - 1$ and original $H$.
+\Tree[.1 [.2 [.3 [.4 [.{...} [.6 ]]]]]]
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+\vspace{1em}
+With passed down
+
+$k - 1$ and original $H$.
+\Tree[.6 [.7 [.8 [.9 [.{...} [.14 ]]]]]]
+\end{minipage}
+
+\noindent\begin{minipage}{.5\linewidth}
+\begin{align*}
+  &M = \emptyset \\
+\end{align*}
+Hence returning TRUE, $k-1$
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+\begin{align*}
+  &M = \emptyset \\
+\end{align*}
+Hence returning TRUE, $k-1$
+\end{minipage}
+
+\subsection*{Evaluation of Algorithm}
+This algorithm by exploration above ensures optimal progress is made in a way that selects edges that are most "impactful" (as per the $\leq_{\alpha}$). It the search space is bounded by $4^k$, and complexity is $O(4^k(|H|n + |H|n + |H|^2n)) = O(4^k * |H|^2n)$ which shows that the problem is indeed FPT.
+
 
 \end{document}
