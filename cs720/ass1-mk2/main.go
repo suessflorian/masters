@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"sort"
@@ -10,17 +11,15 @@ import (
 )
 
 func main() {
-	// reader := bufio.NewReader(os.Stdin)
+	reader := bufio.NewReader(os.Stdin)
 
 	// client := new(http.Client)
 	// var wg sync.WaitGroup
 	for {
-		// tParseInput, err := reader.ReadString('\n')
-		// if err != nil {
-		// 	panic(fmt.Errorf("invalid t-parse input: %w", err))
-		// }
-
-		tParseInput := "3 ( ( ( ( ( (  ) (  ) ) ( ) ) ) ( ( ) ( ) ) ) ( ( ) ( ) ) 21 )"
+		tParseInput, err := reader.ReadString('\n')
+		if err != nil {
+			panic(fmt.Errorf("invalid t-parse input: %w", err))
+		}
 
 		// NOTE: try to send the inputs to an external server for inspection, best I can do to check what is going on
 		// wg.Add(1)
@@ -44,7 +43,6 @@ func main() {
 		g := ast.eval()
 		fmt.Println(g.degreeSequence())
 
-		break
 		if treeWidth == 0 {
 			break
 		}
@@ -75,7 +73,6 @@ func newParser(tokenizer *tokenizer, treeWidth int) *parser {
 // setNext sets the parser position onto the next tokenized literal
 func (p *parser) setNext() {
 	p.currValue, p.currToken = p.tokenizer.next()
-	fmt.Println(p.currValue)
 }
 
 var (
@@ -130,7 +127,7 @@ func (p *parser) base() ast {
 	}()
 
 	if p.currToken == EMPTY {
-		return new(astEmpty)
+		return &astEmpty{bottomless: bottomless{p.treeWidth}}
 	}
 
 	if p.currToken == LBRACE {
@@ -416,23 +413,23 @@ func (g *graph) String() string {
 
 // the types of tokens to be parsed, we expect the indexer to only yield GRAPH
 // and OPEN tokens
-type lexicalToken int
+type lexicalToken string
 
 const (
 	// LBRACE brace "("
-	LBRACE lexicalToken = iota
+	LBRACE lexicalToken = "LBRACE"
 	// RBRACE brace ")" without a immediate "("
-	RBRACE
+	RBRACE = "RBRACE"
 	// CIRCLEPLUS is the immediate ")(" combination
-	CIRCLEPLUS
+	CIRCLEPLUS = "CIRCLEPLUS"
 	// EDGE is the token to represent an addition of an edge
-	EDGE
+	EDGE = "EDGE"
 	// VERTEX is the token to represent an addition of a vertex
-	VERTEX
+	VERTEX = "VERTEX"
 	// EOF represent end of input string
-	EMPTY
+	EMPTY = "EMPTY"
 	// EMPTY represents the special case of "( )"
-	EOF
+	EOF = "EOF"
 )
 
 // tokenizer is used to statefully increment through an input string skipping all whitespace
@@ -485,13 +482,8 @@ func (i *tokenizer) next() (string, lexicalToken) {
 
 			i.increment()
 			if i.input[i.index] == ')' {
-				// special case for ()( sequences, should be interpretted as empty, circleplus
-				i.increment()
-				if i.input[i.index] == '(' {
-					i.decrement()
-				}
+				// // special case for ()( sequences, should be interpretted as empty, circleplus
 				i.decrement()
-
 				return "()", EMPTY
 			}
 			i.decrement() // otherwise reload tokenizer and return LBRACE
@@ -507,11 +499,7 @@ func (i *tokenizer) next() (string, lexicalToken) {
 
 			i.increment()
 			if i.input[i.index] == '(' {
-				// special case for )() sequences, should be interpretted as circleplus, empty
-				i.increment()
-				if i.input[i.index] == ')' {
-					i.decrement()
-				}
+				// // special case for )() sequences, should be interpretted as circleplus, empty
 				i.decrement()
 				return ")(", CIRCLEPLUS
 			}

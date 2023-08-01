@@ -1,0 +1,64 @@
+\documentclass{article}
+\begin{document}
+(28th March)
+\section{New Lecturer, Weeks 5-8}
+Plan is to look primarilly at data pre processing. We will look at Bayes learning. Then clustering. Association rules (pattern finding). Looks to be all non-supervised.
+
+\section{Pre data preprocessing; agenda}
+Means to transform the data before we feed it to a learning algorithm.
+
+\begin{itemize}
+	\item Data Cleaning
+	\item Missing Data
+	\item Preprocessing and Evaluation
+	\item Data Reduction
+	\item Noisy Data
+	\item Data transformation and data discretization
+	\item Imbalanced data
+\end{itemize}
+
+And to cluster these, we have three major tasks in preprocessing;
+
+\begin{itemize}
+	\item Data Cleaning (missing, noisy, outliers)
+	\item Data Reduction (dimensionality - width, numerosity - rows, compression - both ways)
+	\item Transformation and discretization (normalization, hierarchy generation)
+\end{itemize}
+
+{\em outliers are not necessarily stripped, think "outlier detection" algorithms}
+
+\section{Data Cleaning}
+Basic assumption; (IID) identically, independently distributed - representative, uncorrelated. Distribution of the training and test data are the same.
+
+Most cases though, real-world data is dirty in some way.
+
+\begin{itemize}
+	\item Incomplete (lacking attribute values, certain attributes, containing only aggregate data).
+	\item Noisy, noise, errors, outliers.
+	\item Inconsistent, discrepancies in codes or names.
+	\item Intentionally wrong, GPS locations provided is actively not accurate (default value of GPS location is 0,0, so in general mistaking this)
+\end{itemize}
+
+\section{Incomplete (Missing) Data}
+No always available, or unintentionally not provided (malfunction, deleted because not trustworthy etc...). Simply not collecting crucial features. ETL history not recorded. {\bf Missing data may need to be inferred/imputed}.
+
+Decision tree classifiers can still operate with missing values, regression models though need it.
+
+\subsection{MCAR; missing completely at random}
+Missing information is completely unrelated to the data itself. {\bf Potential problem}? Small sample size (deleting all partial rows).
+
+\subsection{MAR; missing at random}
+Missing is related not to the missing attribute, but to some other data in the dataset. Eg; income is not provided when country is X. {\bf Potential problem} (bias due to row-wise deletion of certain representative groups).
+
+\subsection{MNAR; missing not at random}
+There is a reason the data is missing and it is related to the attribute itself. Eg; response to income survey has participants not share "IF" their income is below some certain threshold. {\bf Potential problem}, same as above, row-wise reduction would introduce bias due to the derived lack of representation of certain groups.
+
+\section{Imputation}
+\begin{itemize}
+	\item {\bf Can ignore}, row-wise reduction (especially when class label missing, supervised problem). Problematic, information loss. Consider which rows to be cut too, contrast information loss between rows that have a large ratio of missing features vs a row with a small ratio of missing features.
+	\item {\bf Manually add back}, most informed way of replacement. Ofcourse this is rarely tractable.
+	\item {\bf Automatically fill in}, thought experiment; replace with global constant for example... introducing a new categorical value. Eg; "missing". Ofcourse difficult with numerical value. Hence attribute/feature appropriate alternatives like "mean" (for normal) /"median" (better skewed) and for categorical "mode" (most frequent). Problem? Introduces bias, as we {\bf change} the relationship between features. So we can iterate on this and for example impute using the {\bf same class of observations} (doesn't solve the issue though, just theoretically mitigated).
+
+\end{itemize}
+
+\end{document}

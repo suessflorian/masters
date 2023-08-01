@@ -1,0 +1,68 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+\algnewcommand\algorithmicforeach{\textbf{for each}}
+\algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
+
+\begin{document}
+\section{Vertex Cover}
+We exploit the input structure, that is $G = (V,E)$ being a tree (connected acyclic graph) by confidently traversing {\em from} an arbitrary root $v \in V$. This method requires an intermediate structural translation of $G = (V, E)$ into a series of nodes with children nodes hence surfacing sub-problems, allowing for the use of this dynamic programming approach;
+
+\vspace{1em}
+\begin{algorithm} \caption{IncExcRootVC}
+\begin{algorithmic}[1]
+\Require $r$, the root of the tree
+\ForEach {$v \in child(r)$}
+\State $inc[v], exc[v] \gets IncExcRootVC(v)$
+\EndFor
+\State $exc \gets \bigcup_{v \in child(r)} inc[v]$
+\State $inc \gets \{r\} \cup \bigcup_{v \in child(r)} min(inc[v], exc[v])$
+\State \Return inc, exc
+\Comment{ Returns $\{r\}, \emptyset$ in case of $child(r) = \emptyset$}
+\end{algorithmic}
+\end{algorithm}
+
+We'd then wrap this utility in the following way, noting that we only really need $E$ due to how the information of the vertices is nessecarily contained in it already. For any $e = (a, b) \in E$, we know $a,b \in V$. We will abritrarilly interpret this edge as having $b$ as child of $a$.
+
+\vspace{1em}
+\begin{algorithm} \caption{VertexCoverOfTree}
+\begin{algorithmic}[1]
+\Require E, the edges
+\State $R \gets \{\}$
+\Comment{ The set of root nodes }
+\State $C \gets \{\}$
+\Comment{ The set children nodes }
+\ForEach {$(a,b) \in E$}
+\State $a.addChild(b)$
+
+\State $R \gets R \\ \{b\}$
+\EndFor
+\State $exc \gets \bigcup_{v \in child(r)} inc[v]$
+\State $inc \gets \{r\} \cup \bigcup_{v \in child(r)} min(inc[v], exc[v])$
+\State \Return inc, exc
+\Comment{ Returns $\{r\}, \emptyset$ in case of $child(r) = \emptyset$}
+\end{algorithmic}
+\end{algorithm}
+
+
+{\em Need to add now the wrapping algorithm that translates $G = (V,E)$ into a more useful shape.}
+
+\section{Kernelization}
+In order to prove safety of the reduction rule (producing $(\psi', k')$); we must show $(\psi, k)$ is a yes-instance of MAX SAT $\Longleftrightarrow$ $(\psi', k')$ is a yes-instance of MAX SAT. Must prove both sides of implication, albeit a simple counter-example suffices to show a reduction rules ineligibility.
+
+\subsection*{a}
+Works
+\subsection*{b}
+Works
+\subsection*{c}
+Fails given that $C = \psi$ for example...
+
+\section{Depth-bounded search trees 1.}
+We first construct a simple quadratic algorithm to detect a candidate 4-cycle path. This returns four candidate vertices that we use for the branching in our search tree. Each depth is marked, and we take our parameter $k$ as the search tree bound wrt. to the search depth. Due to the decision problem nature, we can either traverse this graph in BFS or DFS fashion. DFS allows for a cleaner algorithm implementation.
+
+\section{Depth-bounded search trees 2.}
+
+\end{document}

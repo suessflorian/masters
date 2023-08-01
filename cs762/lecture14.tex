@@ -1,0 +1,120 @@
+\documentclass{article}
+\usepackage{outlines}
+\usepackage{amsmath}
+\begin{document}
+(29th March) Doesn't start until (https://akunacapital.com/); 8min.
+\section{Continued Imputation}
+We can also look at the "most probable value", inference-based such as Bayesian formula, decision tree, nearest neighbour (all of these would translate in "scikit" most likely).
+
+\subsection{Iterative imputation}
+We can arbitrarily take two feature columns for example and train a decision tree classifier on the left column, to predict the right column. We simply remove the rows entirely were respectively they are both empty for the entire iteration here, but we move all rows where the right column is empty to the side (we want to predict these). Doing the whole 70/30 shebang etc... train a model to predict, given the left column value, the right colunn value. Once adequate, we can use this decision tree to classify rows removed earlier where the second column attribute is unknown. Now we can do this in the converse too.
+
+\subsection{Matrix Decomposition}
+Cannot expect technical examination here. Slide 16 is absolutely awesome. Effectively we consider the tabular data given (including classification) as a matrix. We add some mean/median/mode values for missing values and then decompose that matrix using SVD... we then re-squash this multiple matrices and iterate on those decomposition components of the matrix, tweaking them slightly in order to minimise some distance function on matrix cell values that have been provided.
+
+\section{Other "fancy" imputation methods}
+This is just an optimisation problem... We just need to know there's multiple imputation methods.
+
+\begin{itemize}
+	\item Expectation maximization (EM imputation) , use other variables to impute the values (expectation), check if value is most probable (maximization)
+	\item Multiple imputation (MICE, chain equations); impute missing values using appropriate model, classifier or regression, repeat multiple times (3-5). Carry  out required full analysis, classifier and evaluate, average the results (predictions or evaluation).
+\end{itemize}
+
+\subsection{Which is the best?}
+No free-lunch. Depends on what you want ofcourse, the structure of your data more precisely etc... can be treated as part of your modelling process. An extended set of hyper parameters that can be tuned.
+
+\section{Preprocessing and Evaluation}
+So now we know a preprocessing example, where would you put the preprocessing step in the evaluation. Two main cases to consider;
+
+\begin{itemize}
+	\item before the train/test split for the whole dataset;
+	\item only the training set, how to evaluate on the test set;
+\end{itemize}
+
+Correct is, {\bf after the split}. Should never have leakage of test set into training set (golden rule). Your preprocessing is part of your entire model. If you impute using the mean over the entire dataset for example pre-split, those imputed mean values used to train the model has technically been influenced by the data the modelling process should not see.
+
+So we store those tuned hyper-parameters for pre-processing, and we use those chosen hyper-parameters as a means of preprocessing unseen data, before applying the model to make predictions.
+
+Obviously this principal extends to more complicated evaluation paradigms like cross validation.
+
+\section{Noisy Data}
+Random error, variance in a measured in a variable. Incorrect attribute values may be due to;
+
+\begin{itemize}
+	\item Faulty data collection instruments
+	\item Data entry problems
+	\item Data transmission problems
+	\item Technology limitation
+	\item Inconsistency in naming convention
+\end{itemize}
+
+Or other class of noise being;
+
+\begin{itemize}
+	\item Duplicate records
+	\item Incomplete data
+	\item Inconsistent data
+\end{itemize}
+
+\subsection{Binning}
+"Smoothing"; sort the data, and partition into equal sized bins (equi-depth, equal-frequency). Then one can smooth by different methods within this neighbourhood. (bin means, bin medians, bin boundaries, (if closer to lower = if closer to higher) etc...). Potential problems, ofcourse induces bias. Smoothing function can be seen as a hyper parameter.
+
+\subsection{Regression}
+Smooth by fitting the data into regression lines/curves. Ofcourse if the regression line/curve is not "good" (in the classic sense of fitting a linear line on a quadratic trend for example) - then ofcourse you are introducing serious bias. Outliers also have impact especially if MSE... so then RMSE makes more sense (aka absolute distances etc...).
+
+\subsection{Clustering}
+Detect and remove outliers after clustering. So the lecturer did not dive into clustering techniques but here are some I've found;
+
+\begin{itemize}
+	\item {\bf K-means clustering:} In this method, data points are assigned to a specified number of clusters (k) based on their distances to the cluster centroids. After clustering, you can analyze the distribution of points within each cluster. Points that are far away from their respective cluster centroids can be considered outliers. One limitation of K-means for outlier detection is that it's sensitive to the initial placement of centroids and assumes that clusters are spherical and evenly sized.
+	\item {\bf DBSCAN} (Density-Based Spatial Clustering of Applications with Noise): DBSCAN is a density-based clustering algorithm that groups data points based on their density. It identifies clusters as dense regions of data points separated by areas of lower point density. Unlike K-means, DBSCAN doesn't require specifying the number of clusters. Data points that do not belong to any cluster are considered noise or outliers. DBSCAN is particularly suitable for detecting outliers in datasets with arbitrary shapes and noise.
+	\item {\bf Hierarchical clustering: } This method builds a tree-like structure (dendrogram) to represent the similarity between data points. You can define a distance threshold to cut the dendrogram and form clusters. Points that do not belong to any cluster or form very small clusters can be considered outliers. However, hierarchical clustering can be computationally expensive for large datasets.
+\end{itemize}
+
+\section{Data Transformation and Data Discretization}
+So smoothing and these method we just looked at, can more generally be seen as methods of data transformation. Others include
+
+\begin{outline}
+	\1 Smoothing
+	\1 Attribute/feature construction
+		\2 New attributes constructed from the given ones
+	\1 Normalization: scaled to fall within a smaller specified range
+		\2 Min-max normalization
+		\2 Z-score normalization
+		\2 Normalization by decimal scaling
+	\1 Discretization: Concept hierarchy climbing
+\end{outline}
+
+\section{Normalization}
+Min-max can be used to map observed attribute values into a well defined (arbitrary) range. $v\prime = \frac{v - \text{min}_a}{\text{max}_a - \text{min}_a}$
+and multiply by $ (\text{"new min"}_a - \text{"new max"}_a)  + \text{"new min"}_a$ note the subscript $a$ refers "wrt. to attribute a".
+
+There are others like z-score normalisation, which gives each value a z-score (the number of standard deviations $\sigma$ away from the mean $\mu$ of that column). Ofcourse bias is introduced exist if the column doesn't follow a normal distribution, must look into IQR based normalisation etc...
+
+Also we have basic {\bf decimal scaling}. Where $v\prime = \frac{v}{10^j}$ where $j$ is the smallest integer such that $Max(V) < 1$
+
+\section{Discretization}
+There are three types of attributes
+\begin{itemize}
+	\item Nominal - values from an unordered set; eg; color
+	\item Ordinal - values from ordered set; eg; rank
+	\item Numeric - real numbers, integers, reals
+\end{itemize}
+
+Effectively discretization just maps continuous attributes into intervals, we then use interval labels instead. Can be recursively created (bottom up, top down), reduce data size, prepare for further analysis, typically easier to understand, mining on different level of data abstractions (concept hierarchies), pattern mining.
+
+\begin{outline}
+	\1 bottom up, start by creating small intervals (single data point) and merging neighbouring intervals until a condition is met
+		\2 Sorting the column, and bottom up merging neighbours somehow
+		\2 Correlation analysis
+	\1 top down, single interval and recursively split it down.
+		\2 Binning (equi-width, equi-frequency)
+		\2 Like decision trees (supervised, entropy based)
+
+{\em note that discretization was majorly rushed, will need further review}.
+
+\end{outline}
+
+
+
+\end{document}

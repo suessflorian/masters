@@ -1,0 +1,42 @@
+\documentclass{article}
+\usepackage{hyperref}
+\begin{document}
+(24th March 2023)
+\section*{Ensemble Methods Continued}
+Last day of this legendary lecturer Jörg Simon Wicker.
+
+\subsection*{XGBoost}
+Recently (~ 6yrs) popularised. Uses regularised regression trees. Need absolutely consult the set of four videos covered by \href{https://www.youtube.com/watch?v=OtD8wVaFm6E}{statquest}.
+
+\subsubsection*{Pre-requisite; Gradient Boost Regression}
+Will use a \href{https://www.youtube.com/watch?v=3CC4N4z3GJc}{four part video series from statquest} to digest what is known as a pre-requisite. Gradient boost can be used for {\bf regression} and classification. Similar to last lectures topic of {\bf Adaboost}.
+
+Compared a lot to Adaboost, we will see a generation of trees of fixed size (so larger than stump that is the case for Adaboost), each based/influence on the previous tree\'s performance. So rate of error.
+
+Gradient boost is a configurable method...
+
+\begin{itemize}
+	\item Operates on Decision Trees
+	\item Assumes familiarity with the bias-variance tradeoff
+\end{itemize}
+
+\subsubsection*{Procedure}
+In the case of a numerical label, we;
+
+\begin{itemize}
+	\item Build a single leaf node, that is the average of the classified numerical value
+	\item Reconstruct the tabular data and create the {\em pseudo residual}
+	\item Build a tree that predicts the residual
+\end{itemize}
+
+So the idea is, we start with the original prediction and then "add" the newly constructed tree.
+
+\subsubsection*{Learning Rate}
+For each addition of tree we add a learning rate quantifier, this tackles the problem of over fitting. Multiplier from 0 to 1 obviously.
+
+
+\subsubsection*{Pre-requisite; Regularization}
+
+
+
+\end{document}

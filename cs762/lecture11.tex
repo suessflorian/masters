@@ -1,0 +1,77 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\begin{document}
+(22nd March, Week 4)
+{\em lecture really starts at 12min ish}
+
+\section*{Ensemble Approaches}
+And so here we iterate through;
+
+\subsection*{Averaging}
+We pass the feature set into each of the "federated" input classifiers and we just take the majority vote as the final answer.
+
+\subsubsection*{When/Why does Averaging Work?}
+\begin{itemize}
+	\item Given each classifier has a {\bf strictly $> 0.5$} probability of being accurate.
+	\item Each classifier must be {\bf "somewhat" independent}. We need nuance to average.
+	\item One very "clearly better" behaving classifier will perform better than an ensemble of shit ones with it included. Dragging it down.
+\end{itemize}
+
+\subsection*{Stacking}
+Variation of averaging is to "stack" on top of this output of "votes" another decision tree that respectively interprets the votes as it\'s own feature set. We ofcourse would need to train that "stacked" decision tree on a training set (watch lecture to clarify).
+
+\subsection*{Bagging \& Random Forests}
+Average a set of deep decision trees that uses the following two techniques to construct it\'s ensemble of trees.
+
+\begin{itemize}
+	\item Bootstrapping
+	\item Random Trees
+\end{itemize}
+
+These are introduced as we want to systematically build trees that are slightly nuanced to allow for the benefits noticed of "averaging" (via tree-tree independence).
+
+\subsubsection*{Bootstrap Sampling}
+This comes from stats 101, compute a statistic based on several bootstrap samples in order to build an understanding of how the statistic varies on the data.
+
+Idea is to take your original set $S$ and assemble a new sample $\hat S = \{ y \mid y_i \in S \text{ for } i \in 1,...,|S| \}$.
+
+We detour slightly into a weird bootstrapping factoid; "0.632" bootstrapping. For a set with a sufficiently large sample size, approximately \%63 of original examples are included in the bootstrap assembled sample.
+
+\subsubsection*{Bagging}
+{\bf B}ootstrap {\bf Agg}regat{\bf ing}, just fits a classifier onto each bootstrap sample and ensemble this collection via "Averaging".
+
+\subsubsection*{Random Forest}
+Random forest seems to be a step further where we try to also "vary" the way the trees split the data on each classifier in it\'s forest.
+
+So for {\bf each split} in a random tree
+\begin{itemize}
+	\item Randomly sample a small number of possible features (usually $\sqrt d$)
+	\item Only consider these features when searching for maximum information gain (split).
+\end{itemize}
+
+We force splits to use different features that way. {\em averaging tends to have a much lower test error}...
+
+\subsection*{Ada Boost}
+This method is slightly up there, I recommend \href{https://www.youtube.com/watch?v=LsK-xG1cLYA}{this video} for adequate review. Boosting algorithm that works for only binary classification... We need a simple enough base classifier as input that is simple (not "overfitting") and can still obtain something over \%50 accuracy. Prime example here being decision stumps.
+
+\begin{itemize}
+	\item associate equal weight to each sample
+	\item "fit" (the process of fitting here is important) classifier on weighted sample
+	\item associate the final summed accuracy as weight for this classifier
+	\item increment weights of "missed" labels, decrement weight of "covered" labels.
+	\item go to second point here and construct a next classifier
+\end{itemize}
+
+\subsubsection*{Additional Commentary}
+Viewed as one of the best off the shelf classifiers, procedure originally came from ideas in learning theory. Many attempts to extend beyond binary, (see {\em gradient boosting})
+
+Now we have this forest with weighted classifiers (construction termination up to preference), we now evaluate the outputs of each vote based on the weight associated to the classifier as it was built.
+
+Note; 
+\begin{itemize}
+	\item "missed" labels grow exponentially in weight (see video)
+\end{itemize}
+
+
+\end{document}

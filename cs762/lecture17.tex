@@ -1,0 +1,99 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+
+\begin{document}
+(5th April)
+\section{Bayesian Learning}
+We have an assignment due on Sunday, we're beginning it on Friday 1:30pm... not a lot of time, but also we can clear absolutely everything until the deadline too if needed. (Thomas Bayes)
+
+Lets try to really enjoy this topic though... (look at me giving me self talk).
+
+\section{Motivation}
+Bayesian learning heavily relies on probability theory, the key components; probabilistic inference or uncertainty. Typically allows you to make use of inconsistent or incomplete data. {\em Interestingly; from a historic POV Bayesian learning method is used for spam filtering}.
+
+\subsection{Big Contrast to our previous learning methods}
+{\bf UNSTRUCTURED DATA}, free form text as input. Ofcourse this needs to be somehow spread into features. So we begin the thought experiment. We can assume bags of words and create a standard table, supervised classification labels... and use our standard techniques here. Although the width of this table would be intractable if not reduced.
+
+\begin{itemize}
+	\item Union of all documents' set of unique words
+	\item Chance of missing words in novel documents (real application)
+	\item Misses phrases, compounds of words
+\end{itemize}
+
+\section{Probabilistic Classifiers}
+Best spam filtering methods used "Naive Bayes", probabilistic classifier based on "Bayes Rule". Works well with bags of words.
+ 
+Effectively we observe conditional probabilities $p(y_i|x_i)$ and so without loss of generality we say $p(y_i=1|x_i) > p(y_i=0|x_i) \Rightarrow \hat y_i=1$.
+
+\section{Fundamentals}
+\begin{align*}
+	P(Y|X) &= \frac{P(X|Y)P(Y)}{P(X)} \\
+	P(Y) &= P(Y|X)P(X) + P(Y|\neg X)P(\neg X)
+\end{align*}
+
+\section{Assumption}
+\begin{itemize}
+	\item Quantities of interest are governed by probability distributions.
+	\item Optimal decisions can be made by reasoning about these probabilities together with observed training data.
+\end{itemize}
+
+\section{Relevance}
+Allows explicit manipulation of probabilities, among the most practical approaches to certain types of learning problems.
+
+Interestingly, it's a useful framework for understanding learning methods that do not explicitly manipulate probabilities;
+\begin{itemize}
+	\item Determine conditions under which algorithms output the most probable hypothesis
+\end{itemize}
+
+There's also some crazy cool shit;
+
+The Bayesian learning framework can provide justification for the least squares error function in the context of linear regression. This justification comes from the assumption that the noise in the observed data follows a Gaussian (normal) distribution with a constant variance. Under this assumption, the maximum likelihood estimation (MLE) of the model parameters coincides with the least squares solution. {\bf And }
+
+Justifies to some degree (alongside Occams Razor), the preference for smaller decision trees.
+
+\section{Practical Difficulties}
+\begin{itemize}
+	\item Initial Knowledge of many probabilities is required
+	\item Significant computational costs required
+\end{itemize}
+
+\section{We dive deeper into the theorem wrt. ML context}
+Ofcourse we are trying to find the best "hypothesis" $h$ (model) from some space $H$ (all possible models), given observed training data $D$. The best hypothesis $\approx$ most probable hypothesis. And Bayes' Theorem provides a direct method of calculating the probability of such a hypothesis based on;
+
+\begin{itemize}
+	\item Its prior probability
+	\item The probabilities of observing various data given the hypothesis, and
+	\item The observed data itself
+\end{itemize}
+
+Sample space ($\Omega$), is the set of all outcomes $(\omega_1, \omega_2, ..., \omega_k) \in \Omega$, where $F$ represents the event space, where each $A \in F$ (called events) are simply subsets of $\Omega$. Then we have the probability measure, $P: F \rightarrow [0,1] \subseteq \mathbb{R}$ that satisfies the following properties;
+
+\begin{itemize}
+	\item $P(A) \geq 0$
+	\item $P(\Omega) \geq 1$
+	\item Suppose $A_1, A_2, ...$ are disjoint events, then $P(\cup_i A_i) = \sum_{i}P(A_i)$
+\end{itemize}
+
+\section{Maximum A Posteriori Hypothesis}
+The learner considers various $h \in H$ and finds the most probably given the observed data $D$.
+
+Any maximally probable hypothesis is called maximum a posteriori (MAP) hypothesis $h_{MAP}$.
+
+And so
+\begin{align*}
+	h_{MAP} &= \text{arg max}_{h \in H} P(h | D) \\
+	h_{MAP} &= \text{arg max}_{h \in H} \frac{P(D | h)P(h)}{P(D)} \\
+	h_{MAP} &= \text{arg max}_{h \in H} P(D | h)P(h) \\
+\end{align*}
+
+See how we're dropping $P(D)$ because it is a constant independent of $h$.
+
+\subsection{But when choosing a hypothesis}
+We usually assume that every hypothesis is equally probable apriori and hence the equation can be simplified further to just
+
+\begin{align*}
+	h_{MAP} &= \text{arg max}_{h \in H} P(D | h) \\
+\end{align*}
+
+\end{document}

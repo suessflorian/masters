@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\begin{document}
+\section{Model Evaluation Techniques}
+We need to refresh ourselves on the bias variance tradeoff when discussing model building. I also think just relating that to the problem of over/under fitting models.
+
+\subsection{Bias Variance Tradeoff}
+The "delicate" balance between two sources of error in a predictive model; bias and variance. Bias refers to the error introduced by a simplified model acting on real world observations, and so impacts both $E_{\text{train}}$ and $E_{\text{test}}$. If we let $E_{\text{best}}$ be the theoretical best possible/irreducible error a model can make, strictly speaking, bias can be seen as the $E_{\text{train}} - E_{\text{best}}$.
+
+Variance on the other hand speaks to how subtle changes in the observed testing data can {\bf impact} your model wrt. to predictions it subsequently makes. We can see clearly with $E_{\text{test}} - E_{\text{train}}$.
+
+\subsection{Relevant Questions to evaluation}
+Comparing the evaluation methods; 2-CV, 10-CV, leave-one-out and simple 70/30.
+\begin{itemize}
+	\item In terms of sample size - we know that we should start with the 70/30 method. It clearly has the least "training data" available.
+
+\end{itemize}
+\end{document}

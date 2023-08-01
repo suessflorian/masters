@@ -1,0 +1,62 @@
+\documentclass{article}
+\usepackage{amsmath}
+\begin{document}
+\section{Support Vector Machines}
+\subsection{Recap: Machine Learning Systems}
+There are two main types of machine learning systems, some are instance based some are model based.
+
+\subsubsection{Instance-Based Learning}
+Uses the entire dataset as a model (eg; k-NN).
+\begin{itemize}
+	\item Compare new data points to known datapoints
+	\item Non-parametric approaches
+	\item Memory-based approaches
+	\item Prediction can be expensive
+\end{itemize}
+
+
+\subsubsection{Model-Based Learning}
+Use the training data to create a model that has parameters learned from the training datasets (e.g SVM).
+\begin{itemize}
+	\item Detect a pattern in the training data
+	\item Build a predictive model
+	\item Prediction is extremely fast
+\end{itemize}
+
+\section{Outline}
+Data characteristics...
+\begin{itemize}
+	\item Linearly separable data
+	\item Non-Linearly separable data
+\end{itemize}
+
+SVM come in three different flavours
+\begin{itemize}
+	\item linearly separable: hard-margin SVM's
+	\item non-linearly separable: soft-margin SVM's
+	\item non-linearly separable: kernelized SVM's
+\end{itemize}
+
+\section{Data Characteristics}
+{\em SVM's, we only deal with binary classifications (ending this section we generalise)}. A classification method for both linear and nonlinear data...
+
+So can we separate data using a linear function... Yay or nay? Margin of error (soft/hard margin SVM's).
+
+\section{Types of SVM's}
+SVM selects the maximum margin linear classifier... or SVM selects the maximum margin linear classifier with partial misclassification's allowed.
+
+\section{Problem Definition: Margin Maximization}
+Given a set of linearly separable training data $S = \{(x_1,y_1), ..., (x_n,y_n)\}, y_i \in \{+1, -1\}$. We want to find a linear decision boundary, hyperplane, to separate the 2 classes... There's an infinite number of lines separating the two classes. SVM tries to solve for this by finding the optimal hyperplane (maximises the margin).
+
+We do this because of the assumption; The hyperplane with the largest margin will generalise best on unseen data.
+
+\subsection{Some intuitive definitions}
+Ofcourse your linear hyperplane will be defined precisely as $\overset{\rightarrow}{w}\cdot \overset{\rightarrow}{x} + b = 0$, same thing being equal to $-1$ is the lower boundary (less classed as $-1$) or equal to $1$ is the upper boundary (more classified as $1$). As you can see, this neatly boils into a classic optimisation problem, slides show how.
+
+\begin{align*}
+	min_{w,b} \frac{||\overset{\rightarrow}{w}||}{2}, \text{ st. } y_i(\overset{\rightarrow}{w} \cdot \overset{\rightarrow}{x_i} + b) \geq 1
+\end{align*}
+
+Any points that fall on either $H_1$ (+1) or $H_2$ (-1) are called support vectors.
+
+\end{document}

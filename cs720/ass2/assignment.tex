@@ -9,7 +9,7 @@
 \algdef{S}[FOR]{ForEach}[1]{\algorithmicforeach\ #1\ \algorithmicdo}
 
 \begin{document}
-\section*{Vertex Cover}
+\section*{Vertex Cover in a Tree}
 We exploit the input structure, that is $G = (V,E)$ being a tree (connected acyclic graph) by confidently traversing {\em from} an arbitrary root $v \in V$. This method requires an intermediate structural translation of $G = (V, E)$ into a series of nodes with children nodes hence surfacing sub-problems, allowing for the use of this dynamic programming approach;
 
 \vspace{1em}
@@ -81,7 +81,7 @@ Given a $\psi'$ over $V'$ and $C'$. Let $C_{\text{sat}_\psi'} \subseteq C'$ be a
 
 Arbitrarily define a novel $v_i \not\in V'$ and generate a series of disjunctive clauses $|C_{v_i}|$ that contain $v_i$ "unnegated" alongside any number of $v \in V'$. Suppose $|C_{\text{sat}_\psi'}| = l \geq k - |C_{v_i}|$ for some $k$. Then by definition $(\psi', k - |C_{v_i}|)$ is a yes-instance. Building $\psi$ on $V = V' \cup \{v_i\}$ and $C = C' \cup {C_{v_i}}$ and extending the $t$ such that $t(v_i)=T$ then $|C_{\text{sat}_\psi}| = |C_{v_i}| + l \geq k$, hence $(\psi, k)$ is a yes-instance.
 
-\subsection*{b}
+\subsection*{Rule B}
 \subsubsection*{$\Rightarrow$}
 Consider a yes instance of $(\psi, k)$ such that $C' \subseteq C$ with a maximal truth assignment $t: V \rightarrow \{T,F\}$ such that $t(x)=F$, $t(y)=T$ and $t(z)=T$. We know that all clauses in $C'$ (defined in the rule) are satisfied. If $C \setminus C'$ has no literals $x$, $y$ and $z$, we know that $C_{\text{sat}_\psi}$ (as defined earlier) has a size $ l + |C'| \geq k$ for some $l$. Define a $\psi'$ over $V' = V \setminus \{x,y,z\}$ and $C \setminus C'$. Let $C_{\text{sat}_\psi'} \subseteq C\setminus C'$ be all the satisfied clauses the same truth assignment from $\psi$. Clearly $|C_{\text{sat}_\psi'}| = l \geq k - |C'| = k - 3$, hence $(\psi', k - 3)$ is a yes-instance as the rule describes.
 
@@ -90,7 +90,7 @@ Consider a yes-instance $(\psi, l)$ acting over $V'$ and $C'$. Let $C_{\text{sat
 
 Without loss of generality arbitrarily define a novel $x,y,z \not\in V'$ and construct the set of disjunctive clauses $C_{x,y,z} = \{(x \lor y), (\neg y \lor z), (\neg z \lor \neg x)\}$. Extend the truth assignment such that $t(x)=F$, $t(y)=T$ and $t(z)=T$. Then a new $\psi$ over $V = V' \cap \{x,y,z\}, C = C' \cap C_{x,y,z}$ has clearly then $|C_{\text{sat}_\psi}| \geq l + |C_{x,y,z} = l + 3$. Hence $(\psi, l + 3)$ is a yes-instance.
 
-\subsection*{c}
+\subsection*{Rule C}
 We just show a counter example; given $\psi$ on $C'$ and $V = \{x,y,z\}$. We know $(\psi, 3)$ is a yes-instance. For example the truth assignment $t: V \rightarrow\{T,F\}$, with $t(x)=F$, $t(y)=T$, $t(z)=T$ satisfies all clauses in $C'$. Applying the rule, 
 we create $\psi'$, which operates on the rule transformed clauses $C_{\text{rule}}=\{(y \lor y), (y \lor z), (\lnot y)\}$. Note $(y \lor y)$ = $(y)$ and there is no truth assignment that can satisfy both $y$ and $\lnot y$. Hence $(\psi', 3)$ is a no-instance in contradiction to what the rule describes.
 
@@ -150,7 +150,7 @@ We pass up true in that case alongside $m$.
 \subsubsection*{Example run on a yes-instance such that $k=3, |V|=14, |H| = 5$}
 Consider the following yes-instance, curated to serve the best parts of this algorithm.
 
-with $H = \{(1,14), (3,13), (4,12), (5,11), (6,10)\}$.
+with $H = \{(2,14), (3,13), (4,12), (5,11), (6,10)\}$.
 
 \vspace{1em}
 \Tree[.1 [.2 [.3 [.4 [.{...} [.14 ]]]]]]
@@ -183,14 +183,14 @@ The final reduction we end up with only one candidate in $K$ to step into since 
   &\text{\bf K} = \{(\{(6,7)\}, \{(6,7), (8,9), (9,10)\})\} \\
 \end{align*}
 
-Now the search tree expands in a bounded way to repeat the process (mind you this happens sequentially).
+Now the search tree expands in a bounded way to repeat the process (mind you this happens sequentially). Breaking up the graph into two by "cutting" $(6,7)$.
 
 \noindent\begin{minipage}{.5\linewidth}
 \vspace{1em}
 With passed down
 
 $k - 1$ and original $H$.
-\Tree[.1 [.2 [.3 [.4 [.{...} [.6 ]]]]]]
+\Tree[.6 [.5 [.4 [.3 [.{...} [.1 ]]]]]]
 \end{minipage}%
 \begin{minipage}{.5\linewidth}
 \vspace{1em}
