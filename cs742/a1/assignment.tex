@@ -1,0 +1,120 @@
+\documentclass{article}
+
+\usepackage[backend=biber,sorting=none]{biblatex}
+\usepackage{url}
+\usepackage[bottom]{footmisc}
+
+\addbibresource{references.bib}
+
+\title{CS742 Assignment One}
+\author{Florian Suess}
+
+\begin{document}
+
+\maketitle
+We answer the following questions within the context of the given paper "Workload Characterization of a Large Systems Conference Web Server" by Mahanti et al.\cite{mahanti2009}.
+\section*{(Q1) Measurement approaches}
+We shall adhere strictly to the definition provided by RFC7799\cite{rfc7799}. There are two measurement mechanisms used;
+
+\begin{itemize}
+				\item Analysis of the structured server logs produced during the period of the study.
+				\item Google Analytics (GA) data that is a web analytics service that uses a "page tagging" approach to collect data about website traffic and user interactions.
+\end{itemize}
+
+Not controversial; \textbf{the analysis of structured server logs provide a form of passive measurement} due to the assumed, async (likely buffer flushing) local writing of these logs into files, an event that itself does not at all influence server side network IO.
+
+In class, GA was introduced as an active measurement approach on the basis that the implementation details of this mechanism necessarily impact the edge network portion to transmit data to the GA analysis server. However the network packets themselves, and their influence on the network itself are not the basis for measurement. Instead the metrics used for measurement are already captured pre-launch by the paging mechanism, \textbf{hence GA is also a form of passive measurement}. Suppose this argument is not accepted, that would imply that analysing modern server logs would be considered active as most production systems that require log analysis emit logs off of systems onto persistence storage systems, or text-search optimised platforms such as Kibana or OpenSearch. This emission would, similar to GA, introduce edge network traffic.
+
+\section*{(Q2-3) Measurement vantage points}
+\subsection*{(Q2) Type of measurement vantage used}
+Given the client-side and server-side source of both measurement mechanisms, we can confidently narrow say these measurement vantage points to network edge as opposed to core.
+
+\subsection*{(Q3) Quantity of viewpoints considered}
+The server-side logs provide a single viewpoint, whilst the client-side measurements provide a very large quantity of viewpoints as most clients (with JS execution enabled) visiting will collect their own metrics.
+
+\section*{(Q4) Hardware and software tools used}
+For metric collection and aggregate metric analysis; there were no physical measurement devices deployed. The logs can be assumed to be a natural bi-product of the server running that we collected after the study for analysis using some sort of programming language and GA is by definition a software as a service offering.
+ 
+
+\section*{(Q5) Online and/or offline analyses performed}
+For all practical purposes, metrics collected were analysed post the server study period which as per lecture posits the "analysis" done falls into the "offline" criteria. This is at mercy to the implementation details of GA however, perhaps there is real-time analysis done on the client side that aggregates results before shipping them off to GA analytics platform, in which case implies a component of "online" analytics.
+
+\section*{(Q6) Attributing metrics to Active and/or Passive measurements}
+The result in Q1 moots this question, as we have asserted that both measurement mechanisms used are considered "passive". Implies that all metrics materialised in this study are a result of "passive" measurements.
+
+\section*{(Q7) Modern approach on workload characterization of internet servers}
+\begin{itemize}
+				\item client-side measurement, assuming the server is at least reachable.
+				\item traffic interception methods, as described in lectures.
+				\item permission to access the server for logs
+\end{itemize}
+
+\newpage
+The following sections provide an approach for the analysis of the \texttt{ls -lR} output file. Full set of scripts available are provided.
+\section*{Notes on querying \texttt{ls} output methodology}
+The following questions given to me suggest the use of a queryable interface can be advantageous. By reading the \texttt{man ls} or equivalent we know that the output given is structured. We are dealing with a very small amount of data, hence we can sufficiently depend on something lightweight like a local \texttt{sqlite} instance. Hence we will;
+
+\begin{enumerate}
+				\item Process the \texttt{ls} output into a \texttt{csv} format.
+				\item Spin up a \texttt{sqlite} instance and load a simple table with this \texttt{csv}.
+				\item Perform migrations if nessecary (such as extracting the file extension).
+\end{enumerate}
+
+One can utilize \texttt{awk} to parse this output into a \texttt{csv} with the following two pattern match blocks.
+\begin{verbatim}
+/:$/{gsub(":",""); dir=$0; next}
+$9{print $9 "," dir "," $5 "," $6 " " $7 "," $8}
+\end{verbatim}
+
+First one \texttt{/:\$/} matches any lines with a colon and updates the \texttt{dir} variable for interpolation in the next block. Second match ensures there's 9 string parts in the line, if so, converts the ls output line into a csv line of shape; "file name", "dir", "bytes", "day month", "year".
+
+This awkward choice because of some lazy date stamps given;
+\begin{verbatim}
+-rw-------   1 carey    www2007       0 Aug 28 13:24 allfiles.out
+\end{verbatim}
+Without a year provided, we need to infer it. We shall assume that year represents 2007 (end of study period). We write a simple \texttt{go} script that looks for a colon in that field, if so, replace it with 2007. We then combine the "day month" and fixed "year" and parse the date into a unix time stamp\footnote{\texttt{sqlite} doesn't offer a native date type hence we will use the \texttt{INTEGER} type in combination with the \texttt{date} function for readability}.
+
+In our \texttt{sqlite} you can bulk upload via $\texttt{.mode csv}$ specifying the seperator as a comma into the following table;
+
+\begin{verbatim}
+CREATE TABLE files (
+    file_name TEXT,
+    directory TEXT,
+    bytes INTEGER,
+    unix_time INTEGER
+);
+\end{verbatim}
+
+\section*{Q8}
+\subsection*{Quantity of different files}
+\subsection*{Aggregate sum of different files}
+\section*{Q9}
+\subsection*{Largest file on site}
+\subsection*{Number of empty files}
+\subsection*{Smallest non-empty file}
+\section*{Q10}
+\subsection*{Mean file size}
+\subsection*{Standard deviation of file size}
+\subsection*{Median file size}
+\subsection*{File size mode (most frequently occurring file size)}
+
+\section*{Notes on the plotting methodology}
+
+\section*{Q11 - Plotting file size distribution}
+\subsection*{Empirical probability density function graph}
+\subsection*{Cumulative distribution function graph}
+\section*{Q12 - Table of top 10 file types}
+\section*{Q13 - Plotting file size distribution restricted to \texttt{./papers} and \texttt{./posters}}
+\section*{Q14 - Analysis of file age}
+\subsection*{Hydrating age of each file}
+\subsection*{File age distribution graph}
+\subsection*{The oldest file}
+\subsection*{The newest file}
+\subsection*{Mean file age}
+\subsection*{Median file age}
+\subsection*{Mode file age}
+\section*{Q15 - Cumulative distribution function graph of file age}
+
+\newpage
+\printbibliography
+\end{document}

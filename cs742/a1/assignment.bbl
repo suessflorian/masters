@@ -1,0 +1,87 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global}
+    \entry{mahanti2009}{inproceedings}{}
+      \name{author}{3}{}{%
+        {{hash=d15dc8a7d7e61d70b480134092297d51}{%
+           family={Mahanti},
+           familyi={M\bibinitperiod},
+           given={Aniket},
+           giveni={A\bibinitperiod}}}%
+        {{hash=b8b0b7d2b807aa797777e5e21fc6e9af}{%
+           family={Williamson},
+           familyi={W\bibinitperiod},
+           given={Carey},
+           giveni={C\bibinitperiod}}}%
+        {{hash=463067408dcc534105ff30bf4dcb5098}{%
+           family={Wu},
+           familyi={W\bibinitperiod},
+           given={Leanne},
+           giveni={L\bibinitperiod}}}%
+      }
+      \list{publisher}{2}{%
+        {Seventh Annual Communications Networks}%
+        {Services Research Conference}%
+      }
+      \strng{namehash}{cf02622425600eabb7d20d8b44b13878}
+      \strng{fullhash}{cf02622425600eabb7d20d8b44b13878}
+      \strng{bibnamehash}{cf02622425600eabb7d20d8b44b13878}
+      \strng{authorbibnamehash}{cf02622425600eabb7d20d8b44b13878}
+      \strng{authornamehash}{cf02622425600eabb7d20d8b44b13878}
+      \strng{authorfullhash}{cf02622425600eabb7d20d8b44b13878}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Workload Characterization of a Large Systems Conference Web Server}
+      \field{year}{2009}
+    \endentry
+    \entry{rfc7799}{report}{}
+      \name{author}{1}{}{%
+        {{hash=d10f40dce70cea5055b8d45f100ce4e7}{%
+           family={(IETF)},
+           familyi={(\bibinitperiod},
+           given={Internet\bibnamedelimb Engineering\bibnamedelimb Task\bibnamedelima Force},
+           giveni={I\bibinitperiod\bibinitdelim E\bibinitperiod\bibinitdelim T\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+      }
+      \list{institution}{1}{%
+        {IETF}%
+      }
+      \strng{namehash}{d10f40dce70cea5055b8d45f100ce4e7}
+      \strng{fullhash}{d10f40dce70cea5055b8d45f100ce4e7}
+      \strng{bibnamehash}{d10f40dce70cea5055b8d45f100ce4e7}
+      \strng{authorbibnamehash}{d10f40dce70cea5055b8d45f100ce4e7}
+      \strng{authornamehash}{d10f40dce70cea5055b8d45f100ce4e7}
+      \strng{authorfullhash}{d10f40dce70cea5055b8d45f100ce4e7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Available online at \url{https://www.ietf.org/rfc/rfc7799.txt}}
+      \field{number}{RFC 7799}
+      \field{title}{Active and Passive Metrics and Methods (with Hybrid Types In-Between)}
+      \field{type}{RFC}
+      \field{year}{2016}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
