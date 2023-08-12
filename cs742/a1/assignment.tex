@@ -2,6 +2,8 @@
 
 \usepackage[backend=biber,sorting=none]{biblatex}
 \usepackage{url}
+\usepackage{graphicx}
+\usepackage{subcaption}
 \usepackage[bottom]{footmisc}
 
 \addbibresource{references.bib}
@@ -86,24 +88,117 @@ CREATE TABLE files (
 \end{verbatim}
 
 \section*{Q8}
-\subsection*{Quantity of different files}
-\subsection*{Aggregate sum of different files}
+\subsubsection*{Quantity of different files}
+\begin{verbatim}
+sqlite> SELECT COUNT(*) FROM files;                                 
+6062
+\end{verbatim}
+
+\subsubsection*{Aggregate sum of file bytes}
+\begin{verbatim}
+sqlite> SELECT SUM(size_in_bytes) from files;
+1107569732
+\end{verbatim}
+\textit{Which comes to about 1.107GB.}
+
 \section*{Q9}
-\subsection*{Largest file on site}
-\subsection*{Number of empty files}
-\subsection*{Smallest non-empty file}
+\subsubsection*{Largest file on site}
+\begin{verbatim}
+sqlite> SELECT MAX(size_in_bytes) FROM files;
+59381544
+\end{verbatim}
+\textit{Which comes to about 59.382MB.}
+
+\subsubsection*{Number of empty files}
+\begin{verbatim}
+sqlite> SELECT COUNT(*) FROM files
+WHERE size_in_bytes = 0;
+15
+\end{verbatim}
+
+\subsubsection*{Smallest non-empty file}
+\begin{verbatim}
+sqlite> SELECT MIN(size_in_bytes) FROM files 
+WHERE size_in_bytes != 0;
+2
+\end{verbatim}
+
 \section*{Q10}
 \subsection*{Mean file size}
+\begin{verbatim}
+sqlite> SELECT AVG(size_in_bytes) FROM files;
+182706.98317387
+\end{verbatim}
+\textit{Which comes to about 182.707KB.}
+
 \subsection*{Standard deviation of file size}
+\begin{verbatim}
+sqlite> SELECT 
+    SQRT(
+        AVG(size_in_bytes*size_in_bytes) - 
+        (AVG(size_in_bytes) * AVG(size_in_bytes))
+    )
+FROM files;
+2192180.71338199
+\end{verbatim}
+\textit{Which comes to about 2.192MB.}
+
 \subsection*{Median file size}
+Little more tricky given \texttt{sqlite3}'s limitation of no built-in support for median. Recall;
+\begin{verbatim}
+sqlite> SELECT count(*) from files;
+6062
+\end{verbatim}
+Hence the median by definition is the average of the middle two file sizes when ordered.
+\begin{verbatim}
+sqlite> WITH sorted AS (
+    SELECT size_in_bytes,
+           ROW_NUMBER() OVER(ORDER BY size_in_bytes) AS rn,
+           (SELECT COUNT(*) FROM files) AS cnt
+    FROM files
+)
+
+SELECT 
+    AVG(size_in_bytes)
+FROM sorted
+WHERE rn IN (cnt / 2, cnt / 2 + 1);
+1471.0
+\end{verbatim}
+\textit{Which comes to about 1.471KB.}
+
 \subsection*{File size mode (most frequently occurring file size)}
+\begin{verbatim}
+sqlite> SELECT size_in_bytes, COUNT(*) AS frequency
+FROM files GROUP BY size_in_bytes
+ORDER BY frequency DESC, size_in_bytes ASC
+LIMIT 1;
+4096|102
+\end{verbatim}
+\textit{4096B sized files occured a whooping 102 times!}
 
 \section*{Notes on the plotting methodology}
+\texttt{python} in my eyes is the defacto wizard when it comes to graphing due to well-traversed libraries such as \texttt{matplotlib}. Hence we will use the standard library \texttt{sqlite} module in \texttt{python}. Scripts are here to use.
 
 \section*{Q11 - Plotting file size distribution}
-\subsection*{Empirical probability density function graph}
-\subsection*{Cumulative distribution function graph}
+
+\begin{figure}[htbp]
+\centering
+
+\begin{minipage}{.5\linewidth}
+\centering
+\subcaption{Probability density graph}
+\includegraphics[width=\linewidth]{./images/file_size_pdf.png}
+\end{minipage}%
+\begin{minipage}{.5\linewidth}
+\centering
+\subcaption{Cumulative distribution graph}
+\includegraphics[width=\linewidth]{./images/file_size_cdf.png}
+\end{minipage}
+
+\end{figure}
+
 \section*{Q12 - Table of top 10 file types}
+
 \section*{Q13 - Plotting file size distribution restricted to \texttt{./papers} and \texttt{./posters}}
 \section*{Q14 - Analysis of file age}
 \subsection*{Hydrating age of each file}
