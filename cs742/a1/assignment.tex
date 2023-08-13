@@ -4,6 +4,7 @@
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{hyperref}
 \usepackage{adjustbox}
 \usepackage[bottom]{footmisc}
 \usepackage{datetime}
@@ -55,7 +56,7 @@ The result in Q1 moots this question, as we have asserted that both measurement 
 \end{itemize}
 
 \newpage
-The following sections provide an approach for the analysis of the \texttt{ls -lR} output file. Full set of scripts available are provided.
+The following sections provide an approach for the analysis of the \texttt{ls -lR} output file. Full set of scripts available are provided \footnote{\href{https://gitfront.io/r/user-5047466/ZFVr4eV9CukU/cs742-published-scripts/}{Private link} here, also feel free to reach me and we can work through these together.}.
 \section*{Notes on querying \texttt{ls} output methodology}
 The following questions given to me suggest the use of a queryable interface can be advantageous, whilst the plotting requirements to me speak intervention needed by something like \texttt{python}'s \texttt{matplotlib} hence a well interoperable store is favourable. We are dealing with a very small amount of data.  With all of this in mind; we can sufficiently depend on something lightweight like a local \texttt{sqlite} instance. Hence we will;
 
@@ -206,7 +207,7 @@ LIMIT 1;
 \textit{4096B sized files occured a whooping 102 times!}
 
 \section*{Notes on the plotting methodology}
-\texttt{python} in my eyes is the defacto wizard when it comes to graphing due to well-traversed libraries such as \texttt{matplotlib}. Hence we will use the standard library \texttt{sqlite} module in \texttt{python}. Scripts are here to use.
+\texttt{python} in my eyes is the defacto wizard when it comes to graphing due to well-traversed libraries such as \texttt{matplotlib}. Hence we will use the standard library \texttt{sqlite} module in \texttt{python}. Scripts are here to use\footnote{\href{https://gitfront.io/r/user-5047466/ZFVr4eV9CukU/cs742-published-scripts/}{Private link} here, also feel free to reach me and we can work through these together.}.
 
 \section*{Q11 - Plotting file size distribution}
 We effectively just handle the full list of bytes via;
