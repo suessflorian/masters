@@ -81,6 +81,32 @@
       \field{type}{RFC}
       \field{year}{2016}
     \endentry
+    \entry{googleanalyticsbatching}{online}{}
+      \name{author}{1}{}{%
+        {{hash=8b36e9207c24c76e6719268e49201d94}{%
+           family={Google},
+           familyi={G\bibinitperiod}}}%
+      }
+      \strng{namehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{fullhash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{bibnamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authorbibnamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authornamehash}{8b36e9207c24c76e6719268e49201d94}
+      \strng{authorfullhash}{8b36e9207c24c76e6719268e49201d94}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Accessed: 2023-08-08}
+      \field{title}{Batching Requests}
+      \field{year}{2023}
+      \verb{urlraw}
+      \verb https://developers.google.com/analytics/devguides/reporting/core/v3/batching
+      \endverb
+      \verb{url}
+      \verb https://developers.google.com/analytics/devguides/reporting/core/v3/batching
+      \endverb
+    \endentry
   \enddatalist
 \endrefsection
 \endinput

@@ -20,16 +20,18 @@
 \maketitle
 We answer the following questions within the context of the given paper "Workload Characterization of a Large Systems Conference Web Server" by Mahanti et al.\cite{mahanti2009}.
 \section*{(Q1) Measurement approaches}
-We shall adhere strictly to the definition provided by RFC7799\cite{rfc7799}. There are two measurement mechanisms used;
+For clarity, our response is grounded in the definitions provided by RFC7799\cite{rfc7799}. The study employs two distinct measurement techniques:
 
 \begin{itemize}
-				\item Analysis of the structured server logs produced during the period of the study.
-				\item Google Analytics (GA) data that is a web analytics service that uses a "page tagging" approach to collect data about website traffic and user interactions.
+\item Examination of the structured server logs created during the study's duration.
+\item Google Analytics (GA) data—a web analytics service that utilizes a "page tagging" method to gather information about website traffic and user behaviors.
 \end{itemize}
 
-Not controversial; \textbf{the analysis of structured server logs provide a form of passive measurement} due to the assumed, async (likely buffer flushing) local writing of these logs into files, an event that itself does not at all influence server side network IO.
+The \textbf{analysis of structured server logs is unambiguously a passive measurement}. This conclusion stems from the inferred asynchronous (likely driven by buffer flushing) process of logging data locally. This procedure, inherently, doesn't influence the server-side network IO.
 
-In class, GA was introduced as an active measurement approach on the basis that the implementation details of this mechanism necessarily impact the edge network portion to transmit data to the GA analysis server. However the network packets themselves, and their influence on the network itself are not the basis for measurement. Instead the metrics used for measurement are already captured pre-launch by the paging mechanism, \textbf{hence GA is also a form of passive measurement}. Suppose this argument is not accepted, that would imply that analysing modern server logs would be considered active as most production systems that require log analysis emit logs off of systems onto persistence storage systems, or text-search optimised platforms such as Kibana or OpenSearch. This emission would, similar to GA, introduce edge network traffic.
+The classification of GA is more contentious. In our course, GA was characterized as an active measurement tool, primarily because its implementation affects edge network transmissions to relay data to GA's analysis server. However, it's crucial to note that the network packets themselves aren't the crux of the measurement. The actual metrics of interest are predetermined by the page tagging mechanism, making \textbf{GA fundamentally a passive measurement tool}. To counter this assertion by suggesting GA as active would lead to a paradox. Contemporary server logs, in many production settings, offload logs to persistent storage systems or platforms optimized for text-search, such as Kibana or OpenSearch. This data transfer, akin to GA's process, introduces edge network traffic. Hence, classifying GA as active would inadvertently imply the same for these modern server logs.
+
+Furthermore, Google Analytics supports the bulk uploading of aggregate result\cite{googleanalyticsbatching}. This feature allows data to be collected, aggregated, and then uploaded at specific intervals rather than in real-time. Such a mechanism accentuates the passive nature of the measurement, as data is collected without continuous network interactions. This mode of operation reduces the immediate impact on the edge network and underscores GA's capability to function predominantly as a passive measurement tool.
 
 \section*{(Q2-3) Measurement vantage points}
 \subsection*{(Q2) Type of measurement vantage used}
@@ -48,12 +50,33 @@ For all practical purposes, metrics collected were analysed post the server stud
 \section*{(Q6) Attributing metrics to Active and/or Passive measurements}
 The result in Q1 moots this question, as we have asserted that both measurement mechanisms used are considered "passive". Implies that all metrics materialised in this study are a result of "passive" measurements.
 
-\section*{(Q7) Modern approach on workload characterization of internet servers}
+\section*{(Q7) Modern approach on workload characterization of "foreign" internet servers}
+When dealing with systems, especially those we do not own or have direct access to, it is essential to respect privacy and legal boundaries.
+Any unauthorized access or data collection may infringe on privacy rights and laws, leading to both ethical and legal consequences.
+
+Given this ethical standpoint, if we aim to perform a workload characterization study of a server we cannot access, we must adopt a non-intrusive approach, ensuring we don't infringe on any rights or disrupt the server's normal operations.
+
+\subsection*{1. Passive vs. Active Measurements:} 
 \begin{itemize}
-				\item client-side measurement, assuming the server is at least reachable.
-				\item traffic interception methods, as described in lectures.
-				\item permission to access the server for logs
+    \item \textbf{Passive Measurement:} Since direct access to the server is restricted, passive measurement becomes the primary choice. This approach involves observing traffic without actively injecting or altering any data.
+    \item \textbf{Active Measurement:} This would involve sending traffic or requests to the server to monitor its responses. Given our lack of access and the need for an ethical approach, it's prudent to avoid active measurements unless we can guarantee they won't disrupt or degrade the server's performance.
 \end{itemize}
+
+\subsection*{2. Vantage Points:} 
+The location from which we observe traffic can provide different insights:
+\begin{itemize}
+    \item \textbf{Core Network:} Observing from a core network location gives a macroscopic view of the traffic, capturing large flows and general trends. However, this vantage point might miss out on fine-grained details.
+    \item \textbf{Edge Network:} Being closer to the end-users and the server, the edge network provides a microscopic view. It's ideal for capturing detailed interactions but might not reflect the broader patterns. However, given our lack of access to the server and end-user, placing observation tools near the edge may be too difficult.
+\end{itemize}
+
+\subsection*{3. Utilize Public Data:} 
+Often, servers or websites have public metrics, logs, or performance dashboards. While these might not provide a comprehensive view, they can offer a starting point or a means to validate our passive measurements.
+
+\subsection*{4. Collaborate with Others:} 
+Engaging with the broader research community can provide additional insights. Others might have partial data, past studies, or expertise that could benefit the characterization study.
+
+\subsection*{5. Understand Limitations:} 
+Whatever our approach;W ithout direct access, our study will inherently have limitations. Recognizing these and being transparent about them ensures that our findings are taken in the correct context.
 
 \newpage
 The following sections provide an approach for the analysis of the \texttt{ls -lR} output file. Full set of scripts available are provided \footnote{\href{https://gitfront.io/r/user-5047466/ZFVr4eV9CukU/cs742-published-scripts/}{Private link} here, also feel free to reach me and we can work through these together.}.
@@ -106,6 +129,8 @@ sqlite> SELECT COUNT(*) FROM files;
 \end{verbatim}
 \end{small}
 
+\textbf{Additional commentary;} inline with \texttt{Table 1} total presented in the paper.
+
 \subsubsection*{Aggregate sum of file bytes}
 \begin{small}
 \begin{verbatim}
@@ -114,6 +139,8 @@ sqlite> SELECT SUM(size_in_bytes) from files;
 \end{verbatim}
 \end{small}
 \textit{Which comes to about 1.107GB.}
+
+\textbf{Additional commentary;} inline with \texttt{Table 1} total size presented in the paper.
 
 \section*{Q9}
 \subsubsection*{Largest file on site}
@@ -153,6 +180,8 @@ sqlite> SELECT AVG(size_in_bytes) FROM files;
 \end{small}
 \textit{Which comes to about 182.707KB.}
 
+\textbf{Additional commentary;} inline with \texttt{Table 1} average size presented in the paper.
+
 \subsection*{Standard deviation of file size}
 \begin{small}
 \begin{verbatim}
@@ -166,6 +195,8 @@ FROM files;
 \end{verbatim}
 \end{small}
 \textit{Which comes to about 2.192MB.}
+
+\textbf{Additional commentary;} considering the average file size is 182KB, this speaks to a wider spread distribution with our first bit of evidence suggesting a positive skew. 
 
 \subsection*{Median file size}
 Little more tricky given \texttt{sqlite3}'s limitation of no built-in support for median. Recall;
@@ -194,6 +225,8 @@ WHERE rn IN (cnt / 2, cnt / 2 + 1);
 \end{small}
 \textit{Which comes to about 1.471KB.}
 
+\textbf{Additional commentary;} From this result, we can compare the average and median file size. With the median being significantly smaller than the average, we have further evidence suggesting a positively skewed distribution.
+
 \subsection*{File size mode (most frequently occurring file size)}
 \begin{small}
 \begin{verbatim}
@@ -207,7 +240,7 @@ LIMIT 1;
 \textit{4096B sized files occured a whooping 102 times!}
 
 \section*{Notes on the plotting methodology}
-\texttt{python} in my eyes is the defacto wizard when it comes to graphing due to well-traversed libraries such as \texttt{matplotlib}. Hence we will use the standard library \texttt{sqlite} module in \texttt{python}. Scripts are here to use\footnote{\href{https://gitfront.io/r/user-5047466/ZFVr4eV9CukU/cs742-published-scripts/}{Private link} here, also feel free to reach me and we can work through these together.}.
+\texttt{python} in my eyes is the defacto wizard when it comes to graphing due to well-traversed libraries such as \texttt{matplotlib}. Hence we will use the standard library \texttt{sqlite} module in \texttt{python}. Scripts are here to use for further exploration of the plotted graphs including the offering of a interactive/zoomable view \footnote{\href{https://gitfront.io/r/user-5047466/ZFVr4eV9CukU/cs742-published-scripts/}{Private link} here, also feel free to reach me and we can work through these together.}.
 
 \section*{Q11 - Plotting file size distribution}
 We effectively just handle the full list of bytes via;
@@ -234,7 +267,7 @@ SELECT size_in_bytes FROM files
 
 \end{figure}
 
-We used a log scale on both of these graphs in order to effectively capture and graph the positively-skewed distribution.
+We used a log scale on both of these graphs in order to effectively capture and graph the positively-skewed distribution. \textbf{Additional commentary;} this wasn't a surprise considering the analytics we gathered prior to mapping these results out. The CDF plot in particular provides a bit of an insight into the typical file size appearance, most files sitting in the $10^2B$ range, hence the elbow shape of the curve.
 
 \section*{Q12 - Table of top 10 file types}
 We can broadly determine the filetype based on the extension of the filename in our database (defined as the letters after the last dot). Hence we perform the following migration;
@@ -248,8 +281,7 @@ ALTER TABLE files ADD COLUMN extension TEXT;
 \begin{small}
 \begin{verbatim}
 UPDATE files SET extension = 
-REPLACE(file_name,
-    RTRIM(file_name, REPLACE(file_name, '.', '')), '');
+REPLACE(file_name, RTRIM(file_name, REPLACE(file_name, '.', '')), '');
 \end{verbatim}
 \end{small}
 
@@ -340,6 +372,10 @@ OTHER     403    6.65              168580086    15.22
 \end{verbatim}
 \end{small}
 
+\textbf{Additional commentary:} what we find here is enlightening with respect to filenames. \texttt{svn-base} and \texttt{svn-work} extensions seem unfamiliar, and upon a re-investigation of the raw \texttt{ls} output we see this extension usually added to the end of other file extensions such as \texttt{html} and \texttt{png}. In usual circumstance we'd query the web server insiders the origin of this extension to build a better understanding.
+
+We can also immediately start building contrast with the file type breakdowns provided by the research paper re: \texttt{Table 1.} The ordering and relative size of each category presented here is inline with what is presented in the paper, however, there seems to be an omission of these extensions such as \texttt{svn-base} and \texttt{svn-work} spoken to above.
+
 \newpage
 
 \section*{Q13 - Plotting file size distribution restricted to \texttt{./papers} and \texttt{./posters}}
@@ -376,12 +412,18 @@ SELECT size_in_bytes FROM files WHERE directory = "./posters"
 
 \end{figure}
 
-Both of these distributions are positively-skewed hence the log scale approach applied once again.
+Separate plots for PDF's of these two directories worth of rows re: size in bytes.
+
+\textbf{Additional commentary:} These PDF functions show a prevalent file size distribution difference. With \texttt{./papers} showing a tendency to following a very normal positively skewed distribution, we have something quite different for \texttt{./posters}. There is some intuitive lense that could be applied here, that there are significant differences in file types here. \texttt{./papers} perhaps being more textual which has a tendency to have sizes that correlate to length of paper, an understandably normal distribution, where \texttt{./posters} containing images and renderings that utilise richer file formats. This could be validated by a filetype investigation per directory.
+
+\newpage
 
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=\linewidth]{./images/papers_posters_size_cdf.png}
 \end{figure}
+
+Note: Both of these distributions are positively-skewed hence the log scale approach applied once again.
 
 \newpage
 \section*{Q14 - Analysis of file age}
@@ -404,6 +446,7 @@ sqlite> SELECT
 FROM files;
 ./index.php|2008-02-02
 \end{verbatim}
+\textbf{Additional commentary:} very inline with what we'd expect re: \texttt{php} web server files being frequently modified.
 \subsection*{Mean file age}
 \begin{verbatim}
 sqlite> SELECT 
@@ -411,6 +454,8 @@ sqlite> SELECT
 FROM files;
 2007-02-03
 \end{verbatim}
+
+\newpage
 
 \subsection*{Median file age}
 Recall as per Q10; 
@@ -448,6 +493,8 @@ LIMIT 1;
 2007-02-19|1159
 \end{verbatim}
 
+\textbf{Additional commentary;} speaks to the commentary provided in the paper re: conference paper submission deadline.
+
 \newpage
 
 \section*{Q15 - Cumulative distribution function graph of file age}
@@ -463,6 +510,10 @@ SELECT last_modified FROM files
 \centering
 \includegraphics[width=\linewidth]{./images/last_modified_size_cdf.png}
 \end{figure}
+
+We used a log scale on both of these graphs in order to effectively capture and graph the positively-skewed distribution while also converting the unix timestamps to something more familiar for the x-axis labels.
+
+\textbf{Additional commentary:} we can see a lot of files added early on, perhaps speaking to the nature of "bootstrapping" a web server. A relatively calm period up until the week of the paper submission deadline as referenced in the paper. Relatively calm period before the conference date itself. Then a calm period there after, last file modified as found earlier being a \texttt{index.php} update.
 
 \newpage
 \printbibliography
