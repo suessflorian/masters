@@ -1,0 +1,44 @@
+
+\documentclass[twocolumn]{article}
+
+\usepackage{hyperref}
+
+\title{APNIC56: "Technical 2"}
+\date{12th September 2023}
+\author{Florian Suess}
+
+\begin{document}
+\maketitle
+
+\section*{Summary}
+The "Technical 2" session comprised of three speakers.
+
+\begin{itemize}
+				\item Ulrich Speidel - My CS742 Lecturer 
+				\item Takashi Tomine - Research Engineer at the NAOJ 
+				\item Geoff Huston - Chief Scientist at APNIC
+\end{itemize}
+
+\subsection*{Respective Themes}
+Again, hard to surface key themes in the discussed topics, although Ulrich and Geoff had a tiny bit of overlap when it came to performance measuring Starlink (although in very separate contexts).
+
+\subsubsection*{Observation: "Starlink offering"}
+Provides experience and findings with SpaceX's Starlink service, emphasizing its benefits, challenges, and potential. Ulrich touched on Starlink's fast evolution, better performance over geostationary and medium earth orbit connections, cost-effectiveness, and its transformative impact on regions with no internet access. Highlighted that despite the rapid growth, Starlink is experiencing growing pains, and it's unlikely to connect the 2.7 billion disconnected or underserved individuals globally anytime soon due to capacity and regulatory challenges that set it behind as clarified in the Q\&A by up to two orders of magnitude. The discussion also involved technical aspects like satellite tracking, latency, and potential mobile service. Audience queries involved capacity, satellite replacement timelines, and connectivity types, explaining that the current primary service is from Starlink infrastructure to the user, with some potential for point-to-point links on the ground via Starlink, albeit not mature yet.
+
+\subsubsection*{Promotion: "Interop Tokyo ShowNet"}
+Beginning with the motivation behind the importance of interoperability in internet technologies, underlining how it's crucial for the extension and functionality of the internet. The speaker references an event "InterOp Tokyo", an annual exhibition in Japan that showcases the latest in internet technologies and provides a platform for interoperability testing, emphasizing on its long history since 1994. They touch on the ShowNet project, a large-scale demonstration network set up at InterOp Tokyo, which provides a unique environment for interoperability testing among multiple vendors and the visitors can witness new technologies or protocols running in a mixed environment. They delve into various technical challenges and solutions explored over the years, mentioning specific technologies like SRv6, EVPN, DWDM, and RPKI. The speaker emphasizes the importance of such real-world testing environments in advancing internet technologies and mentions their intent to continue these efforts to foster the progression of internet technology.
+
+\subsubsection*{Opinion: "QUIC vs. TCP"}
+Discussing the evolution and limitations of TCP, emphasizing the transition to QUIC (Quick UDP Internet Connections) due to its benefits in encryption, congestion control, and speed. He showcases how major platforms like Google and Facebook have adopted QUIC for better performance and encryption, enabling them to retain control over user data for competitive reasons. Points out how QUIC's rise signifies a shift of value and control towards the application layer wrt. the OSI model, leaving the network layer as a valueless commodity. This shift, he predicts, will define the industry's next decade, pushing the traditional networking models to the background while applications take the forefront in driving technological advancements.
+
+\section*{My Key Insights}
+The two notable talks for me was the Starlink and QUIC migration observations - both talks similarly where based on topics I was aware of but hadn't looked into deeply. I honestly saw Starlink more as an early stage concept rather than a real tool that has significant usage. Notably I enjoyed the section around the evidence indicating the use of heuristic based classifications of geographical areas based on existing connections as opposed to known urban vs. rural. The coincidental highlighting of the benefit's of non-geostationary satellites (Q\&A highlighted) wrt. to system redundancy and more. The frank language employed presentation by Geoff was a fun listen - the interesting insights to "local data traffic" as opposed to long-haul traffic led to an interesting conclusion of his re: routing security hence being an outdated topic. Most interesting in this talk though was highlighting of the shift of value and control towards the application layer, leaving the network layer as a valueless commodity. Showcased that this shift is more heavily motivated than the contrasted IPv6 migration, as it leaves for a stronger incentive for competing technology giants by placing "data control" on a pedestal.
+
+
+\newpage
+
+\section*{Assessment}
+As opposed to "Technical 1", the Q\&A facilitation was certainly better and richer which made this session a lot more interactive in my eyes, although in the right direction, I would've liked to seen even more. Particularly good questions asked especially to Ulrich's session. One observation that caught my attention was the assertion that routing is becoming less pivotal in the context of localized traffic. Although this was an intriguing proposition, it felt slightly underexplored. There was potential for a wider discourse, especially considering how audacious such a statement is in the contemporary networking landscape. This sentiment also applies to the bold declaration that "TCP is dead." While this may have been a strategic exaggeration to spark interest, it would have been enriching to see this topic explored further in subsequent discussions. I noticed that some of the adjacent talks, even if they weren't directly related to this session, seemed to place TCP at the heart of their assumptions. This dichotomy warranted more attention. I really appreciated the publicity given to "Interop Tokyo ShowNet" project, it's such a good place for this advertisement and was motivated in a really good way (importance interoperability). Ofcourse, we must point out that the level of verbal English exercised was tricky to follow in this talk.
+
+
+\end{document}

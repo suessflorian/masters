@@ -1,0 +1,193 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{siunitx}
+
+\title{Theoretical bi-directional direct microwave radio link budget connecting 2A Hillside Crescent to the Auckland Sky Tower}
+\author{Florian Suess, 187147214}
+\begin{document}
+
+\maketitle
+
+\section*{High Level Approach}
+We establish two locations, the Auckland Sky Tower ($\boldsymbol{S}$) and 2A Hillside Crescent, Mt Eden ($\boldsymbol{H}$). We consider both pathways by scrutinising the power of the signal received ($P_r$) by the corresponding receiver by investigating the size of the allowable fade margin relative to thermal noise floor of the receiver, other ambient noise if any and the required signal to noise ratio needed for the desired bit rate. Per perspective, consider the link budget expression built from the following predominate components (reserving notation for a transmitter, $t$ and receiver, $r$.
+
+\begin{itemize}
+				\item Transmitter Power $P_t$ (note: we're working with Transceivers)
+				\item Transmitter to Antenna feedline loss $L_t$
+				\item Transmitter Antenna Gain $G_t$
+				\item Free-Space Path Loss $L_{FSPL}$ (using Friis Formula)
+				\item Receiver Antenna Gain $G_r$
+				\item Antenna to Receiver feedline loss $L_r$
+\end{itemize}
+
+\begin{align*}
+				P_r = (P_t - L_t + G_t ) - L_{FSPL} + (G_r - L_{r})
+\end{align*}
+
+With the range of components provided, we will take an approach of using a combination of the cheapest components provided and iteratively swapping out different components and re-assessing the link budget. This problem actually represents a tree search problem where each node in the tree represents a configuration of components, neighbours of these nodes representing a new configuration with one component swapped out. The depth of search tree would inherently have favourable properties of being bounded to the number of interchangeable components. This tree complexity would be sufficiently small to accommodate a feasible BFS that exhaustively considers each configuration.
+
+\newpage
+
+\subsection*{Bulleted Relevant Link Assumptions/Requirements}
+We can only ever attempt to converge to realistic estimations. One must additionally range through potential reasons of attenuation in exhaustion, e.g., atmospheric conditions, geographic obstructions, forms of interference, multipath, future climate projections and take them into account. Here we begin with a succinct and clean set of assumptions/requirements that built the foundation of these additional considerations.
+
+\begin{itemize}
+				\item Available Bandwidth (both ways): 7.14MHz.
+				\item Link Frequency: 3GHz.
+								\subitem Hence $\lambda \approx 0.1m$ ($\lambda = \frac{c}{f} \approx \frac{3x10^8 m/s}{3x10^9Hz})$
+				\item Point-to-point distance: 2.9km, $r$.
+								\subitem Hence $L_{FSPL}(dB) \approx 111\text{dB }(10 \log_{10} (\frac{(4 \pi r)^2}{\lambda^2}) = 10 \log_{10} (\frac{(4\pi 2900)^2}{0.1^2}))$
+				\item Desired data rate: 50Mbit/s.
+				\item Minimum fade margin: 6dB.
+				\item Maximum operating temperature matching hottest temperature recorded in Auckland\footnote{\href{https://niwa.co.nz/static/Auckland\%20ClimateWEB.pdf}{As per NIWA's climate publication}}: $34.0$ \textcelsius{}.
+								\subitem Thermal noise of the receivers at both $\boldsymbol{H}$ and $\boldsymbol{S}$ is $\approx -105dBm$
+								\begin{align*}
+												&= 10 \log_{10} (\frac{P_n}{1mW}) \\
+												&P_n\text{ (Johnson–Nyquist noise formula)} \\
+												&k = \text{Boltzmann's constant}, T = 273.15 + 34, B = 7.14 \times 10^6Hz
+								\end{align*}
+
+				\item Ambient noise at $\boldsymbol{H}$: thermal noise floor.
+				\item Ambient noise at $\boldsymbol{S}$: 20dB above thermal noise floor.
+				\item Ignoring geographic obstructions between $\boldsymbol{H}$ and $\boldsymbol{S}$.
+\end{itemize}
+
+\newpage
+
+\section*{Minimum required SNR}
+Using the Shannon-Hartley theorem\footnote{$C = B \log_2 (1 + SNR)$, $C$, capacity, $B$, bandwidth, $SNR$, signal-to-noise ratio.}. Given $C = 50Mbit/s$ and $B = 7.14MHz$:
+
+\begin{align*}
+								SNR &= 2^{C/B} - 1 \\
+										&= 2^{\frac{50 \times 10^6}{7.14 \times 10^6}} - 1 \\
+										&\approx 2^7 - 1 \\
+										&= 127 \\
+				   SNR_{dB} &= 10 \log_{10}(127) \\
+				   SNR_{dB} &\approx 21\text{dB} \\
+\end{align*}
+
+\section*{Organised list of Components}
+Below we normalise the components provided to a clearer table. E.g; converting transmitter power wattage ($P_t$) to more useful $dBm$ unit (via $10 \log_{10}(P_t/1 \text{mW})$) and evaluating associated loss feedline proportionally considering lengths.
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{lcccl}
+        \toprule
+        Component & Option & Specification & Cost & Notes \\
+        \midrule
+        Transceiver & Model 1 & 20dBm & 600 & - \\
+                    & Model 2 & 33dBm & 750 & - \\
+        \midrule
+        Antenna ($\boldsymbol{S}$) & Yagi & 7 dBi & 120 & No feedline needed \\
+                            & Small Dish & 12 dBd & 150 & No feedline needed \\
+                            & Big Dish & 20 dBi & 250 & Requires feedline \\
+				Feedline ($\boldsymbol{S}$) & - & 1.2dB loss & 50 & Required for Big Dish \\
+        \midrule
+        Antenna ($\boldsymbol{H}$) & Yagi & 7 dBi & 120 & No feedline needed \\
+                       & Small Dish & 12 dBd & 150 & No feedline needed \\
+                       & Big Dish & 20 dBi & 250 & Requires feedline \\
+        Feedline ($\boldsymbol{H}$) & - & 0.6 dB loss & 40 & Required only for Big Dish \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+To be fair, we could clean this table up even more by coupling the "Big Dish" with the associated required Feedlines and standardising antenna gains by moving $dBd$ units to $dBi$. But this is more than sufficient to continue.
+
+\newpage
+\section*{Examining the cheapest configuration}
+As mentioned earlier, we'd ideally do these configuration comparisons programmatically, would provide opportunity to build a generalised link system builder. But we simply don't have time to go ahead with this approach. We shall instead just iterate through modifications of our cheapest network configuration by interchanging parts leaning on the fact there aren't too many components needed to grok.
+
+\subsection*{$\boldsymbol{H} \rightarrow \boldsymbol{S}$}
+\begin{itemize}
+				\item Model 1 Transmitter (20dBm)
+				\item No transmitter to antenna feedline (0 loss)
+				\item Yagi Transmitting Antenna (7dBi gain)
+				\item Yagi Receiving Antenna (7dBi gain)
+				\item No antenna to receiver feedline (0 loss)
+\end{itemize}
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{lcccl}
+				\toprule Component & Gain/Loss & Signal Level at this Stage \\
+				\midrule
+				Transmitter output power & N/A & +20dBm \\
+				\midrule
+				Transmitter feedline loss & 0dB & +20dBm \\
+				\midrule
+				Transmitting antenna gain & +7dBi & +27dBm \\
+				\midrule
+				Path loss & -111dB & -84dBm \\
+				\midrule
+				Receiving antenna gain & +7dBi & -77dBm \\
+				\midrule
+				Receiving feedline loss & 0dB & -77dBm \\
+				\midrule
+				Minimum SNR required: & -21dB & -98dBm \\
+				\midrule
+				Noise floor (+20dB for $\boldsymbol{S}$) & N/A & -85dBm \\
+				\midrule
+				Fade Margin & up to -13dB & \\
+				\bottomrule
+    \end{tabular}
+\end{table}
+
+Pretty far under our 6dB threshold hence we need to improve our configuration. In particular we need to somehow improve our link budget by at least 19 dB to maintain target fade margin. Note the similarity between this link budget and the converse. It'd be exactly the same except we'd remove 20dB from the budget due 20dB less additional ambient noise at $\boldsymbol{H}$.
+
+\newpage
+
+\section*{Minimum Required Improvement}
+Notice how there is no single component change (coupling the "Big Dish" with the required feedline) that on it's own can introduce 19dB into the link budget relative to the part it is replacing. We break down our options and associate "upgrade costs" to surface minimum best options.
+
+\begin{itemize}
+				\item 150: we can introduce 13dBm on the transmitter.
+				\item Replace transmitting "Yagi Antenna" for one of;
+								\subitem 30: "Small Dish", note the dBd, hence adds $7.15$dBi
+								\subitem 180: "Big Dish" and feedline, adds $11.8$dBi
+				\item Replace receiving "Yagi Antenna" for one of;
+								\subitem 30: "Small Dish", note the dBd, hence adds $7.15$dBi
+								\subitem 170: "Big Dish" and feedline, adds $12.4$dBi
+\end{itemize}
+
+There are two equivalent options, with associated improvement costs of 180 relative to previous componentry. That is swapping one of the transmitting/receiving antennas with the "Small Dish" and bumping our transmitter to "Model 2" for $\boldsymbol{S}$. Notice how the antenna swapping would add gain to both $\boldsymbol{H} \rightarrow \boldsymbol{S}$ and $\boldsymbol{H} \leftarrow \boldsymbol{S}$.
+
+
+\begin{itemize}
+				\item Model 2 Transmitter (33dBm)
+				\item No transmitter to antenna feedline (0 loss)
+				\item "Small Dish" Transmitting Antenna (14.15dBi gain)
+				\item Yagi Receiving Antenna (7dBi gain)
+				\item No antenna to receiver feedline (0 loss)
+\end{itemize}
+
+\begin{table}[h]
+\centering
+    \begin{tabular}{lcccl}
+				\toprule Component & Gain/Loss & Signal Level at this Stage \\
+				\midrule
+				Transmitter output power & N/A & +33dBm \\
+				\midrule
+				Transmitter feedline loss & 0dB & +33dBm \\
+				\midrule
+				Transmitting antenna gain & +14.15dBi & +47.15dBm \\
+				\midrule
+				Path loss & -111dB & -63.85dBm \\
+				\midrule
+				Receiving antenna gain & +7dBi & -56.85dBm \\
+				\midrule
+				Receiving feedline loss & 0dB & -56.85dBm \\
+				\midrule
+				Minimum SNR required: & -21dB & -77.85dBm \\
+				\midrule
+				Noise floor (+20dB for $\boldsymbol{S}$) & N/A & -85dBm \\
+				\midrule
+				Fade Margin & up to -13dB & \\
+				\bottomrule
+    \end{tabular}
+\end{table}
+
+\end{document}
