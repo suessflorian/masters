@@ -13,4 +13,4 @@ What happens on-air?
 - Theoretical channel bandwidth is just under 34kbps, but overheads are significant! Only 60 bits in each burst carry actual data - the rest is system overhead.
 - Frequency hopping may be used to combat multipath and co-channel problems.
 
-[<img src="./gsm-frame.png">](frame screenshot)
+![GSM frame](gsm-frame.png)
