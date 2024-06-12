@@ -32,11 +32,13 @@ I built an interest once I accepted that fact that there is a delineation betwee
 With my experience software engineering so far, I've built a pretty solid understanding of a few different domains and contrasted cultures of two similar technology companies and worked on many green field and legacy systems. I'm very confident in common skill set areas; the tools I use, command over the code I write, ability to comprehend, holistic understanding of different domains in software (systems and deployment strategies) and ability to learn new things quickly. I just want more.
 
 # Masters Degree
-The aim here for me is to re-enter the academic field with a veteran like perspective on what's important and what is not, skipping papers that I know I won't gather anything from. Of course I will be optimising for grades like usual, but my main focuses will be; meeting academic professionals, learn how to teach effectively, learn how to learn even quicker, enter domains I haven't entered yet.
+The aim here for me is to re-enter the academic field with a veteran like perspective on what's important and what is not, skipping papers that I know I won't gather anything from. With an already fruitful and established career on my horizon I'd decided to exit the rate race of grade hunting too, instead go for something "respectable" to align more with 80/20 rule philosophy and focus more on applicability of concepts and head into the depths of extra readings etc... I aimed for A- and ended up comfortably within the A- to A. My hope of just extending my understanding of what is out there certainly worked and as I take a hiatus for a bit, my I will slowly prepare for a fun masters research project focusing on, perhaps, the ML space.
 
-- Theoretical limitations of parallel & distributed computing
-- Massive data management
-- Teaching computer science topics (aiming for a similar to experience to MATHS 302)
-- Understanding concretely the benefits of existing Machine Learning techniques
-- Demystifying concepts within artificial intelligence
-- Advanced algorithmic/computation complexity
+Topics this taught part of the MSc I was introduced to;
+
+- Some theoretical limitations of parallel & distributed computing
+- Some bigger data management ideas
+- Tons of exposure to traditional Machine Learning approachs
+- Got very deep into deep learning topics.
+- Demystifying some other concepts within artificial intelligence
+- Advanced algorithmic/computation complexity, I can eat some pretty hard leetcode problems now.
